@@ -97,38 +97,38 @@ const CustomerInfo = ({title}) => {
                   )}
                 </div>
               </div> */}
-              <div className="flex flex-row justify-between gap-4 px-3">
-                <div className="position:relative w-[120px] h-[35px] rounded-custom px-[5px] flex flex-row border items-center">
-                  {/* <input className='input' type='date' /> */}
-                  <DatePicker
-                    className="text-[8px] outline-none"
-                    selected={endDate}
-                    onChange={(date) => dateChanger(date)}
-                    ref={datePickerRef}
-                    showTimeSelect={false}
-                    dateFormat="MMM d yyyy" // Use format tokens to represent "Oct 13 2023"
-                    placeholderText="13 Oct 2023"
-                    popperPlacement="bottom-start"
-                  />
-                  <Calendar
-                    className="text-[10px]"
-                    onClick={() => PickDate()}
-                  />
-                </div>
-                {/* <input
-                  type="date"
-                  className="border-input-color border-[1px] rounded-custom  w-[117px] h-[36px] outline-none px-[10px] text-[11px]"
-                  placeholder="Search by name, customerID, account number, transaction reference"
+              <div className="flex flex-row justify-end gap-4 px-3">
+              {/* <input
+                 type='date'
+                 className="border-input-color border-[1px] rounded-custom  w-[117px] h-[36px] outline-none px-[10px] text-[11px]"
+                 placeholder="Search by name, customerID, account number, transaction reference"
+               />
+               <input
+                 type='date'
+                 className="border-input-color border-[1px] rounded-custom  w-[117px] h-[36px] outline-none px-[10px] text-[11px]"
+                 placeholder="Search by name, customerID, account number, transaction reference"
+               /> */}
+              <div className="position:relative w-[120px] h-[35px] rounded-custom px-[5px] flex flex-row border items-center">
+                {/* <input className='input' type='date' /> */}
+                <DatePicker
+                  className="text-[8px] outline-none"
+                  selected={endDate}
+                  onChange={(date) => dateChanger(date)}
+                  ref={datePickerRef}
+                  showTimeSelect={false}
+                  dateFormat="MMM d yyyy" // Use format tokens to represent "Oct 13 2023"
+                  placeholderText="13 Oct 2023"
+                  popperPlacement="bottom-start"
                 />
-                <input
-                  type="date"
-                  className="border-input-color border-[1px] rounded-custom  w-[117px] h-[36px] outline-none px-[10px] text-[11px]"
-                  placeholder="Search by name, customerID, account number, transaction reference"
-                /> */}
-                <button className="px-2 flex flex-row gap-1 items-center bg-route-color w-[50%] rounded-custom text-white font-semibold text-[11px]">
-                  Download Report <Download />
-                </button>
+                <Calendar className="text-[10px]" onClick={() => PickDate()} />
               </div>
+              <button className="px-2 flex flex-row gap-1 items-center bg-route-color w-[35%] rounded-custom text-white font-semibold text-[11px]">
+                  Add New Discos
+                </button>
+              <button className="px-2 flex flex-row gap-1 items-center bg-route-color w-[40%] rounded-custom text-white font-semibold text-[10px]">
+                Download Report <Download />
+              </button>
+            </div>
             </div>
             <Tables transfers />
           </div>

@@ -76,6 +76,9 @@ const Loans = ({title}) => {
                 />
                 <Calendar className="text-[10px]" onClick={() => PickDate()} />
               </div>
+              <button className="px-2 flex flex-row gap-1 items-center bg-route-color w-[10%] rounded-custom text-white font-semibold text-[11px]">
+                  Add New Discos
+                </button>
               <button className="px-2 flex flex-row gap-1 items-center bg-route-color w-[12%] rounded-custom text-white font-semibold text-[11px]">
                 Download Report <Download />
               </button>
