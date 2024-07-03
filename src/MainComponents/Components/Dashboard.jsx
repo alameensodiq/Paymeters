@@ -42,6 +42,14 @@ const Dashboard = ({title}) => {
           <Navbar title={title} />
         </div>
         <div className="w-[100%] py-9 px-5 flex flex-col gap-7">
+          <div className="flex flex-row justify-start">
+            <select className="border rounded-custom p-1 text-[10px] w-[10%] h-[30px] outline-none">
+              <option>Hope bank</option>
+              <option>GT bank</option>
+              <option>Sterling bank</option>
+            </select>
+
+          </div>
           <div className="flex lg:flex-row flex-col md:flex-col gap-3">
             <div
               className="flex flex-row lg:w-[20%] md:w-[100%] sm:w-[100%] h-[150px]  bg-white border rounded-custom"
