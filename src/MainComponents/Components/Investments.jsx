@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Sidebar from '../Reusables/Sidebar';
 import Navbar from '../Reusables/Navbar';
 import Tables from '../Reusables/Table';
@@ -8,12 +8,42 @@ import { ReactComponent as Download } from "./../../assets/Download.svg";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ReactComponent as Calendar } from "../../assets/calendar.svg";
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import { Banks } from '../Store/Apis/Banks';
+import { useDispatch, useSelector } from 'react-redux';
+import AppUserModal from '../../Modal/AppUserModal';
 
 const Investments = ({title}) => {
   const [endDate, setEndDate] = useState(
     new Date(Date.now() + 3600 * 1000 * 24)
   );
+  const [step, setStep] = useState(0)
   const datePickerRef = useRef(null);
+  const [reload, setReload] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    if (sessionStorage.getItem("token")) {
+      dispatch(Banks())
+      return;
+    } else {
+      navigate("/");
+      toast.error("You aren't logged in");
+    }
+    if(reload){
+      dispatch(Banks())
+      setReload(false)
+
+    }
+
+    //eslint-disable-next-line
+  }, [reload]);
+
+
+  const {banks, authenticatingbanks} = useSelector((state) => state?.banks)
+  console.log(banks)
 
   const dateChanger = (date) => {
     console.log(date);
@@ -32,6 +62,7 @@ const Investments = ({title}) => {
        <div className='w-[100%] h-[20%]'>
         <Navbar  title={title}/>
        </div>
+       <AppUserModal setStep={setStep} step={step} setReload={setReload} />
        <div className="w-[100%] py-9 px-5 flex flex-col gap-10">
           <div className="flex flex-row justify-between">
             <span className="text-route-name text-[28px] font-semibold">
@@ -79,6 +110,9 @@ const Investments = ({title}) => {
                     onClick={() => PickDate()}
                   />
                 </div>
+                <button onClick={() => setStep(1)} className="px-2 flex flex-row gap-1 items-center bg-route-color w-[10%] rounded-custom text-white font-semibold text-[11px]">
+                   Add Institution
+                </button>
                 <button className="px-2 flex flex-row gap-1 items-center bg-route-color w-[12%] rounded-custom text-white font-semibold text-[11px]">
                    Download Report <Download />
                 </button>
@@ -88,7 +122,7 @@ const Investments = ({title}) => {
                 <Filter />
                 <span className='text-route-noncolor text-[12px]'>Filters</span> 
             </div>
-            <Tables investments />
+            <Tables investments data={banks?.data} />
           </div>
         </div>
      </div>

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Sidebar from "../Reusables/Sidebar";
 import Navbar from "../Reusables/Navbar";
 import { ReactComponent as Filter } from "./../../assets/Filter.svg";
@@ -8,11 +8,42 @@ import { ReactComponent as Download } from "./../../assets/Download.svg";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ReactComponent as Calendar } from "../../assets/calendar.svg";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import { Banks } from "../Store/Apis/Banks";
+import { Discos } from "../Store/Apis/Discos";
+import AppUserModal from "../../Modal/AppUserModal";
 
 const Loans = ({title}) => {
   const [endDate, setEndDate] = useState(
     new Date(Date.now() + 3600 * 1000 * 24)
   );
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [step, setStep] = useState(0);
+  const [reload, setReload] = useState(false);
+
+  useEffect(() => {
+    if (sessionStorage.getItem("token")) {
+      dispatch(Discos())
+      return;
+    } else {
+      navigate("/");
+      toast.error("You aren't logged in");
+    }
+    if(reload){
+      dispatch(Discos())
+      setReload(false)
+
+    }
+
+    //eslint-disable-next-line
+  }, [reload]);
+
+  const {discos, authenticatingdiscos} = useSelector((state) => state?.discos)
+  console.log(discos)
   const datePickerRef = useRef(null);
 
   const dateChanger = (date) => {
@@ -32,6 +63,7 @@ const Loans = ({title}) => {
         <div className="w-[100%] h-[20%]">
           <Navbar title={title} />
         </div>
+        <AppUserModal setStep={setStep} step={step} setReload={setReload} />
         <div className="w-[100%] py-9 px-5 flex flex-col gap-10">
           <div className="flex flex-row justify-between">
             <span className="text-route-name text-[28px] font-semibold">
@@ -76,7 +108,7 @@ const Loans = ({title}) => {
                 />
                 <Calendar className="text-[10px]" onClick={() => PickDate()} />
               </div>
-              <button className="px-2 flex flex-row gap-1 items-center bg-route-color w-[10%] rounded-custom text-white font-semibold text-[11px]">
+              <button onClick={()=> setStep(4)} className="px-2 flex flex-row gap-1 items-center bg-route-color w-[10%] rounded-custom text-white font-semibold text-[11px]">
                   Add New Discos
                 </button>
               <button className="px-2 flex flex-row gap-1 items-center bg-route-color w-[12%] rounded-custom text-white font-semibold text-[11px]">
@@ -88,7 +120,7 @@ const Loans = ({title}) => {
               <Filter />
               <span className="text-route-noncolor text-[12px]">Filters</span>
             </div>
-            <Tables loans />
+            <Tables loans data={discos?.data} />
           </div>
         </div>
       </div>

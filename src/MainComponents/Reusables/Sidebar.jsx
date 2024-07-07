@@ -10,21 +10,10 @@ import { ReactComponent as Investments } from "./../../assets/Investments.svg";
 import { ReactComponent as InvestmentsColor } from "./../../assets/InvestmentsColor.svg";
 import { ReactComponent as Loan } from "./../../assets/Loan.svg";
 import { ReactComponent as LoanColor } from "./../../assets/Loan.svg";
-import { ReactComponent as AuditIcon } from "./../../assets/AuditIcon.svg";
-import { ReactComponent as AuditIconColor } from "./../../assets/AuditIconColor.svg";
-import { ReactComponent as Report } from "./../../assets/Report.svg";
-import { ReactComponent as ReportColor } from "./../../assets/ReportColor.svg";
-import { ReactComponent as Bill } from "./../../assets/Biller.svg";
-import { ReactComponent as Under } from "./../../assets/Under.svg";
-import { ReactComponent as Airtime } from "./../../assets/Airtime.svg";
-import { ReactComponent as AirtimeColor } from "./../../assets/AirtimeColor.svg";
-import { ReactComponent as Data } from "./../../assets/Data.svg";
-import { ReactComponent as DataColor } from "./../../assets/DataColor.svg";
-import { ReactComponent as Cable } from "./../../assets/Cable.svg";
-import { ReactComponent as CableColor } from "./../../assets/CableColor.svg";
-import { ReactComponent as Electricity } from "./../../assets/Electricity.svg";
-import { ReactComponent as ElectricityColor } from "./../../assets/ElectricityColor.svg";
+import { ReactComponent as Logout } from "./../../assets/logout.svg";
+
 import { Link, useLocation } from "react-router-dom";
+import { LogOutAuthentication } from "./LogOutAuthentication";
 
 const Sidebar = () => {
   const [isHovered, setIsHovered] = useState(false);
@@ -573,7 +562,17 @@ const Sidebar = () => {
           </p>
         </Link> */}
       </div>
-      <hr className="" />
+      <div
+        onClick={() => LogOutAuthentication()}
+        className='px-[20px] flex flex-row justify-between text-[14px] border-t-2 py-[15px] cursor-pointer'
+      >
+        <div className="real">
+          <span className="logbut">Log Out</span>
+        </div>
+        <div className="buttonlogout">
+          <Logout />
+        </div>
+      </div>
     </div>
   );
 };

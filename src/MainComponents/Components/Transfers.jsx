@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Sidebar from "../Reusables/Sidebar";
 import Navbar from "../Reusables/Navbar";
 import Tables from "../Reusables/Table";
@@ -7,10 +7,16 @@ import { ReactComponent as Download } from "./../../assets/Download.svg";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ReactComponent as Calendar } from "../../assets/calendar.svg";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Transactions } from "../Store/Apis/Transactions";
+import toast from "react-hot-toast";
 
 const Transfers = ({title}) => {
   const [whitecrust, setWhitecrust] = useState(true);
   const [other, setOther] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const White = () => {
     setWhitecrust(true);
@@ -35,6 +41,21 @@ const Transfers = ({title}) => {
   const PickDate = () => {
     datePickerRef.current.setOpen(true);
   };
+
+  useEffect(() => {
+    if (sessionStorage.getItem("token")) {
+      dispatch(Transactions())
+      return;
+    } else {
+      navigate("/");
+      toast.error("You aren't logged in");
+    }
+
+    //eslint-disable-next-line
+  }, []);
+
+  const {transactions, authenticatingtransactions} = useSelector((state) => state?.transactions)
+  console.log(transactions)
 
   return (
     <div className="flex flex-row">
@@ -130,7 +151,7 @@ const Transfers = ({title}) => {
                 </button>
               </div>
             </div>
-            <Tables transfers />
+            <Tables transfers data={transactions?.data?.data} />
           </div>
         </div>
       </div>

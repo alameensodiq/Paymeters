@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Sidebar from "../Reusables/Sidebar";
 import Navbar from "../Reusables/Navbar";
 import { ReactComponent as Increase } from "../../assets/increase.svg";
@@ -17,12 +17,26 @@ import Donuts from "../Reusables/Donuts";
 import DoubleLineChart from "../Reusables/DoubleLineChart";
 import Tables from "../Reusables/Table";
 import DoubleBarChart from "../Reusables/DoubleBarChart";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const Dashboard = ({title}) => {
   const [endDate, setEndDate] = useState(
     new Date(Date.now() + 3600 * 1000 * 24)
   );
   const datePickerRef = useRef(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (sessionStorage.getItem("token")) {
+      return;
+    } else {
+      navigate("/");
+      toast.error("You aren't logged in");
+    }
+
+    //eslint-disable-next-line
+  }, []);
 
   const dateChanger = (date) => {
     console.log(date);
