@@ -94,6 +94,8 @@ const Transfers = ({title}) => {
               <input
                 className="border-input-color border-[1px] rounded-tl-custom rounded-bl-custom w-[85%] outline-none pl-[60px] text-[13px]"
                 placeholder="Search by name, customerID, account number, transaction reference"
+                value={searcher}
+                onChange={(e) => setSearcher(e.target.value)}
               />
               <button className="bg-route-color w-[15%] rounded-tr-custom rounded-br-custom text-white font-semibold text-[12px]">
                 Search
