@@ -213,8 +213,8 @@ const Flex = styled.div`
       gap: 7px;
 
       .prev{
-          width: 29px;
-          height: 29px;
+          width: 24px;
+          height: 24px;
           background: #F3F6FF ;
           color: #8D9196;
           display: flex;
@@ -242,7 +242,7 @@ const Flex = styled.div`
 
       .sums{
         // margin-inline: 20px;
-        background: #0d59ef ;
+        background: #9932CC ;
         color: #FFFFFF;
         // color: black ;
         display: flex;
@@ -252,14 +252,14 @@ const Flex = styled.div`
         cursor: pointer;
         padding: 7px;
         border-radius: 6px;
-        width: 29px;
-        height: 29px;
+        width: 24px;
+        height: 24px;
       }
 
 
       .next{
-          width: 29px;
-          height: 29px;
+          width: 24px;
+          height: 24px;
           background: #F3F6FF ;
           color: #8D9196;
           display: flex;

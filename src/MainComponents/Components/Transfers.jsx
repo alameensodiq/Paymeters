@@ -11,10 +11,16 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Transactions } from "../Store/Apis/Transactions";
 import toast from "react-hot-toast";
+import Pagination from "../Reusables/Pagination";
 
 const Transfers = ({title}) => {
   const [whitecrust, setWhitecrust] = useState(true);
   const [other, setOther] = useState(false);
+  const [postsPerPage, setPostsPerPage] = useState(10);
+  const [activater, setActivater] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [searcher, setSearcher] = useState("");
+  const [startDate, setStartDate] = useState(new Date("2022-01-01"));
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -44,7 +50,7 @@ const Transfers = ({title}) => {
 
   useEffect(() => {
     if (sessionStorage.getItem("token")) {
-      dispatch(Transactions())
+      dispatch(Transactions({startDate, searcher, currentPage}))
       return;
     } else {
       navigate("/");
@@ -52,10 +58,20 @@ const Transfers = ({title}) => {
     }
 
     //eslint-disable-next-line
-  }, []);
+  }, [startDate, searcher, currentPage]);
 
   const {transactions, authenticatingtransactions} = useSelector((state) => state?.transactions)
   console.log(transactions)
+
+  const next = transactions?.data?.meta?.next;
+  const previous = transactions?.data?.meta?.prev;
+  const totalPosts = transactions?.data?.meta?.totalCount;
+
+  const paginate = (number) => {
+    //  setSorted(tran)
+    setCurrentPage(number - 1);
+    setActivater(number);
+  };
 
   return (
     <div className="flex flex-row">
@@ -152,6 +168,15 @@ const Transfers = ({title}) => {
               </div>
             </div>
             <Tables transfers data={transactions?.data?.data} />
+            <Pagination
+              set={activater}
+              currentPage={currentPage}
+              postsPerPage={postsPerPage}
+              totalPosts={totalPosts}
+              paginate={paginate}
+              previous={previous}
+              next={next}
+            />
           </div>
         </div>
       </div>

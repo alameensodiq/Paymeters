@@ -137,7 +137,7 @@ const Investments = ({ title }) => {
               <span className="text-route-noncolor text-[12px]">Filters</span>
             </div>
             <Tables investments data={banks?.data?.data} />
-            {/* <Pagination
+            <Pagination
               set={activater}
               currentPage={currentPage}
               postsPerPage={postsPerPage}
@@ -145,7 +145,7 @@ const Investments = ({ title }) => {
               paginate={paginate}
               previous={previous}
               next={next}
-            /> */}
+            />
           </div>
         </div>
       </div>

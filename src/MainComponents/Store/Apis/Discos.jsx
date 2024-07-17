@@ -3,13 +3,16 @@ import toast from "react-hot-toast";
 
 export const Discos = createAsyncThunk(
   "discos",
-  async (thunkAPI) => {
+  async ({startDate, searcher, currentPage},thunkAPI) => {
     console.log(process.env.REACT_APP_BASE_URL);
+    const dateObj = new Date(startDate);
+
+    const formattedDate = dateObj.toISOString().slice(0, 10);
     const accessToken = sessionStorage.getItem('token')
 
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BASE_URL}disco`,
+        `${process.env.REACT_APP_BASE_URL}disco?search=${searcher}&start_date=${formattedDate}&page=${currentPage}`,
         {
           method: "GET",
           headers: {

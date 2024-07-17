@@ -14,11 +14,17 @@ import toast from "react-hot-toast";
 import { Banks } from "../Store/Apis/Banks";
 import { Discos } from "../Store/Apis/Discos";
 import AppUserModal from "../../Modal/AppUserModal";
+import Pagination from "../Reusables/Pagination";
 
-const Loans = ({title}) => {
+const Loans = ({ title }) => {
   const [endDate, setEndDate] = useState(
     new Date(Date.now() + 3600 * 1000 * 24)
   );
+  const [postsPerPage, setPostsPerPage] = useState(10);
+  const [activater, setActivater] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [searcher, setSearcher] = useState("");
+  const [startDate, setStartDate] = useState(new Date("2022-01-01"));
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -27,23 +33,28 @@ const Loans = ({title}) => {
 
   useEffect(() => {
     if (sessionStorage.getItem("token")) {
-      dispatch(Discos())
+      dispatch(Discos({startDate, searcher, currentPage}));
       return;
     } else {
       navigate("/");
       toast.error("You aren't logged in");
     }
-    if(reload){
-      dispatch(Discos())
-      setReload(false)
-
+    if (reload) {
+      dispatch(Discos({startDate, searcher, currentPage}));
+      setReload(false);
     }
 
     //eslint-disable-next-line
-  }, [reload]);
+  }, [reload, searcher, currentPage, startDate]);
 
-  const {discos, authenticatingdiscos} = useSelector((state) => state?.discos)
-  console.log(discos)
+  const { discos, authenticatingdiscos } = useSelector(
+    (state) => state?.discos
+  );
+  console.log(discos);
+
+  const next = discos?.data?.meta?.next;
+  const previous = discos?.data?.meta?.prev;
+  const totalPosts = discos?.data?.meta?.totalCount;
   const datePickerRef = useRef(null);
 
   const dateChanger = (date) => {
@@ -53,6 +64,12 @@ const Loans = ({title}) => {
 
   const PickDate = () => {
     datePickerRef.current.setOpen(true);
+  };
+
+  const paginate = (number) => {
+    //  setSorted(tran)
+    setCurrentPage(number - 1);
+    setActivater(number);
   };
   return (
     <div className="flex flex-row">
@@ -108,9 +125,12 @@ const Loans = ({title}) => {
                 />
                 <Calendar className="text-[10px]" onClick={() => PickDate()} />
               </div>
-              <button onClick={()=> setStep(4)} className="px-2 flex flex-row gap-1 items-center bg-route-color w-[10%] rounded-custom text-white font-semibold text-[11px]">
-                  Add New Discos
-                </button>
+              <button
+                onClick={() => setStep(4)}
+                className="px-2 flex flex-row gap-1 items-center bg-route-color w-[10%] rounded-custom text-white font-semibold text-[11px]"
+              >
+                Add New Discos
+              </button>
               <button className="px-2 flex flex-row gap-1 items-center bg-route-color w-[12%] rounded-custom text-white font-semibold text-[11px]">
                 Download Report <Download />
               </button>
@@ -121,6 +141,15 @@ const Loans = ({title}) => {
               <span className="text-route-noncolor text-[12px]">Filters</span>
             </div>
             <Tables loans data={discos?.data?.data} />
+            <Pagination
+              set={activater}
+              currentPage={currentPage}
+              postsPerPage={postsPerPage}
+              totalPosts={totalPosts}
+              paginate={paginate}
+              previous={previous}
+              next={next}
+            />
           </div>
         </div>
       </div>
