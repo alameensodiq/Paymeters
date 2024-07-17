@@ -1,18 +1,15 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import toast from "react-hot-toast";
 
-export const Banks = createAsyncThunk(
-  "banks",
-  async ({startDate, searcher, currentPage},thunkAPI) => {
+export const Discometer = createAsyncThunk(
+  "discometer",
+  async ({id}, thunkAPI) => {
     console.log(process.env.REACT_APP_BASE_URL);
-    const dateObj = new Date(startDate);
-
-    const formattedDate = dateObj.toISOString().slice(0, 10);
     const accessToken = sessionStorage.getItem('token')
 
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BASE_URL}bank?search=${searcher}&start_date=${formattedDate}&page=${currentPage}`,
+        `${process.env.REACT_APP_BASE_URL}user/meter?disco=${id}`,
         {
           method: "GET",
           headers: {
@@ -27,7 +24,7 @@ export const Banks = createAsyncThunk(
       console.log(data);
       //   sessionStorage.setItem('firstName', data?.data?.user?.firstName);
       //   sessionStorage.setItem('role', data?.data?.user?.userRole);
-        // sessionStorage.setItem('token', data?.data?.token);
+        // sessionStorage.setItem('token', data?.data?.token );
       return data;
     } catch (e) {
       return thunkAPI.rejectWithValue({

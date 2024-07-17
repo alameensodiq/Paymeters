@@ -120,7 +120,7 @@ const Loans = ({title}) => {
               <Filter />
               <span className="text-route-noncolor text-[12px]">Filters</span>
             </div>
-            <Tables loans data={discos?.data} />
+            <Tables loans data={discos?.data?.data} />
           </div>
         </div>
       </div>

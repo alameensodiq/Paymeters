@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Sidebar from "../Reusables/Sidebar";
 import Navbar from "../Reusables/Navbar";
 import Tables from "../Reusables/Table";
@@ -7,10 +7,21 @@ import { ReactComponent as Download } from "./../../assets/Download.svg";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ReactComponent as Calendar } from "../../assets/calendar.svg";
+import { Discometer } from "../Store/Apis/Discometer";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import { ReactComponent as Goback } from "./../../assets/goback.svg";
 
-const CustomerInfo = ({title}) => {
+const CustomerInfo = ({ title }) => {
   const [whitecrust, setWhitecrust] = useState(true);
   const [other, setOther] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [step, setStep] = useState(0);
+  const [reload, setReload] = useState(false);
+  let id = window?.location?.pathname.split("/")[2];
+  console.log(id);
 
   const White = () => {
     setWhitecrust(true);
@@ -36,6 +47,27 @@ const CustomerInfo = ({title}) => {
     datePickerRef.current.setOpen(true);
   };
 
+  useEffect(() => {
+    if (sessionStorage.getItem("token")) {
+      dispatch(Discometer({ id }));
+      return;
+    } else {
+      navigate("/");
+      toast.error("You aren't logged in");
+    }
+    if (reload) {
+      dispatch(Discometer());
+      setReload(false);
+    }
+
+    //eslint-disable-next-line
+  }, [reload]);
+
+  const { discometer, authenticatingdiscometer } = useSelector(
+    (state) => state?.discometer
+  );
+  console.log(discometer);
+
   return (
     <div className="flex flex-row">
       <div className="w-[15%] h-[100%]">
@@ -47,9 +79,11 @@ const CustomerInfo = ({title}) => {
         </div>
         <div className="w-[100%] py-9 px-5 flex flex-col gap-10">
           <div className="flex flex-row justify-between">
-            <span className="text-route-name text-[28px] font-semibold">
-              Meters Under Ikeja Discos
-            </span>
+            <div className="flex flex-row text-center">
+              <span className="text-route-name text-[28px] font-semibold">
+                {discometer?.data?.data[0]?.disco?.name}
+              </span>
+            </div>
             <div className="relative flex flex-row w-[50%]">
               <div className="absolute top-3 left-4">
                 <Search />
@@ -98,7 +132,7 @@ const CustomerInfo = ({title}) => {
                 </div>
               </div> */}
               <div className="flex flex-row justify-end gap-4 px-3">
-              {/* <input
+                {/* <input
                  type='date'
                  className="border-input-color border-[1px] rounded-custom  w-[117px] h-[36px] outline-none px-[10px] text-[11px]"
                  placeholder="Search by name, customerID, account number, transaction reference"
@@ -108,29 +142,32 @@ const CustomerInfo = ({title}) => {
                  className="border-input-color border-[1px] rounded-custom  w-[117px] h-[36px] outline-none px-[10px] text-[11px]"
                  placeholder="Search by name, customerID, account number, transaction reference"
                /> */}
-              <div className="position:relative w-[120px] h-[35px] rounded-custom px-[5px] flex flex-row border items-center">
-                {/* <input className='input' type='date' /> */}
-                <DatePicker
-                  className="text-[8px] outline-none"
-                  selected={endDate}
-                  onChange={(date) => dateChanger(date)}
-                  ref={datePickerRef}
-                  showTimeSelect={false}
-                  dateFormat="MMM d yyyy" // Use format tokens to represent "Oct 13 2023"
-                  placeholderText="13 Oct 2023"
-                  popperPlacement="bottom-start"
-                />
-                <Calendar className="text-[10px]" onClick={() => PickDate()} />
-              </div>
-              <button className="px-2 flex flex-row gap-1 items-center bg-route-color w-[35%] rounded-custom text-white font-semibold text-[11px]">
-                  Add New Discos
+                <div className="position:relative w-[120px] h-[35px] rounded-custom px-[5px] flex flex-row border items-center">
+                  {/* <input className='input' type='date' /> */}
+                  <DatePicker
+                    className="text-[8px] outline-none"
+                    selected={endDate}
+                    onChange={(date) => dateChanger(date)}
+                    ref={datePickerRef}
+                    showTimeSelect={false}
+                    dateFormat="MMM d yyyy" // Use format tokens to represent "Oct 13 2023"
+                    placeholderText="13 Oct 2023"
+                    popperPlacement="bottom-start"
+                  />
+                  <Calendar
+                    className="text-[10px]"
+                    onClick={() => PickDate()}
+                  />
+                </div>
+                <button className="px-2 flex flex-row gap-1 items-center bg-route-color w-[35%] rounded-custom text-white font-semibold text-[11px]">
+                  Add New Meter
                 </button>
-              <button className="px-2 flex flex-row gap-1 items-center bg-route-color w-[40%] rounded-custom text-white font-semibold text-[10px]">
-                Download Report <Download />
-              </button>
+                <button className="px-2 flex flex-row gap-1 items-center bg-route-color w-[40%] rounded-custom text-white font-semibold text-[10px]">
+                  Download Report <Download />
+                </button>
+              </div>
             </div>
-            </div>
-            <Tables transfers />
+            <Tables meter data={discometer?.data?.data} />
           </div>
         </div>
       </div>

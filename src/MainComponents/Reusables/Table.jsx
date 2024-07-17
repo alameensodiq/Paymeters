@@ -17,7 +17,8 @@ const Tables = ({
   audit,
   airtime,
   overview,
-  data
+  data,
+  meter
 }) => {
   const navigate = useNavigate();
   console.log(data);
@@ -210,9 +211,7 @@ const Tables = ({
                 <StyledTableCell style={{ width: "10%" }}>
                   METER TYPE
                 </StyledTableCell>
-                <StyledTableCell style={{ width: "10%" }}>
-                  RRN
-                </StyledTableCell>
+                <StyledTableCell style={{ width: "10%" }}>RRN</StyledTableCell>
                 <StyledTableCell style={{ width: "10%" }}>
                   PAYMENT TYPE
                 </StyledTableCell>
@@ -242,7 +241,9 @@ const Tables = ({
             <TableBody>
               {data?.map((item, index) => (
                 <StyledTableRow>
-                  <StyledTableCell style={{ width: "5%" }}>{index + 1}</StyledTableCell>
+                  <StyledTableCell style={{ width: "5%" }}>
+                    {index + 1}
+                  </StyledTableCell>
                   <StyledTableCell style={{ width: "10%" }}>
                     {item?.account?.type}
                   </StyledTableCell>
@@ -253,9 +254,7 @@ const Tables = ({
                     {item?.paymentType}
                   </StyledTableCell>
                   <StyledTableCell style={{ width: "10%" }}>
-                    <Moment format="DD-MM-YYYY">
-                    {item?.paymentTime}
-                    </Moment>
+                    <Moment format="DD-MM-YYYY">{item?.paymentTime}</Moment>
                   </StyledTableCell>
                   <StyledTableCell style={{ width: "10%" }}>
                     {item?.txRef}
@@ -387,7 +386,7 @@ const Tables = ({
                   </StyledTableCell>
                   <StyledTableCell style={{ width: "10%" }}>
                     <button
-                      onClick={() => navigate("/discos/:id")}
+                      onClick={() => navigate(`/discos/${item?.id}`)}
                       className="h-[30px] w-[100%] border border-none text-button-bg font-semibold text-[9px]"
                     >
                       View
@@ -740,6 +739,73 @@ const Tables = ({
                   </button>
                 </StyledTableCell>
               </StyledTableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
+      ) : meter ? (
+        <TableContainer
+          // component={Paper}
+          style={{ boxShadow: "none" }}
+        >
+          <Table
+            sx={{ minWidth: 700, tableLayout: "auto" }}
+            aria-label="customized table"
+          >
+            <TableHead>
+              <TableRow style={{ paddingRight: "0px" }}>
+                <StyledTableCell style={{ width: "10%" }}>S/N</StyledTableCell>
+                <StyledTableCell style={{ width: "10%" }}>
+                  METER TYPE
+                </StyledTableCell>
+                <StyledTableCell style={{ width: "15%" }}>
+                  ACCOUNT NAME
+                </StyledTableCell>
+                <StyledTableCell style={{ width: "15%" }}>
+                  ADDRESS
+                </StyledTableCell>
+                <StyledTableCell style={{ width: "15%" }}>
+                  BANK
+                </StyledTableCell>
+                <StyledTableCell style={{ width: "10%" }}>
+                  DISCO SHORT NAME
+                </StyledTableCell>
+                <StyledTableCell style={{ width: "10%" }}>
+                  DATE CREATED
+                </StyledTableCell>
+                <StyledTableCell style={{ width: "15%" }}>
+                  CUSTOMER REFERENCE
+                </StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {data?.map((item, index) => (
+                <StyledTableRow>
+                  <StyledTableCell style={{ width: "10%" }}>
+                    {index + 1}
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "10%" }}>
+                    {item?.type}
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "15%" }}>
+                    {item?.accountName}
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "15%" }}>
+                    {item?.address}
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "10%" }}>
+                    {item?.bank?.name}
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "10%" }}>
+                    {item?.disco?.shortName}
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "15%" }}>
+                    <Moment format="DD-MM-YYYY">{item?.createdAt}</Moment>
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "15%" }}>
+                    {item?.customerReference}
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
             </TableBody>
           </Table>
         </TableContainer>

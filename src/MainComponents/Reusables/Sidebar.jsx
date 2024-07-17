@@ -169,22 +169,22 @@ const Sidebar = () => {
         <Link
           to="/discos"
           className={`flex flex-row h-[33px] ${
-            router.pathname === "/discos" || router.pathname === '/discos/:id'
+            router.pathname === "/discos" || router.pathname.startsWith('/discos/')
               ? "bg-route-bg gap-2 rounded-custom-router"
               : "bg-white hover:bg-route-bg gap-2 rounded-custom-router"
           }`}
           onMouseEnter={() => setIsHovered4(true)}
           onMouseLeave={() => setIsHovered4(false)}
         >
-          {router.pathname === "/discos" || isHovered4 ||  router.pathname === '/discos/:id' ? (
+          {router.pathname === "/discos" || isHovered4 ||  router.pathname.startsWith('/discos/') ? (
             <div className={`w-[3px] ${"bg-route-color rounded-t-l"}`}></div>
           ) : (
             <div className={`w-[3px] ${" bg-white rounded-t-l"}`}></div>
           )}
-          {router.pathname === "/discos" || isHovered4 || router.pathname === '/discos/:id' ? (
+          {router.pathname === "/discos" || isHovered4 || router.pathname.startsWith('/discos/') ? (
             <LoanColor
               className={`${
-                router.pathname === "/discos" || router.pathname === '/discos/:id'
+                router.pathname === "/discos" || router.pathname.startsWith('/discos/')
                   ? "fill-current text-route-color my-[9px]"
                   : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
               }`}
@@ -192,7 +192,7 @@ const Sidebar = () => {
           ) : (
             <Loan
               className={`${
-                router.pathname === "/discos" || router.pathname === '/discos/:id'
+                router.pathname === "/discos" || router.pathname.startsWith('/discos/')
                   ? "fill-current text-route-color my-[9px]"
                   : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
               }`}
@@ -201,7 +201,7 @@ const Sidebar = () => {
 
           <p
             className={`${
-              router.pathname === "/discos" || router.pathname === '/discos/:id'
+              router.pathname === "/discos" || router.pathname.startsWith('/discos/')
                 ? "text-route-color my-[9px] text-[12px] font-medium hidden sm:block md:block"
                 : "hover:text-route-color text-route-noncolor my-[9px] text-[12px] font-medium hidden sm:block md:block"
             }`}
