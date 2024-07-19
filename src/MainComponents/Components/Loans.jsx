@@ -71,6 +71,22 @@ const Loans = ({ title }) => {
     setCurrentPage(number - 1);
     setActivater(number);
   };
+
+  const Downloading = () => {
+    const data = discos?.data?.data || [];
+    const headers = data.length > 0 ? Object.keys(data[0]) : [];
+    const objValues = data.map(item => Object.values(item).join(','));
+    const csvContent = [headers.join(','), ...objValues].join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'Disco.csv';
+    document.body.appendChild(a); // Required for Firefox
+    a.click();
+    document.body.removeChild(a); // Clean up
+    URL.revokeObjectURL(url);
+  };
   return (
     <div className="flex flex-row">
       <div className="w-[15%] h-[100%]">
@@ -132,7 +148,7 @@ const Loans = ({ title }) => {
               >
                 Add New Discos
               </button>
-              <button className="px-2 flex flex-row gap-1 items-center bg-route-color w-[12%] rounded-custom text-white font-semibold text-[11px]">
+              <button onClick={() => Downloading()} className="px-2 flex flex-row gap-1 items-center bg-route-color w-[12%] rounded-custom text-white font-semibold text-[11px]">
                 Download Report <Download />
               </button>
             </div>

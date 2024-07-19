@@ -73,6 +73,23 @@ const Transfers = ({title}) => {
     setActivater(number);
   };
 
+
+  const Downloading = () => {
+    const data = transactions?.data?.data || [];
+    const headers = data.length > 0 ? Object.keys(data[0]) : [];
+    const objValues = data.map(item => Object.values(item).join(','));
+    const csvContent = [headers.join(','), ...objValues].join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'Institution.csv';
+    document.body.appendChild(a); // Required for Firefox
+    a.click();
+    document.body.removeChild(a); // Clean up
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div className="flex flex-row">
       <div className="w-[15%] h-[100%]">
@@ -163,7 +180,7 @@ const Transfers = ({title}) => {
                   className="border-input-color border-[1px] rounded-custom  w-[117px] h-[36px] outline-none px-[10px] text-[11px]"
                   placeholder="Search by name, customerID, account number, transaction reference"
                 /> */}
-                <button className="px-2 h-[35px] flex flex-row gap-1 items-center bg-route-color w-[100%] rounded-custom text-white font-semibold text-[11px]">
+                <button onClick={() => Downloading()} className="px-2 h-[35px] flex flex-row gap-1 items-center bg-route-color w-[100%] rounded-custom text-white font-semibold text-[11px]">
                   Download Report <Download />
                 </button>
               </div>

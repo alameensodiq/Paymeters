@@ -25,21 +25,21 @@ const Investments = ({ title }) => {
   const [postsPerPage, setPostsPerPage] = useState(10);
   const [activater, setActivater] = useState(1);
   const [currentPage, setCurrentPage] = useState(0);
-  const [searcher, setSearcher] = useState('');
-  const [startDate, setStartDate] = useState(new Date('2022-01-01'));
+  const [searcher, setSearcher] = useState("");
+  const [startDate, setStartDate] = useState(new Date("2022-01-01"));
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (sessionStorage.getItem("token")) {
-      dispatch(Banks({startDate, searcher, currentPage}));
+      dispatch(Banks({ startDate, searcher, currentPage }));
       return;
     } else {
       navigate("/");
       toast.error("You aren't logged in");
     }
     if (reload) {
-      dispatch(Banks({startDate, searcher, currentPage}));
+      dispatch(Banks({ startDate, searcher, currentPage }));
       setReload(false);
     }
 
@@ -55,9 +55,9 @@ const Investments = ({ title }) => {
 
   const paginate = (number) => {
     //  setSorted(tran)
-     setCurrentPage(number - 1)
-     setActivater(number)
-  }
+    setCurrentPage(number - 1);
+    setActivater(number);
+  };
 
   const dateChanger = (date) => {
     console.log(date);
@@ -66,6 +66,22 @@ const Investments = ({ title }) => {
 
   const PickDate = () => {
     datePickerRef.current.setOpen(true);
+  };
+
+  const Downloading = () => {
+    const data = banks?.data?.data || [];
+    const headers = data.length > 0 ? Object.keys(data[0]) : [];
+    const objValues = data.map(item => Object.values(item).join(','));
+    const csvContent = [headers.join(','), ...objValues].join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'Bank.csv';
+    document.body.appendChild(a); // Required for Firefox
+    a.click();
+    document.body.removeChild(a); // Clean up
+    URL.revokeObjectURL(url);
   };
   return (
     <div className="flex flex-row">
@@ -123,13 +139,16 @@ const Investments = ({ title }) => {
                 />
                 <Calendar className="text-[10px]" onClick={() => PickDate()} />
               </div> */}
-              <button 
+              <button
                 onClick={() => setStep(1)}
                 className="px-2 h-[35px] flex flex-row gap-1 items-center bg-route-color w-[10%] rounded-custom text-white font-semibold text-[11px]"
               >
                 Add Institution
               </button>
-              <button className="px-2 flex flex-row gap-1 items-center bg-route-color w-[12%] rounded-custom text-white font-semibold text-[11px]">
+              <button
+                onClick={() => Downloading()}
+                className="px-2 flex flex-row gap-1 items-center bg-route-color w-[12%] rounded-custom text-white font-semibold text-[11px]"
+              >
                 Download Report <Download />
               </button>
             </div>

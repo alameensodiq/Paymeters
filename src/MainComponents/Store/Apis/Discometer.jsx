@@ -3,13 +3,13 @@ import toast from "react-hot-toast";
 
 export const Discometer = createAsyncThunk(
   "discometer",
-  async ({id}, thunkAPI) => {
+  async ({id, searcher, currentPage}, thunkAPI) => {
     console.log(process.env.REACT_APP_BASE_URL);
     const accessToken = sessionStorage.getItem('token')
 
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BASE_URL}user/meter?disco=${id}`,
+        `${process.env.REACT_APP_BASE_URL}user/meter?disco=${id}&search=${searcher}&page=${currentPage}`,
         {
           method: "GET",
           headers: {

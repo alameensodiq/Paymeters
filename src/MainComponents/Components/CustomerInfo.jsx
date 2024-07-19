@@ -20,6 +20,8 @@ const CustomerInfo = ({ title }) => {
   const dispatch = useDispatch();
   const [step, setStep] = useState(0);
   const [reload, setReload] = useState(false);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [searcher, setSearcher] = useState("");
   let id = window?.location?.pathname.split("/")[2];
   console.log(id);
 
@@ -49,7 +51,7 @@ const CustomerInfo = ({ title }) => {
 
   useEffect(() => {
     if (sessionStorage.getItem("token")) {
-      dispatch(Discometer({ id }));
+      dispatch(Discometer({ id, searcher, currentPage }));
       return;
     } else {
       navigate("/");
@@ -61,12 +63,28 @@ const CustomerInfo = ({ title }) => {
     }
 
     //eslint-disable-next-line
-  }, [reload]);
+  }, [reload, searcher, currentPage]);
 
   const { discometer, authenticatingdiscometer } = useSelector(
     (state) => state?.discometer
   );
   console.log(discometer);
+
+  const Downloading = () => {
+    const data = discometer?.data?.data || [];
+    const headers = data.length > 0 ? Object.keys(data[0]) : [];
+    const objValues = data.map((item) => Object.values(item).join(","));
+    const csvContent = [headers.join(","), ...objValues].join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "Perdisco.csv";
+    document.body.appendChild(a); // Required for Firefox
+    a.click();
+    document.body.removeChild(a); // Clean up
+    URL.revokeObjectURL(url);
+  };
 
   return (
     <div className="flex flex-row">
@@ -78,11 +96,19 @@ const CustomerInfo = ({ title }) => {
           <Navbar title={title} />
         </div>
         <div className="w-[100%] py-9 px-5 flex flex-col gap-10">
-          <div className="flex flex-row justify-between">
-            <div className="flex flex-row text-center">
-              <span className="text-route-name text-[28px] font-semibold">
+          <div className="flex flex-row h-[40px] justify-between">
+            <div className="flex flex-col text-center">
+              {/* <div className="flex flex-row text-center pr-[40px]"> */}
+              <div>
+                <Goback
+                  style={{ cursor: "pointer" }}
+                  onClick={() => navigate(-1)}
+                />
+              </div>
+              <span className="text-route-name text-[20px] font-semibold">
                 {discometer?.data?.data[0]?.disco?.name}
               </span>
+              {/* </div> */}
             </div>
             <div className="relative flex flex-row w-[50%]">
               <div className="absolute top-3 left-4">
@@ -91,6 +117,8 @@ const CustomerInfo = ({ title }) => {
               <input
                 className="border-input-color border-[1px] rounded-tl-custom rounded-bl-custom w-[85%] outline-none pl-[60px] text-[13px]"
                 placeholder="Search by name, customerID, account number, transaction reference"
+                value={searcher}
+                onChange={(e) => setSearcher(e.target.value)}
               />
               <button className="bg-route-color w-[15%] rounded-tr-custom rounded-br-custom text-white font-semibold text-[12px]">
                 Search
@@ -131,7 +159,7 @@ const CustomerInfo = ({ title }) => {
                   )}
                 </div>
               </div> */}
-              <div className="flex flex-row justify-end gap-4 px-3">
+              <div className="flex h-[45px] w-[30%] flex-row justify-end gap-3 px-3">
                 {/* <input
                  type='date'
                  className="border-input-color border-[1px] rounded-custom  w-[117px] h-[36px] outline-none px-[10px] text-[11px]"
@@ -142,27 +170,13 @@ const CustomerInfo = ({ title }) => {
                  className="border-input-color border-[1px] rounded-custom  w-[117px] h-[36px] outline-none px-[10px] text-[11px]"
                  placeholder="Search by name, customerID, account number, transaction reference"
                /> */}
-                <div className="position:relative w-[120px] h-[35px] rounded-custom px-[5px] flex flex-row border items-center">
-                  {/* <input className='input' type='date' /> */}
-                  <DatePicker
-                    className="text-[8px] outline-none"
-                    selected={endDate}
-                    onChange={(date) => dateChanger(date)}
-                    ref={datePickerRef}
-                    showTimeSelect={false}
-                    dateFormat="MMM d yyyy" // Use format tokens to represent "Oct 13 2023"
-                    placeholderText="13 Oct 2023"
-                    popperPlacement="bottom-start"
-                  />
-                  <Calendar
-                    className="text-[10px]"
-                    onClick={() => PickDate()}
-                  />
-                </div>
-                <button className="px-2 flex flex-row gap-1 items-center bg-route-color w-[35%] rounded-custom text-white font-semibold text-[11px]">
+                <button className="px-2 flex  flex-row gap-1 items-center bg-route-color w-[85%] rounded-custom text-white font-semibold text-[11px]">
                   Add New Meter
                 </button>
-                <button className="px-2 flex flex-row gap-1 items-center bg-route-color w-[40%] rounded-custom text-white font-semibold text-[10px]">
+                <button
+                  onClick={() => Downloading()}
+                  className="px-2 flex  flex-row gap-1 items-center bg-route-color w-[100%] rounded-custom text-white font-semibold text-[10px]"
+                >
                   Download Report <Download />
                 </button>
               </div>
