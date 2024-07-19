@@ -19,16 +19,20 @@ import Tables from "../Reusables/Table";
 import DoubleBarChart from "../Reusables/DoubleBarChart";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { Dashboards } from "../Store/Apis/Dashboard";
 
-const Dashboard = ({title}) => {
+const Dashboard = ({ title }) => {
   const [endDate, setEndDate] = useState(
     new Date(Date.now() + 3600 * 1000 * 24)
   );
   const datePickerRef = useRef(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (sessionStorage.getItem("token")) {
+      dispatch(Dashboards());
       return;
     } else {
       navigate("/");
@@ -46,6 +50,11 @@ const Dashboard = ({title}) => {
   const PickDate = () => {
     datePickerRef.current.setOpen(true);
   };
+
+  const { dashboard, authenticatingdashboard } = useSelector(
+    (state) => state?.dashboard
+  );
+  console.log(dashboard);
   return (
     <div className="flex flex-row">
       <div className="w-[15%] h-[100%]">
@@ -62,7 +71,6 @@ const Dashboard = ({title}) => {
               <option>GT bank</option>
               <option>Sterling bank</option>
             </select>
-
           </div>
           <div className="flex lg:flex-row flex-col md:flex-col gap-3">
             <div
@@ -74,7 +82,7 @@ const Dashboard = ({title}) => {
                   Total Customers
                 </span>
                 <span className="text-color-user text-[20px] font-bold">
-                  13,000
+                  {dashboard?.data?.totalCustomers}
                 </span>
                 <div className="flex flex-row gap-1 text-[10px]">
                   <span>
@@ -97,7 +105,7 @@ const Dashboard = ({title}) => {
                   Total Transfers
                 </span>
                 <span className="text-color-user text-[20px] font-bold">
-                  199,000,000
+                  {dashboard?.data?.totalTransfers}
                 </span>
                 {/* <div className="flex flex-row gap-1 text-[10px]">
                   <span>
@@ -121,7 +129,8 @@ const Dashboard = ({title}) => {
                   Daily Revenue
                 </span>
                 <span className="text-color-user text-[20px] font-bold flex flex-wrap">
-                  ₦1,000,000
+                  {/* ₦1 */}
+                  {dashboard?.data?.totalRevenue?.daily?.NGN}
                 </span>
                 <div className="flex flex-row gap-1 text-[10px]">
                   <span>
@@ -144,7 +153,7 @@ const Dashboard = ({title}) => {
                   Monthly Revenue
                 </span>
                 <span className="text-color-user text-[20px] font-bold flex flex-wrap">
-                  ₦10,000,000
+                  {dashboard?.data?.totalRevenue?.monthly?.NGN}
                 </span>
                 <div className="flex flex-row gap-1 text-[10px]">
                   <span>
@@ -167,7 +176,7 @@ const Dashboard = ({title}) => {
                   Total Revenue
                 </span>
                 <span className="text-color-user text-[20px] font-bold flex flex-wrap">
-                  ₦10,000,000
+                  {dashboard?.data?.totalRevenue?.yearly?.NGN}
                 </span>
                 <div className="flex flex-row gap-1 text-[10px]">
                   <span>
@@ -313,42 +322,39 @@ const Dashboard = ({title}) => {
               <Sign />
             </div>
             <div className="flex flex-col border rounded-custom gap-2 pt-3">
-              <div className="flex flex-row px-4 gap-4 items-center justify-end">
-                <span className="text-[14px]">Previous Month</span>
-                <div className="position:relative w-[120px] h-[30px] rounded-custom px-[4px] flex flex-row border items-center">
-                  {/* <input className='input' type='date' /> */}
-                  <DatePicker
-                    className="text-[8px] outline-none"
-                    selected={endDate}
-                    onChange={(date) => dateChanger(date)}
-                    ref={datePickerRef}
-                    showTimeSelect={false}
-                    dateFormat="MMM d yyyy" // Use format tokens to represent "Oct 13 2023"
-                    placeholderText="13 Oct 2023"
-                    popperPlacement="bottom-start"
-                  />
-                  <Calendar
-                    className="text-[10px]"
-                    onClick={() => PickDate()}
-                  />
-                </div>
-                <Ellipses />
-              </div>
-              <DoubleLineChart />
-            </div>
-          </div>
-          <div className="flex flex-col gap-3">
-            <div className="flex flex-row gap-2 items-center">
-              <span className="text-circle-color font-bold">
-                Monthly Revenue Per Discos Overview
-              </span>
-              <Sign />
-            </div>
-            <div className="flex flex-col border rounded-custom gap-2 pt-3">
               <div className="flex flex-row px-4 gap-4 items-center justify-between">
                 <div className="flex flex-row gap-4 items-center">
-                  <span className="w-[10px] h-[10px] rounded-circle bg-button-bg"></span> Ikeja
-                  <span className="w-[10px] h-[10px] rounded-circle bg-discos"></span> IBEDC
+                  {dashboard?.data?.totalMonthlyRevenue[0]?.disco && (
+                    <>
+                      <span className="w-[10px] h-[10px] rounded-circle bg-[#E9EDF5]"></span>
+                      {dashboard?.data?.totalMonthlyRevenue[0]?.disco}
+                    </>
+                  )}
+                  {dashboard?.data?.totalMonthlyRevenue[1]?.disco && (
+                    <>
+                      <span className="w-[10px] h-[10px] rounded-circle bg-[#9932CC]"></span>
+                      {dashboard?.data?.totalMonthlyRevenue[1]?.disco}
+                    </>
+                  )}
+                  {dashboard?.data?.totalMonthlyRevenue[2]?.disco && (
+                    <>
+                      <span className="w-[10px] h-[10px] rounded-circle bg-[#c29bd6]"></span>
+                      {dashboard?.data?.totalMonthlyRevenue[2]?.disco}
+                    </>
+                  )}
+                  {dashboard?.data?.totalMonthlyRevenue[3]?.disco && (
+                    <>
+                      <span className="w-[10px] h-[10px] rounded-circle bg-[#d81694]"></span>
+                      {dashboard?.data?.totalMonthlyRevenue[3]?.disco}
+                    </>
+                  )}
+                  {dashboard?.data?.totalMonthlyRevenue[4]?.disco && (
+                    <>
+                      <span className="w-[10px] h-[10px] rounded-circle bg-button-bg"></span>
+                      {dashboard?.data?.totalMonthlyRevenue[4]?.disco}
+                    </>
+                  )}
+                  {/* <span className="w-[10px] h-[10px] rounded-circle bg-discos"></span> IBEDC */}
                 </div>
                 <div className="flex flex-row gap-4 items-center">
                   <span className="text-[14px]">Previous Month</span>
@@ -372,7 +378,74 @@ const Dashboard = ({title}) => {
                   <Ellipses />
                 </div>
               </div>
-              <DoubleBarChart />
+              <DoubleLineChart data={dashboard?.data?.totalMonthlyCount} />
+            </div>
+          </div>
+          <div className="flex flex-col gap-3">
+            <div className="flex flex-row gap-2 items-center">
+              <span className="text-circle-color font-bold">
+                Monthly Revenue Per Discos Overview
+              </span>
+              <Sign />
+            </div>
+            <div className="flex flex-col border rounded-custom gap-2 pt-3">
+              <div className="flex flex-row px-4 gap-4 items-center justify-between">
+                <div className="flex flex-row gap-4 items-center">
+                  {dashboard?.data?.totalMonthlyRevenue[0]?.disco && (
+                    <>
+                      <span className="w-[10px] h-[10px] rounded-circle bg-[#E9EDF5]"></span>
+                      {dashboard?.data?.totalMonthlyRevenue[0]?.disco}
+                    </>
+                  )}
+                  {dashboard?.data?.totalMonthlyRevenue[1]?.disco && (
+                    <>
+                      <span className="w-[10px] h-[10px] rounded-circle bg-[#9932CC]"></span>
+                      {dashboard?.data?.totalMonthlyRevenue[1]?.disco}
+                    </>
+                  )}
+                  {dashboard?.data?.totalMonthlyRevenue[2]?.disco && (
+                    <>
+                      <span className="w-[10px] h-[10px] rounded-circle bg-[#c29bd6]"></span>
+                      {dashboard?.data?.totalMonthlyRevenue[2]?.disco}
+                    </>
+                  )}
+                  {dashboard?.data?.totalMonthlyRevenue[3]?.disco && (
+                    <>
+                      <span className="w-[10px] h-[10px] rounded-circle bg-[#d81694]"></span>
+                      {dashboard?.data?.totalMonthlyRevenue[3]?.disco}
+                    </>
+                  )}
+                  {dashboard?.data?.totalMonthlyRevenue[4]?.disco && (
+                    <>
+                      <span className="w-[10px] h-[10px] rounded-circle bg-button-bg"></span>
+                      {dashboard?.data?.totalMonthlyRevenue[4]?.disco}
+                    </>
+                  )}
+                  {/* <span className="w-[10px] h-[10px] rounded-circle bg-discos"></span> IBEDC */}
+                </div>
+                <div className="flex flex-row gap-4 items-center">
+                  <span className="text-[14px]">Previous Month</span>
+                  <div className="position:relative w-[120px] h-[30px] rounded-custom px-[4px] flex flex-row border items-center">
+                    {/* <input className='input' type='date' /> */}
+                    <DatePicker
+                      className="text-[8px] outline-none"
+                      selected={endDate}
+                      onChange={(date) => dateChanger(date)}
+                      ref={datePickerRef}
+                      showTimeSelect={false}
+                      dateFormat="MMM d yyyy" // Use format tokens to represent "Oct 13 2023"
+                      placeholderText="13 Oct 2023"
+                      popperPlacement="bottom-start"
+                    />
+                    <Calendar
+                      className="text-[10px]"
+                      onClick={() => PickDate()}
+                    />
+                  </div>
+                  <Ellipses />
+                </div>
+              </div>
+              <DoubleBarChart data={dashboard?.data?.totalMonthlyRevenue} />
             </div>
           </div>
           <div className="flex flex-col gap-3">

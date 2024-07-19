@@ -6,6 +6,7 @@ import { TransactionSlice } from './Reducers/Transactions';
 import { CreateBankSlice } from './Reducers/CreateBank';
 import { CreatesDiscSlice } from './Reducers/CreatedDisc';
 import { DiscometerSlice } from './Reducers/Discometer';
+import { DashboardSlice } from './Reducers/Dashboard';
 
 
 
@@ -19,5 +20,6 @@ export default configureStore({
         createdbank: CreateBankSlice?.reducer,
         createdisc: CreatesDiscSlice?.reducer,
         discometer: DiscometerSlice?.reducer,
+        dashboard: DashboardSlice?.reducer
     }
 });

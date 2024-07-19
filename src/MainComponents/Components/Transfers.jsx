@@ -103,8 +103,8 @@ const Transfers = ({title}) => {
             </div>
           </div>
           <div className="flex flex-col border-input-color border-[1px] rounded-custom py-4 gap-6">
-            <div className="flex flex-row justify-between gap-4 px-3">
-              <div className="flex flex-col">
+            <div className="flex flex-row justify-end gap-4 px-3">
+              {/* <div className="flex flex-col">
                 <div className="flex flex-row gap-4 text-[14px] items-center text-route-noncolor font-medium">
                   <span
                     onClick={() => White()}
@@ -135,10 +135,9 @@ const Transfers = ({title}) => {
                     <div className="w-[100px] h-[2px] bg-route-color ml-[62%]" />
                   )}
                 </div>
-              </div>
-              <div className="flex flex-row justify-between gap-4 px-3">
-                <div className="position:relative w-[120px] h-[35px] rounded-custom px-[5px] flex flex-row border items-center">
-                  {/* <input className='input' type='date' /> */}
+              </div> */}
+              <div className="flex flex-row justify-end gap-4 px-3">
+                {/* <div className="position:relative w-[120px] h-[35px] rounded-custom px-[5px] flex flex-row border items-center">
                   <DatePicker
                     className="text-[8px] outline-none"
                     selected={endDate}
@@ -153,7 +152,7 @@ const Transfers = ({title}) => {
                     className="text-[10px]"
                     onClick={() => PickDate()}
                   />
-                </div>
+                </div> */}
                 {/* <input
                   type="date"
                   className="border-input-color border-[1px] rounded-custom  w-[117px] h-[36px] outline-none px-[10px] text-[11px]"
@@ -164,7 +163,7 @@ const Transfers = ({title}) => {
                   className="border-input-color border-[1px] rounded-custom  w-[117px] h-[36px] outline-none px-[10px] text-[11px]"
                   placeholder="Search by name, customerID, account number, transaction reference"
                 /> */}
-                <button className="px-2 flex flex-row gap-1 items-center bg-route-color w-[50%] rounded-custom text-white font-semibold text-[11px]">
+                <button className="px-2 h-[35px] flex flex-row gap-1 items-center bg-route-color w-[100%] rounded-custom text-white font-semibold text-[11px]">
                   Download Report <Download />
                 </button>
               </div>

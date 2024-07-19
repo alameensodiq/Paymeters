@@ -113,8 +113,7 @@ const Loans = ({ title }) => {
                  className="border-input-color border-[1px] rounded-custom  w-[117px] h-[36px] outline-none px-[10px] text-[11px]"
                  placeholder="Search by name, customerID, account number, transaction reference"
                /> */}
-              <div className="position:relative w-[120px] h-[35px] rounded-custom px-[5px] flex flex-row border items-center">
-                {/* <input className='input' type='date' /> */}
+              {/* <div className="position:relative w-[120px] h-[35px] rounded-custom px-[5px] flex flex-row border items-center">
                 <DatePicker
                   className="text-[8px] outline-none"
                   selected={endDate}
@@ -126,10 +125,10 @@ const Loans = ({ title }) => {
                   popperPlacement="bottom-start"
                 />
                 <Calendar className="text-[10px]" onClick={() => PickDate()} />
-              </div>
+              </div> */}
               <button
                 onClick={() => setStep(4)}
-                className="px-2 flex flex-row gap-1 items-center bg-route-color w-[10%] rounded-custom text-white font-semibold text-[11px]"
+                className="px-2 h-[35px] flex flex-row gap-1 items-center bg-route-color w-[10%] rounded-custom text-white font-semibold text-[11px]"
               >
                 Add New Discos
               </button>
