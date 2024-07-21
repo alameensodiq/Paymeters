@@ -14,9 +14,12 @@ import Cable from "./MainComponents/Components/Cable";
 import Data from "./MainComponents/Components/Data";
 import Airtime from "./MainComponents/Components/Airtime";
 import CustomerInfo from "./MainComponents/Components/CustomerInfo";
+import Agents from "./MainComponents/Components/Agents";
+import ApiPartner from "./MainComponents/Components/ApiPartner";
+import Setting from "./MainComponents/Components/Setting";
 
 function App() {
-  const token = (sessionStorage.getItem('token'))
+  const token = sessionStorage.getItem("token");
   return (
     <Routes>
       <Route path="/" element={<Login />} />
@@ -39,7 +42,11 @@ function App() {
             path="/transactions"
             element={<Transfers title={"Transactions"} />}
           />
+          <Route path="/agents" element={<Agents title={"Agents"} />} />
+
+          <Route path="/api" element={<ApiPartner title={"Api-Partner"} />} />
           <Route path="/discos" element={<Loans title={"Discos"} />} />
+          <Route path="/setting" element={<Setting title={"Settings"} />} />
         </>
       )}
       {/* <Route path='/audit' element={<Audit/>} />

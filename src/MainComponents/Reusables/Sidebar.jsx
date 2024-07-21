@@ -2,8 +2,12 @@ import React, { useState } from "react";
 import { ReactComponent as Crust } from "./../../assets/crustlogoside.svg";
 import { ReactComponent as Dashboard } from "./../../assets/Dashboard.svg";
 import { ReactComponent as DashboardColor } from "./../../assets/DashboardColor.svg";
-import { ReactComponent as Customers } from "./../../assets/Customers.svg";
-import { ReactComponent as CustomersColor } from "./../../assets/CustomersColor.svg";
+import { ReactComponent as Cable } from "./../../assets/Cable.svg";
+import { ReactComponent as CableColor } from "./../../assets/CableColor.svg";
+import { ReactComponent as Data } from "./../../assets/Data.svg";
+import { ReactComponent as DataColor } from "./../../assets/DataColor.svg";
+import { ReactComponent as Settings } from "./../../assets/Report.svg";
+import { ReactComponent as SettingsColor } from "./../../assets/ReportColor.svg";
 import { ReactComponent as Transfers } from "./../../assets/Transfers.svg";
 import { ReactComponent as TransfersColor } from "./../../assets/TransfersColor.svg";
 import { ReactComponent as Investments } from "./../../assets/Investments.svg";
@@ -210,6 +214,92 @@ const Sidebar = () => {
           </p>
         </Link>
         <Link
+          to="/agents"
+          className={`flex flex-row h-[33px] ${
+            router.pathname === "/agents" || router.pathname.startsWith('/agents/')
+              ? "bg-route-bg gap-2 rounded-custom-router"
+              : "bg-white hover:bg-route-bg gap-2 rounded-custom-router"
+          }`}
+          onMouseEnter={() => setIsHovered6(true)}
+          onMouseLeave={() => setIsHovered6(false)}
+        >
+          {router.pathname === "/agents" || isHovered6 ||  router.pathname.startsWith('/agents/') ? (
+            <div className={`w-[3px] ${"bg-route-color rounded-t-l"}`}></div>
+          ) : (
+            <div className={`w-[3px] ${" bg-white rounded-t-l"}`}></div>
+          )}
+          {router.pathname === "/agents" || isHovered6 || router.pathname.startsWith('/agents/') ? (
+            <CableColor
+              className={`${
+                router.pathname === "/agents" || router.pathname.startsWith('/agents/')
+                  ? "fill-current text-route-color my-[9px]"
+                  : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+              }`}
+            />
+          ) : (
+            <Cable
+              className={`${
+                router.pathname === "/agents" || router.pathname.startsWith('/agents/')
+                  ? "fill-current text-route-color my-[9px]"
+                  : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+              }`}
+            />
+          )}
+
+          <p
+            className={`${
+              router.pathname === "/agents" || router.pathname.startsWith('/agents/')
+                ? "text-route-color my-[9px] text-[12px] font-medium hidden sm:block md:block"
+                : "hover:text-route-color text-route-noncolor my-[9px] text-[12px] font-medium hidden sm:block md:block"
+            }`}
+          >
+            Agents
+          </p>
+        </Link>
+        <Link
+          to="/api"
+          className={`flex flex-row h-[33px] ${
+            router.pathname === "/api" || router.pathname.startsWith('/api/')
+              ? "bg-route-bg gap-2 rounded-custom-router"
+              : "bg-white hover:bg-route-bg gap-2 rounded-custom-router"
+          }`}
+          onMouseEnter={() => setIsHovered7(true)}
+          onMouseLeave={() => setIsHovered7(false)}
+        >
+          {router.pathname === "/api" || isHovered7 ||  router.pathname.startsWith('/api/') ? (
+            <div className={`w-[3px] ${"bg-route-color rounded-t-l"}`}></div>
+          ) : (
+            <div className={`w-[3px] ${" bg-white rounded-t-l"}`}></div>
+          )}
+          {router.pathname === "/api" || isHovered7 || router.pathname.startsWith('/api/') ? (
+            <DataColor
+              className={`${
+                router.pathname === "/api" || router.pathname.startsWith('/api/')
+                  ? "fill-current text-route-color my-[9px]"
+                  : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+              }`}
+            />
+          ) : (
+            <Data
+              className={`${
+                router.pathname === "/api" || router.pathname.startsWith('/api/')
+                  ? "fill-current text-route-color my-[9px]"
+                  : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+              }`}
+            />
+          )}
+
+          <p
+            className={`${
+              router.pathname === "/api" || router.pathname.startsWith('/api/')
+                ? "text-route-color my-[9px] text-[12px] font-medium hidden sm:block md:block"
+                : "hover:text-route-color text-route-noncolor my-[9px] text-[12px] font-medium hidden sm:block md:block"
+            }`}
+          >
+            Api-Partner
+          </p>
+        </Link>
+        <Link
           to="/transactions"
           className={`flex flex-row h-[33px] ${
             router.pathname === "/transactions"
@@ -250,6 +340,49 @@ const Sidebar = () => {
             }`}
           >
             Transaction
+          </p>
+        </Link>
+        <Link
+          to="/setting"
+          className={`flex flex-row h-[33px] ${
+            router.pathname === "/setting"
+              ? "bg-route-bg gap-2 rounded-custom-router"
+              : "bg-white hover:bg-route-bg gap-2 rounded-custom-router"
+          }`}
+          onMouseEnter={() => setIsHovered8(true)}
+          onMouseLeave={() => setIsHovered8(false)}
+        >
+          {router.pathname === "/setting" || isHovered8 ? (
+            <div className={`w-[3px] ${"bg-route-color rounded-t-l"}`}></div>
+          ) : (
+            <div className={`w-[3px] ${" bg-white rounded-t-l"}`}></div>
+          )}
+          {router.pathname === "/setting" || isHovered8 ? (
+            <SettingsColor
+              className={`${
+                router.pathname === "/setting"
+                  ? "fill-current text-route-color my-[9px]"
+                  : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+              }`}
+            />
+          ) : (
+            <Settings
+              className={`${
+                router.pathname === "/setting"
+                  ? "fill-current text-route-color my-[9px]"
+                  : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+              }`}
+            />
+          )}
+
+          <p
+            className={`${
+              router.pathname === "/setting"
+                ? "text-route-color my-[9px] text-[12px] font-medium hidden sm:block md:block"
+                : "hover:text-route-color text-route-noncolor my-[9px] text-[12px] font-medium hidden sm:block md:block"
+            }`}
+          >
+            Setting
           </p>
         </Link>
       </div>

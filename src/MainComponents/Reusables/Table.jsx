@@ -18,7 +18,9 @@ const Tables = ({
   airtime,
   overview,
   data,
-  meter
+  meter,
+  agents,
+  apipartners
 }) => {
   const navigate = useNavigate();
   console.log(data);
@@ -809,9 +811,132 @@ const Tables = ({
             </TableBody>
           </Table>
         </TableContainer>
-      ) : (
-        ""
-      )}
+      ) : agents ?  (
+        <TableContainer
+          // component={Paper}
+          style={{ boxShadow: "none" }}
+        >
+          <Table
+            sx={{ minWidth: 700, tableLayout: "auto" }}
+            aria-label="customized table"
+          >
+            <TableHead>
+              <TableRow style={{ paddingRight: "0px" }}>
+                <StyledTableCell style={{ width: "10%" }}>S/N</StyledTableCell>
+                <StyledTableCell style={{ width: "20%" }}>
+                  AGENTS NAME
+                </StyledTableCell>
+                <StyledTableCell style={{ width: "15%" }}>
+                  NO OF CUSTOMERS
+                </StyledTableCell>
+                <StyledTableCell style={{ width: "10%" }}>
+                  DISCO
+                </StyledTableCell>
+                <StyledTableCell style={{ width: "10%" }}>
+                  COMMISSION
+                </StyledTableCell>
+                <StyledTableCell style={{ width: "15%" }}>
+                  DATE ADDED
+                </StyledTableCell>
+                <StyledTableCell style={{ width: "20%" }}>
+                  TOTAL AMOUNT RECEIVED
+                </StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+                <StyledTableRow>
+                  <StyledTableCell
+                    className="text-dob"
+                    style={{ width: "10%" }}
+                  >
+                    1
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "20%" }}>
+                    WARITH RASAK
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "15%" }}>
+                    20
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "10%" }}>
+                    IBEDC
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "10%" }}>
+                    20%
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "15%" }}>
+                    12/04/1975
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "20%" }}>
+                    200,000
+                  </StyledTableCell>
+                </StyledTableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
+      ) : apipartners ? (
+        <TableContainer
+          // component={Paper}
+          style={{ boxShadow: "none" }}
+        >
+          <Table
+            sx={{ minWidth: 700, tableLayout: "auto" }}
+            aria-label="customized table"
+          >
+            <TableHead>
+              <TableRow style={{ paddingRight: "0px" }}>
+                <StyledTableCell style={{ width: "10%" }}>S/N</StyledTableCell>
+                <StyledTableCell style={{ width: "20%" }}>
+                  PARTNER NAME
+                </StyledTableCell>
+                <StyledTableCell style={{ width: "15%" }}>
+                  NO OF CUSTOMERS
+                </StyledTableCell>
+                <StyledTableCell style={{ width: "10%" }}>
+                  DISCO
+                </StyledTableCell>
+                <StyledTableCell style={{ width: "10%" }}>
+                  COMMISSION
+                </StyledTableCell>
+                <StyledTableCell style={{ width: "15%" }}>
+                  DATE ADDED
+                </StyledTableCell>
+                <StyledTableCell style={{ width: "20%" }}>
+                  TOTAL AMOUNT RECEIVED
+                </StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+                <StyledTableRow>
+                  <StyledTableCell
+                    className="text-dob"
+                    style={{ width: "10%" }}
+                  >
+                    1
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "20%" }}>
+                    WARITH RASAK
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "15%" }}>
+                    20
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "10%" }}>
+                    IBEDC
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "10%" }}>
+                    20%
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "15%" }}>
+                    12/04/1975
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "20%" }}>
+                    200,000
+                  </StyledTableCell>
+                </StyledTableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
+      ) :
+      ""}
     </div>
   );
 };
