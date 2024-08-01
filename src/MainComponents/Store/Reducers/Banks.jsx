@@ -1,14 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { Banks } from '../Apis/Banks';
+import { createSlice } from "@reduxjs/toolkit";
+import { Banks } from "../Apis/Banks";
 
 export const BanksSlice = createSlice({
-  name: 'banks',
+  name: "banks",
   initialState: {
     banks: null,
     authenticatingbanks: false,
     authenticated: false,
     isError: false,
-    errors: null,
+    errors: null
   },
   reducers: {
     clearState: (state) => {
@@ -17,7 +17,7 @@ export const BanksSlice = createSlice({
       state.authenticated = false;
       state.authenticatingbanks = false;
       return state;
-    },
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(Banks.fulfilled, (state, action) => {
@@ -27,17 +27,17 @@ export const BanksSlice = createSlice({
       return state;
     });
     builder.addCase(Banks.pending, (state, action) => {
-        state.authenticatingbanks = true;
-        state.authenticated = true;
+      state.authenticatingbanks = true;
+      state.authenticated = true;
     });
     builder.addCase(Banks.rejected, (state, action) => {
-        state.errors = action.errors || action.payload;
-        state.authenticated = false;
-        state.authenticatingbanks = false;
-        state.isError = true;
-        return state;
+      state.errors = action.errors || action.payload;
+      state.authenticated = false;
+      state.authenticatingbanks = false;
+      state.isError = true;
+      return state;
     });
-  },
+  }
 });
 
 export const { clearState } = BanksSlice.actions;

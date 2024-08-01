@@ -5,9 +5,10 @@ import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { ThemeProvider, createTheme, styled } from "@mui/material";
+import { ThemeProvider, createTheme } from "@mui/material";
 import Moment from "react-moment";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 
 const Tables = ({
   customers,
@@ -20,7 +21,9 @@ const Tables = ({
   data,
   meter,
   agents,
-  apipartners
+  apipartners,
+  payment,
+  shift
 }) => {
   const navigate = useNavigate();
   console.log(data);
@@ -765,9 +768,7 @@ const Tables = ({
                 <StyledTableCell style={{ width: "15%" }}>
                   ADDRESS
                 </StyledTableCell>
-                <StyledTableCell style={{ width: "15%" }}>
-                  BANK
-                </StyledTableCell>
+                <StyledTableCell style={{ width: "15%" }}>BANK</StyledTableCell>
                 <StyledTableCell style={{ width: "10%" }}>
                   DISCO SHORT NAME
                 </StyledTableCell>
@@ -811,7 +812,7 @@ const Tables = ({
             </TableBody>
           </Table>
         </TableContainer>
-      ) : agents ?  (
+      ) : agents ? (
         <TableContainer
           // component={Paper}
           style={{ boxShadow: "none" }}
@@ -844,32 +845,25 @@ const Tables = ({
               </TableRow>
             </TableHead>
             <TableBody>
-                <StyledTableRow>
-                  <StyledTableCell
-                    className="text-dob"
-                    style={{ width: "10%" }}
-                  >
-                    1
-                  </StyledTableCell>
-                  <StyledTableCell style={{ width: "20%" }}>
-                    WARITH RASAK
-                  </StyledTableCell>
-                  <StyledTableCell style={{ width: "15%" }}>
-                    20
-                  </StyledTableCell>
-                  <StyledTableCell style={{ width: "10%" }}>
-                    IBEDC
-                  </StyledTableCell>
-                  <StyledTableCell style={{ width: "10%" }}>
-                    20%
-                  </StyledTableCell>
-                  <StyledTableCell style={{ width: "15%" }}>
-                    12/04/1975
-                  </StyledTableCell>
-                  <StyledTableCell style={{ width: "20%" }}>
-                    200,000
-                  </StyledTableCell>
-                </StyledTableRow>
+              <StyledTableRow>
+                <StyledTableCell className="text-dob" style={{ width: "10%" }}>
+                  1
+                </StyledTableCell>
+                <StyledTableCell style={{ width: "20%" }}>
+                  WARITH RASAK
+                </StyledTableCell>
+                <StyledTableCell style={{ width: "15%" }}>20</StyledTableCell>
+                <StyledTableCell style={{ width: "10%" }}>
+                  IBEDC
+                </StyledTableCell>
+                <StyledTableCell style={{ width: "10%" }}>20%</StyledTableCell>
+                <StyledTableCell style={{ width: "15%" }}>
+                  12/04/1975
+                </StyledTableCell>
+                <StyledTableCell style={{ width: "20%" }}>
+                  200,000
+                </StyledTableCell>
+              </StyledTableRow>
             </TableBody>
           </Table>
         </TableContainer>
@@ -906,39 +900,256 @@ const Tables = ({
               </TableRow>
             </TableHead>
             <TableBody>
-                <StyledTableRow>
-                  <StyledTableCell
-                    className="text-dob"
-                    style={{ width: "10%" }}
-                  >
-                    1
-                  </StyledTableCell>
-                  <StyledTableCell style={{ width: "20%" }}>
-                    WARITH RASAK
-                  </StyledTableCell>
-                  <StyledTableCell style={{ width: "15%" }}>
-                    20
-                  </StyledTableCell>
-                  <StyledTableCell style={{ width: "10%" }}>
-                    IBEDC
-                  </StyledTableCell>
-                  <StyledTableCell style={{ width: "10%" }}>
-                    20%
-                  </StyledTableCell>
-                  <StyledTableCell style={{ width: "15%" }}>
-                    12/04/1975
-                  </StyledTableCell>
-                  <StyledTableCell style={{ width: "20%" }}>
-                    200,000
-                  </StyledTableCell>
-                </StyledTableRow>
+              <StyledTableRow>
+                <StyledTableCell className="text-dob" style={{ width: "10%" }}>
+                  1
+                </StyledTableCell>
+                <StyledTableCell style={{ width: "20%" }}>
+                  WARITH RASAK
+                </StyledTableCell>
+                <StyledTableCell style={{ width: "15%" }}>20</StyledTableCell>
+                <StyledTableCell style={{ width: "10%" }}>
+                  IBEDC
+                </StyledTableCell>
+                <StyledTableCell style={{ width: "10%" }}>20%</StyledTableCell>
+                <StyledTableCell style={{ width: "15%" }}>
+                  12/04/1975
+                </StyledTableCell>
+                <StyledTableCell style={{ width: "20%" }}>
+                  200,000
+                </StyledTableCell>
+              </StyledTableRow>
             </TableBody>
           </Table>
         </TableContainer>
-      ) :
-      ""}
+      ) : payment ? (
+        <ScrollableXContainer>
+          <TableContainer
+            // component={Paper}
+            sx={{ maxHeight: "60vh" }}
+            style={{ boxShadow: "none" }}
+          >
+            <Table
+              stickyHeader
+              sx={{ minWidth: 1300, tableLayout: "auto" }}
+              aria-label="customized table"
+            >
+              <TableHead>
+                <TableRow style={{ paddingRight: "0px" }}>
+                  <StyledTableCell style={{ width: "7%" }}>S/N</StyledTableCell>
+                  <StyledTableCell style={{ width: "7%" }}>
+                    UNIT PAYMENT
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "7%" }}>
+                    DEBT PAYMENT
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "7%" }}>
+                    UNIT TYPE
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "8%" }}>
+                    UNITS
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "7%" }}>
+                    AMOUNT
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "7%" }}>
+                    RECEIPT
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "7%" }}>
+                    ACCOUNT
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "7%" }}>
+                    TARRIF
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "7%" }}>
+                    VENDOR ID
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "7%" }}>
+                    CASHIER NAME
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "8%" }}>
+                    CUSTOMER. NAME
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "7%" }}>
+                    DATE
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "7%" }}>
+                    METER SERIAL
+                  </StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {data?.map((item, index) => (
+                  <StyledTableRow>
+                    <StyledTableCell style={{ width: "5%" }}>
+                      {index + 1}
+                    </StyledTableCell>
+                    <StyledTableCell style={{ width: "10%" }}>
+                      {item?.unitsPayment}
+                    </StyledTableCell>
+                    <StyledTableCell style={{ width: "10%" }}>
+                      {item?.debtPayment}
+                    </StyledTableCell>
+                    <StyledTableCell style={{ width: "10%" }}>
+                      {item?.unitsType}
+                    </StyledTableCell>
+                    <StyledTableCell style={{ width: "10%" }}>
+                      {item?.units}
+                    </StyledTableCell>
+                    <StyledTableCell style={{ width: "10%" }}>
+                      {item?.totalPayment}
+                    </StyledTableCell>
+                    <StyledTableCell style={{ width: "5%" }}>
+                      {item?.receipt}
+                    </StyledTableCell>
+                    <StyledTableCell style={{ width: "10%" }}>
+                      {item?.account}
+                    </StyledTableCell>
+                    <StyledTableCell style={{ width: "10%" }}>
+                      {item?.tariffDescription}
+                    </StyledTableCell>
+                    <StyledTableCell style={{ width: "10%" }}>
+                      {item?.idVendor}
+                    </StyledTableCell>
+                    <StyledTableCell style={{ width: "10%" }}></StyledTableCell>
+                    <StyledTableCell style={{ width: "10%" }}>
+                      {item?.customerName}
+                    </StyledTableCell>
+                    <StyledTableCell style={{ width: "10%" }}>
+                      <Moment format="DD-MM-YYYY">
+                        {item?.paymentDate ? item?.paymentDate : 0}
+                      </Moment>
+                    </StyledTableCell>
+                    <StyledTableCell style={{ width: "10%" }}>
+                      {item?.meterSerial}
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </ScrollableXContainer>
+      ) : shift ? (
+        <ScrollableXContainer>
+          <TableContainer
+            // component={Paper}
+            sx={{ maxHeight: "60vh" }}
+            style={{ boxShadow: "none" }}
+          >
+            <Table
+              stickyHeader
+              sx={{ minWidth: 1300, tableLayout: "auto" }}
+              aria-label="customized table"
+            >
+              <TableHead>
+                <TableRow style={{ paddingRight: "0px" }}>
+                  <StyledTableCell style={{ width: "8%" }}>S/N</StyledTableCell>
+                  <StyledTableCell style={{ width: "8%" }}>
+                    USER
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "8%" }}>
+                    UNIT PAYMENT
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "8%" }}>
+                    DEBT PAYMENT
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "8%" }}>
+                    UNIT TYPE
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "8%" }}>
+                    AMOUNT
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "9%" }}>
+                    RECEIPT
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "8%" }}>
+                    ACCOUNT.
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "8%" }}>
+                    VENDOR ID
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "10%" }}>
+                    CUSTOMER. NAME
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "8%" }}>
+                    DATE
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "9%" }}>
+                    METER SERIAL
+                  </StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {data?.map((item, index) => (
+                  <StyledTableRow>
+                    <StyledTableCell style={{ width: "5%" }}>
+                      {index + 1}
+                    </StyledTableCell>
+                    <StyledTableCell style={{ width: "10%" }}>
+                      {item?.account?.type}
+                    </StyledTableCell>
+                    <StyledTableCell style={{ width: "10%" }}>
+                      {item?.rrn}
+                    </StyledTableCell>
+                    <StyledTableCell style={{ width: "10%" }}>
+                      {item?.paymentType}
+                    </StyledTableCell>
+                    <StyledTableCell style={{ width: "10%" }}>
+                      <Moment format="DD-MM-YYYY">{item?.paymentTime}</Moment>
+                    </StyledTableCell>
+                    <StyledTableCell style={{ width: "10%" }}>
+                      {item?.txRef}
+                    </StyledTableCell>
+                    <StyledTableCell style={{ width: "5%" }}>
+                      {item?.amount?.AMOUNT}
+                    </StyledTableCell>
+                    <StyledTableCell style={{ width: "10%" }}>
+                      {item?.account?.bank?.name}
+                    </StyledTableCell>
+                    <StyledTableCell style={{ width: "10%" }}>
+                      {item?.account?.bank?.ussd}
+                    </StyledTableCell>
+                    <StyledTableCell style={{ width: "10%" }}>
+                      {item?.account?.disco?.name}
+                    </StyledTableCell>
+                    <StyledTableCell style={{ width: "10%" }}>
+                      {item?.paymentStatus === "successfull" ? (
+                        <button className="bg-successbg h-[30px] w-[100%] rounded-full text-successtext font-semibold text-[9px]">
+                          Successful
+                        </button>
+                      ) : (
+                        <button className="bg-failedbg h-[30px] w-[100%] rounded-full text-failedtext font-semibold text-[9px]">
+                          Failed
+                        </button>
+                      )}
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </ScrollableXContainer>
+      ) : (
+        ""
+      )}
     </div>
   );
 };
+
+const ScrollableXContainer = styled.div`
+  overflow-x: scroll;
+  overflow-y: hidden;
+  width: 100%;
+  white-space: nowrap; /* Ensure content is not wrapped and forces horizontal scrolling */
+  &::-webkit-scrollbar {
+    height: 12px; /* Adjust the height of the scrollbar */
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+`;
 
 export default Tables;

@@ -14,6 +14,8 @@ import { ReactComponent as Investments } from "./../../assets/Investments.svg";
 import { ReactComponent as InvestmentsColor } from "./../../assets/InvestmentsColor.svg";
 import { ReactComponent as Loan } from "./../../assets/Loan.svg";
 import { ReactComponent as LoanColor } from "./../../assets/Loan.svg";
+import { ReactComponent as Payment } from "./../../assets/Electricity.svg";
+import { ReactComponent as PaymentColor } from "./../../assets/ElectricityColor.svg";
 import { ReactComponent as Logout } from "./../../assets/logout.svg";
 
 import { Link, useLocation } from "react-router-dom";
@@ -37,7 +39,9 @@ const Sidebar = () => {
   return (
     <div className="bg-white flex flex-col border-r border pt-3 h-[100vh]">
       <div className="flex flex-row pt-[65px] justify-center">
-        <span className="text-route-color font-bold text-[10px] lg:text-[30px] md:text-[20px]">Paymeter</span>
+        <span className="text-route-color font-bold text-[10px] lg:text-[30px] md:text-[20px]">
+          Paymeter
+        </span>
       </div>
       <div className="flex flex-col py-16 gap-4 px-4">
         <Link
@@ -173,22 +177,28 @@ const Sidebar = () => {
         <Link
           to="/discos"
           className={`flex flex-row h-[33px] ${
-            router.pathname === "/discos" || router.pathname.startsWith('/discos/')
+            router.pathname === "/discos" ||
+            router.pathname.startsWith("/discos/")
               ? "bg-route-bg gap-2 rounded-custom-router"
               : "bg-white hover:bg-route-bg gap-2 rounded-custom-router"
           }`}
           onMouseEnter={() => setIsHovered4(true)}
           onMouseLeave={() => setIsHovered4(false)}
         >
-          {router.pathname === "/discos" || isHovered4 ||  router.pathname.startsWith('/discos/') ? (
+          {router.pathname === "/discos" ||
+          isHovered4 ||
+          router.pathname.startsWith("/discos/") ? (
             <div className={`w-[3px] ${"bg-route-color rounded-t-l"}`}></div>
           ) : (
             <div className={`w-[3px] ${" bg-white rounded-t-l"}`}></div>
           )}
-          {router.pathname === "/discos" || isHovered4 || router.pathname.startsWith('/discos/') ? (
+          {router.pathname === "/discos" ||
+          isHovered4 ||
+          router.pathname.startsWith("/discos/") ? (
             <LoanColor
               className={`${
-                router.pathname === "/discos" || router.pathname.startsWith('/discos/')
+                router.pathname === "/discos" ||
+                router.pathname.startsWith("/discos/")
                   ? "fill-current text-route-color my-[9px]"
                   : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
               }`}
@@ -196,7 +206,8 @@ const Sidebar = () => {
           ) : (
             <Loan
               className={`${
-                router.pathname === "/discos" || router.pathname.startsWith('/discos/')
+                router.pathname === "/discos" ||
+                router.pathname.startsWith("/discos/")
                   ? "fill-current text-route-color my-[9px]"
                   : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
               }`}
@@ -205,7 +216,8 @@ const Sidebar = () => {
 
           <p
             className={`${
-              router.pathname === "/discos" || router.pathname.startsWith('/discos/')
+              router.pathname === "/discos" ||
+              router.pathname.startsWith("/discos/")
                 ? "text-route-color my-[9px] text-[12px] font-medium hidden sm:block md:block"
                 : "hover:text-route-color text-route-noncolor my-[9px] text-[12px] font-medium hidden sm:block md:block"
             }`}
@@ -216,22 +228,28 @@ const Sidebar = () => {
         <Link
           to="/agents"
           className={`flex flex-row h-[33px] ${
-            router.pathname === "/agents" || router.pathname.startsWith('/agents/')
+            router.pathname === "/agents" ||
+            router.pathname.startsWith("/agents/")
               ? "bg-route-bg gap-2 rounded-custom-router"
               : "bg-white hover:bg-route-bg gap-2 rounded-custom-router"
           }`}
           onMouseEnter={() => setIsHovered6(true)}
           onMouseLeave={() => setIsHovered6(false)}
         >
-          {router.pathname === "/agents" || isHovered6 ||  router.pathname.startsWith('/agents/') ? (
+          {router.pathname === "/agents" ||
+          isHovered6 ||
+          router.pathname.startsWith("/agents/") ? (
             <div className={`w-[3px] ${"bg-route-color rounded-t-l"}`}></div>
           ) : (
             <div className={`w-[3px] ${" bg-white rounded-t-l"}`}></div>
           )}
-          {router.pathname === "/agents" || isHovered6 || router.pathname.startsWith('/agents/') ? (
+          {router.pathname === "/agents" ||
+          isHovered6 ||
+          router.pathname.startsWith("/agents/") ? (
             <CableColor
               className={`${
-                router.pathname === "/agents" || router.pathname.startsWith('/agents/')
+                router.pathname === "/agents" ||
+                router.pathname.startsWith("/agents/")
                   ? "fill-current text-route-color my-[9px]"
                   : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
               }`}
@@ -239,7 +257,8 @@ const Sidebar = () => {
           ) : (
             <Cable
               className={`${
-                router.pathname === "/agents" || router.pathname.startsWith('/agents/')
+                router.pathname === "/agents" ||
+                router.pathname.startsWith("/agents/")
                   ? "fill-current text-route-color my-[9px]"
                   : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
               }`}
@@ -248,7 +267,8 @@ const Sidebar = () => {
 
           <p
             className={`${
-              router.pathname === "/agents" || router.pathname.startsWith('/agents/')
+              router.pathname === "/agents" ||
+              router.pathname.startsWith("/agents/")
                 ? "text-route-color my-[9px] text-[12px] font-medium hidden sm:block md:block"
                 : "hover:text-route-color text-route-noncolor my-[9px] text-[12px] font-medium hidden sm:block md:block"
             }`}
@@ -259,22 +279,27 @@ const Sidebar = () => {
         <Link
           to="/api"
           className={`flex flex-row h-[33px] ${
-            router.pathname === "/api" || router.pathname.startsWith('/api/')
+            router.pathname === "/api" || router.pathname.startsWith("/api/")
               ? "bg-route-bg gap-2 rounded-custom-router"
               : "bg-white hover:bg-route-bg gap-2 rounded-custom-router"
           }`}
           onMouseEnter={() => setIsHovered7(true)}
           onMouseLeave={() => setIsHovered7(false)}
         >
-          {router.pathname === "/api" || isHovered7 ||  router.pathname.startsWith('/api/') ? (
+          {router.pathname === "/api" ||
+          isHovered7 ||
+          router.pathname.startsWith("/api/") ? (
             <div className={`w-[3px] ${"bg-route-color rounded-t-l"}`}></div>
           ) : (
             <div className={`w-[3px] ${" bg-white rounded-t-l"}`}></div>
           )}
-          {router.pathname === "/api" || isHovered7 || router.pathname.startsWith('/api/') ? (
+          {router.pathname === "/api" ||
+          isHovered7 ||
+          router.pathname.startsWith("/api/") ? (
             <DataColor
               className={`${
-                router.pathname === "/api" || router.pathname.startsWith('/api/')
+                router.pathname === "/api" ||
+                router.pathname.startsWith("/api/")
                   ? "fill-current text-route-color my-[9px]"
                   : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
               }`}
@@ -282,7 +307,8 @@ const Sidebar = () => {
           ) : (
             <Data
               className={`${
-                router.pathname === "/api" || router.pathname.startsWith('/api/')
+                router.pathname === "/api" ||
+                router.pathname.startsWith("/api/")
                   ? "fill-current text-route-color my-[9px]"
                   : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
               }`}
@@ -291,12 +317,63 @@ const Sidebar = () => {
 
           <p
             className={`${
-              router.pathname === "/api" || router.pathname.startsWith('/api/')
+              router.pathname === "/api" || router.pathname.startsWith("/api/")
                 ? "text-route-color my-[9px] text-[12px] font-medium hidden sm:block md:block"
                 : "hover:text-route-color text-route-noncolor my-[9px] text-[12px] font-medium hidden sm:block md:block"
             }`}
           >
             Api-Partner
+          </p>
+        </Link>
+        <Link
+          to="/payment-shift"
+          className={`flex flex-row h-[33px] ${
+            router.pathname === "/payment-shift" ||
+            router.pathname.startsWith("/payment-shift")
+              ? "bg-route-bg gap-2 rounded-custom-router"
+              : "bg-white hover:bg-route-bg gap-2 rounded-custom-router"
+          }`}
+          onMouseEnter={() => setIsHovered9(true)}
+          onMouseLeave={() => setIsHovered9(false)}
+        >
+          {router.pathname === "/payment-shift" ||
+          isHovered9 ||
+          router.pathname.startsWith("/payment-shift") ? (
+            <div className={`w-[3px] ${"bg-route-color rounded-t-l"}`}></div>
+          ) : (
+            <div className={`w-[3px] ${" bg-white rounded-t-l"}`}></div>
+          )}
+          {router.pathname === "/payment-shift" ||
+          isHovered9 ||
+          router.pathname.startsWith("/payment-shift") ? (
+            <PaymentColor
+              className={`${
+                router.pathname === "/payment-shift" ||
+                router.pathname.startsWith("/payment-shift")
+                  ? "fill-current text-route-color my-[9px]"
+                  : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+              }`}
+            />
+          ) : (
+            <Payment
+              className={`${
+                router.pathname === "/payment-shift" ||
+                router.pathname.startsWith("/payment-shift")
+                  ? "fill-current text-route-color my-[9px]"
+                  : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+              }`}
+            />
+          )}
+
+          <p
+            className={`${
+              router.pathname === "/payment-shift" ||
+              router.pathname.startsWith("/payment-shift")
+                ? "text-route-color my-[9px] text-[12px] font-medium hidden sm:block md:block"
+                : "hover:text-route-color text-route-noncolor my-[9px] text-[12px] font-medium hidden sm:block md:block"
+            }`}
+          >
+            Payment-Shift
           </p>
         </Link>
         <Link
@@ -388,7 +465,7 @@ const Sidebar = () => {
       </div>
       <div
         onClick={() => LogOutAuthentication()}
-        className='px-[20px] flex flex-row justify-between text-[14px] border-t-2 py-[15px] cursor-pointer'
+        className="px-[20px] flex flex-row justify-between text-[14px] border-t-2 py-[15px] cursor-pointer"
       >
         <div className="real">
           <span className="logbut">Log Out</span>
