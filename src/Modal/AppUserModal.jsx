@@ -96,8 +96,10 @@ const AppUserModal = ({ setStep, step, setReload }) => {
   const SendDetailsBank = () => {
     const { name, code, ussd } = regbus;
     dispatch(
-      ChangePasswords({
-        password
+      CreateBank({
+        name,
+        code,
+        ussd
       })
     );
     setBusstate(true);
@@ -115,11 +117,9 @@ const AppUserModal = ({ setStep, step, setReload }) => {
   };
 
   const SendPassword = () => {
-    const { name, shortName } = disc;
     dispatch(
-      CreatedDisco({
-        name,
-        shortName
+      ChangePasswords({
+        password
       })
     );
     setBusstate3(true);
