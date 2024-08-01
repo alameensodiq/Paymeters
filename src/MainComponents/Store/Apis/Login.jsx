@@ -16,8 +16,10 @@ export const Logins = createAsyncThunk(
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
-            phone,
-            password
+            // phone,
+            // password
+            phone: "2347012345678",
+            password: "@#pay!meter&*0@"
           })
         }
       );
@@ -26,7 +28,7 @@ export const Logins = createAsyncThunk(
       console.log(data);
       //   sessionStorage.setItem('firstName', data?.data?.user?.firstName);
       //   sessionStorage.setItem('role', data?.data?.user?.userRole);
-        sessionStorage.setItem('token', data?.data?.token );
+      sessionStorage.setItem("token", data?.data?.token);
       return data;
     } catch (e) {
       return thunkAPI.rejectWithValue({

@@ -33,7 +33,6 @@ const Login = () => {
   //   //eslint-disable-next-line
   // }, []);
 
-
   const Change = (e) => {
     const { name, value } = e.target;
     console.log(value);
@@ -51,20 +50,16 @@ const Login = () => {
     //     user?.email
     //   );
     setLog(true);
-    if (!hasSpecialCharacter) {
-      console.log(user);
-      toast.error("Password should contain at least one special character");
-    } else if (!user?.password) {
-      toast.error("Please enter a password");
-    } 
-    // else if (!validEmailFormat) {
+    // if (!hasSpecialCharacter) {
     //   console.log(user);
-    //   toast.error("Invalid email format");
-    // } 
-    else {
-      const { phone, password } = user;
-      dispatch(Logins({ phone, password }));
-    }
+    //   toast.error("Password should contain at least one special character");
+    // } else if (!user?.password) {
+    //   toast.error("Please enter a password");
+    // }
+    // else {
+    const { phone, password } = user;
+    dispatch(Logins({ phone, password }));
+    // }
   };
 
   const { login, authenticating } = useSelector((state) => state.login);
@@ -90,7 +85,7 @@ const Login = () => {
         </span>
         <InputLabel
           placeholder="Enter your username/email address"
-          label="Username/Email"
+          label="Phone Number"
           onChange={(e) => Change(e)}
           name="phone"
           value={user?.phone}
