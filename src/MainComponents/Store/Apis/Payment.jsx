@@ -9,7 +9,7 @@ export const Payment = createAsyncThunk(
 
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BASE_URL}agent/meter-payment?page=${currentPage}`,
+        `${process.env.REACT_APP_BASE_URL}agent/meter-payment`,
         {
           method: "POST",
           headers: {

@@ -70,8 +70,8 @@ const PaymentShift = ({ title }) => {
   );
   console.log(payment);
 
-  const { shift, authenticatingshift } = useSelector((state) => state?.payment);
-  console.log(payment);
+  const { shift, authenticatingshift } = useSelector((state) => state?.shift);
+  console.log(shift);
 
   const next = payment?.data?.meta?.next;
   const previous = payment?.data?.meta?.prev;
@@ -266,7 +266,7 @@ const PaymentShift = ({ title }) => {
             ) : other && shift?.data?.length >= 1 ? (
               <>
                 <Tables shift data={shift?.data} />
-                <Pagination
+                {/* <Pagination
                   set={activater}
                   currentPage={currentPage}
                   postsPerPage={postsPerPage}
@@ -274,7 +274,7 @@ const PaymentShift = ({ title }) => {
                   paginate={paginate}
                   previous={previous}
                   next={next}
-                />
+                /> */}
               </>
             ) : (
               ""

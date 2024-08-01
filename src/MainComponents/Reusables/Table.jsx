@@ -1086,42 +1086,37 @@ const Tables = ({
                       {index + 1}
                     </StyledTableCell>
                     <StyledTableCell style={{ width: "10%" }}>
-                      {item?.account?.type}
+                      {item?.codUser}
                     </StyledTableCell>
                     <StyledTableCell style={{ width: "10%" }}>
-                      {item?.rrn}
+                      {item?.unitPayment}
                     </StyledTableCell>
                     <StyledTableCell style={{ width: "10%" }}>
-                      {item?.paymentType}
+                      {item?.debtPayment}
                     </StyledTableCell>
                     <StyledTableCell style={{ width: "10%" }}>
                       <Moment format="DD-MM-YYYY">{item?.paymentTime}</Moment>
                     </StyledTableCell>
                     <StyledTableCell style={{ width: "10%" }}>
-                      {item?.txRef}
+                      {item?.totalAmount}
                     </StyledTableCell>
                     <StyledTableCell style={{ width: "5%" }}>
-                      {item?.amount?.AMOUNT}
+                      {item?.receipt}
                     </StyledTableCell>
                     <StyledTableCell style={{ width: "10%" }}>
-                      {item?.account?.bank?.name}
+                      {item?.account}
                     </StyledTableCell>
                     <StyledTableCell style={{ width: "10%" }}>
-                      {item?.account?.bank?.ussd}
+                      {item?.idVendor}
+                    </StyledTableCell>
+                    <StyledTableCell style={{ width: "10%" }}>
+                      {item?.customerName}
                     </StyledTableCell>
                     <StyledTableCell style={{ width: "10%" }}>
                       {item?.account?.disco?.name}
                     </StyledTableCell>
                     <StyledTableCell style={{ width: "10%" }}>
-                      {item?.paymentStatus === "successfull" ? (
-                        <button className="bg-successbg h-[30px] w-[100%] rounded-full text-successtext font-semibold text-[9px]">
-                          Successful
-                        </button>
-                      ) : (
-                        <button className="bg-failedbg h-[30px] w-[100%] rounded-full text-failedtext font-semibold text-[9px]">
-                          Failed
-                        </button>
-                      )}
+                      {item?.meterSerial}
                     </StyledTableCell>
                   </StyledTableRow>
                 ))}
