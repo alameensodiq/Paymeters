@@ -8,42 +8,64 @@ import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { CreateBank } from "../MainComponents/Store/Apis/CreateBank";
 import { CreatedDisco } from "../MainComponents/Store/Apis/CreatedDisco";
+import { ChangePasswords } from "../MainComponents/Store/Apis/Change";
 
 const AppUserModal = ({ setStep, step, setReload }) => {
   const dispatch = useDispatch();
   const [hide, sethide] = useState(false);
   const [uploadfile, setupload] = useState("");
   const [update, setUpdate] = useState("");
-  const [bustate, setBusstate] = useState(false)
-  const [bustate2, setBusstate2] = useState(false)
+  const [bustate, setBusstate] = useState(false);
+  const [bustate2, setBusstate2] = useState(false);
+  const [bustate3, setBusstate3] = useState(false);
   const [regbus, setRegbus] = useState({
     name: "",
     code: "",
-    ussd: "",
+    ussd: ""
   });
   const [disc, setDisc] = useState({
     name: "",
-    shortName: "",
+    shortName: ""
   });
 
+  const [password, setPassword] = useState("");
 
-  const {createdbank, authenticatingcreatedbank} = useSelector((state) => state?.createdbank)
-  console.log(createdbank)
+  const { createdbank, authenticatingcreatedbank } = useSelector(
+    (state) => state?.createdbank
+  );
+  console.log(createdbank);
 
-  const {createdisc, authenticatingcreatedisc} = useSelector((state) => state?.createdisc)
-  console.log(createdisc)
+  const { createdisc, authenticatingcreatedisc } = useSelector(
+    (state) => state?.createdisc
+  );
+  console.log(createdisc);
+
+  const { changepassword, authenticatingchangepassword } = useSelector(
+    (state) => state?.changepassword
+  );
+  console.log(changepassword);
 
   useEffect(() => {
-    if(bustate && createdbank?.status){
-        setStep(3)
+    if (bustate && createdbank?.status) {
+      setStep(3);
     }
-    if(bustate2 && createdisc?.status){
-      setStep(6)
-  }
+    if (bustate2 && createdisc?.status) {
+      setStep(6);
+    }
+    if (bustate3 && changepassword?.status) {
+      setStep(8);
+    }
 
     console.log(update);
-  }, [update, bustate, bustate2, createdbank?.status, createdisc?.status]);
-
+  }, [
+    update,
+    bustate,
+    bustate2,
+    createdbank?.status,
+    createdisc?.status,
+    bustate3,
+    changepassword?.status
+  ]);
 
   const Change = (e) => {
     const { name, value } = e.target;
@@ -63,20 +85,22 @@ const AppUserModal = ({ setStep, step, setReload }) => {
     });
   };
 
+  const ChangePass = (e) => {
+    const { name, value } = e.target;
+    console.log(value);
+    setPassword(e.target.value);
+  };
 
   const datePickerRef = useRef(null);
-
 
   const SendDetailsBank = () => {
     const { name, code, ussd } = regbus;
     dispatch(
-      CreateBank({
-        name,
-        code,
-        ussd,
+      ChangePasswords({
+        password
       })
     );
-    setBusstate(true)
+    setBusstate(true);
   };
 
   const SendDetailsDisco = () => {
@@ -84,28 +108,39 @@ const AppUserModal = ({ setStep, step, setReload }) => {
     dispatch(
       CreatedDisco({
         name,
-        shortName,
+        shortName
       })
     );
-    setBusstate2(true)
+    setBusstate2(true);
   };
 
- 
+  const SendPassword = () => {
+    const { name, shortName } = disc;
+    dispatch(
+      CreatedDisco({
+        name,
+        shortName
+      })
+    );
+    setBusstate3(true);
+  };
 
   const handleCloseModal4 = () => {
     setStep(0);
     setRegbus({
-        name: "",
-        code: "",
-        ussd: "",
+      name: "",
+      code: "",
+      ussd: ""
     });
     setDisc({
-      name: '',
-      shortName: ''
-    })
-    setBusstate(false)
-    setBusstate2(false)
-    setReload(true)
+      name: "",
+      shortName: ""
+    });
+    setBusstate(false);
+    setBusstate2(false);
+    setBusstate3(false);
+    setReload(true);
+    setPassword("");
   };
 
   return (
@@ -401,6 +436,88 @@ const AppUserModal = ({ setStep, step, setReload }) => {
             }}
           >
             <span>You have successfully Added a new Disco</span>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "10px"
+            }}
+          >
+            <LargeSignInButton
+              title="Close"
+              onClick={() => handleCloseModal4()}
+              big
+              background
+              color
+            />
+          </div>
+        </div>
+      </AppModal>
+      <AppModal
+        step={7}
+        currentStep={step}
+        closeModal={handleCloseModal4}
+        // updateUserListData(update);
+        // window.location.reload()
+        wide
+        heading="Change Password"
+      >
+        <ModalInputText
+          label="Password"
+          onChange={(e) => ChangePass(e)}
+          name="password"
+          value={password}
+          placeholder={`${`Enter New Password`}`}
+        />
+        <LargeSignInButton
+          onClick={() => SendPassword()}
+          bigger
+          title={"Submit"}
+          background
+          color
+        />
+      </AppModal>
+      <AppModal
+        step={8}
+        currentStep={step}
+        closeModal={handleCloseModal4}
+        // updateUserListData(update);
+        // window.location.reload()
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "15px",
+            justifyContent: "center",
+            alignItems: "center"
+          }}
+        >
+          {/* <Success /> */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center"
+            }}
+          >
+            Password Changed
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "5px",
+              fontSize: "12px",
+              color: "#667085"
+            }}
+          >
+            <span>You have successfully Changed Password</span>
           </div>
           <div
             style={{

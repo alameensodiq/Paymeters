@@ -79,6 +79,7 @@ const Setting = ({ title }) => {
   console.log(forgot);
   return (
     <div className="flex flex-row">
+      <AppUserModal setStep={setStep} step={step} setReload={setReload} />
       <div className="w-[15%] h-[100%]">
         <Sidebar />
       </div>
@@ -87,12 +88,18 @@ const Setting = ({ title }) => {
           <Navbar title={title} />
         </div>
         <AppUserModal setStep={setStep} step={step} setReload={setReload} />
-        <div className="w-[100%] py-9 px-5 flex flex-col gap-10">
+        <div className="w-[100%] py-9 px-5 flex flex-row gap-10">
           <button
             onClick={() => SendForgot()}
             className="px-2 h-[35px] flex flex-row gap-1 items-center bg-route-color w-[20%] rounded-custom text-white font-semibold text-[11px] justify-center"
           >
             Forgot Password
+          </button>
+          <button
+            onClick={() => setStep(7)}
+            className="px-2 h-[35px] flex flex-row gap-1 items-center bg-route-color w-[20%] rounded-custom text-white font-semibold text-[11px] justify-center"
+          >
+            Change Password
           </button>
         </div>
       </div>

@@ -17,7 +17,8 @@ export default function AppModal({
   pdf,
   Unread,
   Archived,
-  mark
+  mark,
+  wide
 }) {
   return (
     <div
@@ -30,18 +31,26 @@ export default function AppModal({
       }}
     >
       <ModalLayout
+        wide={wide}
         headings={headings}
         maxWidth={maxWidth}
         closeModal={closeModal}
       >
-        <AppModalStyle>
+        <AppModalStyle wide={wide}>
           <div
             style={{
               display: "flex",
               justifyContent: "flex-end",
               alignItems: "center",
-              borderBottom: heading ? "1px solid #cacaca" : '',
-              padding: heading ? "0 50px" : confirm ? "0px" : "0px"
+              borderBottom: heading ? "1px solid #cacaca" : "",
+              padding:
+                heading && wide
+                  ? "0 40px"
+                  : heading
+                  ? "0 50px"
+                  : confirm
+                  ? "0px"
+                  : "0px"
             }}
           >
             <div className="head">
@@ -78,8 +87,8 @@ export default function AppModal({
               display: "flex",
               flexDirection: "column",
               gap: "12px",
-              alignItems:'center',
-              justifyContent:'center'
+              alignItems: "center",
+              justifyContent: "center"
             }}
           >
             {children}
@@ -97,8 +106,8 @@ const AppModalStyle = styled.div`
     flex-direction: row;
     padding-left: 35%;
     align-items: center;
-    justify-items:'flex-end';
-    gap: 160px;
+    justify-items: "flex-end";
+    gap: ${(props) => (props?.wide ? "140px" : "160px")};
     .heading {
       position: relative;
       width: fit-content;

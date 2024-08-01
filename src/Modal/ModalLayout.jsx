@@ -1,10 +1,17 @@
 import React from "react";
 import styled from "styled-components";
 
-export default function ModalLayout({ children, closeModal, maxWidth, headings }) {
+export default function ModalLayout({
+  children,
+  closeModal,
+  maxWidth,
+  headings,
+  wide
+}) {
   return (
     <ModalLayoutStyle headings={headings}>
       <ModalBody
+        wide={wide}
         style={{ maxWidth: maxWidth }}
         headings={headings}
         onClick={(e) => {
@@ -34,8 +41,9 @@ const ModalLayoutStyle = styled.div`
 
 const ModalBody = styled.div`
   background: white;
-  width: ${(props) => props?.headings ? '60%' : '70%'};
-  max-width: ${(props) => props?.headings ? '450px' : '548px'};
+  width: ${(props) => (props?.wide ? "79%" : props?.headings ? "65%" : "70%")};
+  max-width: ${(props) =>
+    props?.wide ? "580px" : props?.headings ? "450px" : "548px"};
   border-radius: 10px;
   margin-bottom: 70px;
 `;

@@ -10,6 +10,7 @@ import { DashboardSlice } from "./Reducers/Dashboard";
 import { PaymentSlice } from "./Reducers/Payments";
 import { ShiftSlice } from "./Reducers/Shift";
 import { ForgotSlice } from "./Reducers/ForgotPassword";
+import { ChangePasswordsSlice } from "./Reducers/ChangePassword";
 
 export default configureStore({
   reducer: {
@@ -23,6 +24,7 @@ export default configureStore({
     dashboard: DashboardSlice?.reducer,
     payment: PaymentSlice?.reducer,
     shift: ShiftSlice?.reducer,
-    forgot: ForgotSlice?.reducer
+    forgot: ForgotSlice?.reducer,
+    changepassword: ChangePasswordsSlice?.reducer
   }
 });
