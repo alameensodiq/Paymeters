@@ -9,6 +9,7 @@ import { DiscometerSlice } from "./Reducers/Discometer";
 import { DashboardSlice } from "./Reducers/Dashboard";
 import { PaymentSlice } from "./Reducers/Payments";
 import { ShiftSlice } from "./Reducers/Shift";
+import { ForgotSlice } from "./Reducers/ForgotPassword";
 
 export default configureStore({
   reducer: {
@@ -21,6 +22,7 @@ export default configureStore({
     discometer: DiscometerSlice?.reducer,
     dashboard: DashboardSlice?.reducer,
     payment: PaymentSlice?.reducer,
-    shift: ShiftSlice?.reducer
+    shift: ShiftSlice?.reducer,
+    forgot: ForgotSlice?.reducer
   }
 });

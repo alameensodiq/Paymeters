@@ -14,6 +14,7 @@ import { Banks } from "../Store/Apis/Banks";
 import { useDispatch, useSelector } from "react-redux";
 import AppUserModal from "../../Modal/AppUserModal";
 import Pagination from "../Reusables/Pagination";
+import { Forgot } from "../Store/Apis/ForgotPassword";
 
 const Setting = ({ title }) => {
   const [endDate, setEndDate] = useState(
@@ -32,26 +33,26 @@ const Setting = ({ title }) => {
 
   useEffect(() => {
     if (sessionStorage.getItem("token")) {
-    //   dispatch(Banks({ startDate, searcher, currentPage }));
+      // dispatch(Banks({ startDate, searcher, currentPage }));
       return;
     } else {
       navigate("/");
       toast.error("You aren't logged in");
     }
     if (reload) {
-    //   dispatch(Banks({ startDate, searcher, currentPage }));
+      //   dispatch(Banks({ startDate, searcher, currentPage }));
       setReload(false);
     }
 
     //eslint-disable-next-line
   }, [reload, searcher, currentPage, startDate]);
 
-//   const { banks, authenticatingbanks } = useSelector((state) => state?.banks);
-//   console.log(banks);
+  //   const { banks, authenticatingbanks } = useSelector((state) => state?.banks);
+  //   console.log(banks);
 
-//   const next = banks?.data?.meta?.next;
-//   const previous = banks?.data?.meta?.prev;
-//   const totalPosts = banks?.data?.meta?.totalCount;
+  //   const next = banks?.data?.meta?.next;
+  //   const previous = banks?.data?.meta?.prev;
+  //   const totalPosts = banks?.data?.meta?.totalCount;
 
   const paginate = (number) => {
     //  setSorted(tran)
@@ -68,21 +69,14 @@ const Setting = ({ title }) => {
     datePickerRef.current.setOpen(true);
   };
 
-  const Downloading = () => {
-    // const data = banks?.data?.data || [];
-    // const headers = data.length > 0 ? Object.keys(data[0]) : [];
-    // const objValues = data.map(item => Object.values(item).join(','));
-    // const csvContent = [headers.join(','), ...objValues].join('\n');
-    // const blob = new Blob([csvContent], { type: 'text/csv' });
-    // const url = URL.createObjectURL(blob);
-    // const a = document.createElement('a');
-    // a.href = url;
-    // a.download = 'Bank.csv';
-    // document.body.appendChild(a); // Required for Firefox
-    // a.click();
-    // document.body.removeChild(a); // Clean up
-    // URL.revokeObjectURL(url);
+  const SendForgot = () => {
+    dispatch(Forgot());
   };
+
+  const { forgot, authenticatingforgot } = useSelector(
+    (state) => state?.forgot
+  );
+  console.log(forgot);
   return (
     <div className="flex flex-row">
       <div className="w-[15%] h-[100%]">
@@ -94,7 +88,12 @@ const Setting = ({ title }) => {
         </div>
         <AppUserModal setStep={setStep} step={step} setReload={setReload} />
         <div className="w-[100%] py-9 px-5 flex flex-col gap-10">
-        
+          <button
+            onClick={() => SendForgot()}
+            className="px-2 h-[35px] flex flex-row gap-1 items-center bg-route-color w-[20%] rounded-custom text-white font-semibold text-[11px] justify-center"
+          >
+            Forgot Password
+          </button>
         </div>
       </div>
     </div>
