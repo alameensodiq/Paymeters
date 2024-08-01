@@ -71,13 +71,13 @@ const Investments = ({ title }) => {
   const Downloading = () => {
     const data = banks?.data?.data || [];
     const headers = data.length > 0 ? Object.keys(data[0]) : [];
-    const objValues = data.map(item => Object.values(item).join(','));
-    const csvContent = [headers.join(','), ...objValues].join('\n');
-    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const objValues = data.map((item) => Object.values(item).join(","));
+    const csvContent = [headers.join(","), ...objValues].join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
-    a.download = 'Bank.csv';
+    a.download = "Bank.csv";
     document.body.appendChild(a); // Required for Firefox
     a.click();
     document.body.removeChild(a); // Clean up
@@ -158,6 +158,7 @@ const Investments = ({ title }) => {
               <span className="text-route-noncolor text-[12px]">Filters</span>
             </div>
             <Tables investments data={banks?.data?.data} />
+            {/* {banks?.data?.data >= 1 ? ( */}
             <Pagination
               set={activater}
               currentPage={currentPage}
@@ -167,6 +168,9 @@ const Investments = ({ title }) => {
               previous={previous}
               next={next}
             />
+            {/* ) : (
+              ""
+            )} */}
           </div>
         </div>
       </div>

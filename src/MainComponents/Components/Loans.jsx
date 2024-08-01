@@ -33,14 +33,14 @@ const Loans = ({ title }) => {
 
   useEffect(() => {
     if (sessionStorage.getItem("token")) {
-      dispatch(Discos({startDate, searcher, currentPage}));
+      dispatch(Discos({ startDate, searcher, currentPage }));
       return;
     } else {
       navigate("/");
       toast.error("You aren't logged in");
     }
     if (reload) {
-      dispatch(Discos({startDate, searcher, currentPage}));
+      dispatch(Discos({ startDate, searcher, currentPage }));
       setReload(false);
     }
 
@@ -75,13 +75,13 @@ const Loans = ({ title }) => {
   const Downloading = () => {
     const data = discos?.data?.data || [];
     const headers = data.length > 0 ? Object.keys(data[0]) : [];
-    const objValues = data.map(item => Object.values(item).join(','));
-    const csvContent = [headers.join(','), ...objValues].join('\n');
-    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const objValues = data.map((item) => Object.values(item).join(","));
+    const csvContent = [headers.join(","), ...objValues].join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
-    a.download = 'Disco.csv';
+    a.download = "Disco.csv";
     document.body.appendChild(a); // Required for Firefox
     a.click();
     document.body.removeChild(a); // Clean up
@@ -148,7 +148,10 @@ const Loans = ({ title }) => {
               >
                 Add New Discos
               </button>
-              <button onClick={() => Downloading()} className="px-2 flex flex-row gap-1 items-center bg-route-color w-[12%] rounded-custom text-white font-semibold text-[11px]">
+              <button
+                onClick={() => Downloading()}
+                className="px-2 flex flex-row gap-1 items-center bg-route-color w-[12%] rounded-custom text-white font-semibold text-[11px]"
+              >
                 Download Report <Download />
               </button>
             </div>
@@ -158,6 +161,7 @@ const Loans = ({ title }) => {
               <span className="text-route-noncolor text-[12px]">Filters</span>
             </div>
             <Tables loans data={discos?.data?.data} />
+            {/* {discos?.data?.data >= 1 && ( */}
             <Pagination
               set={activater}
               currentPage={currentPage}
@@ -167,6 +171,7 @@ const Loans = ({ title }) => {
               previous={previous}
               next={next}
             />
+            {/* )} */}
           </div>
         </div>
       </div>

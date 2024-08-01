@@ -13,7 +13,7 @@ import { Transactions } from "../Store/Apis/Transactions";
 import toast from "react-hot-toast";
 import Pagination from "../Reusables/Pagination";
 
-const Transfers = ({title}) => {
+const Transfers = ({ title }) => {
   const [whitecrust, setWhitecrust] = useState(true);
   const [other, setOther] = useState(false);
   const [postsPerPage, setPostsPerPage] = useState(10);
@@ -50,7 +50,7 @@ const Transfers = ({title}) => {
 
   useEffect(() => {
     if (sessionStorage.getItem("token")) {
-      dispatch(Transactions({startDate, searcher, currentPage}))
+      dispatch(Transactions({ startDate, searcher, currentPage }));
       return;
     } else {
       navigate("/");
@@ -60,8 +60,10 @@ const Transfers = ({title}) => {
     //eslint-disable-next-line
   }, [startDate, searcher, currentPage]);
 
-  const {transactions, authenticatingtransactions} = useSelector((state) => state?.transactions)
-  console.log(transactions)
+  const { transactions, authenticatingtransactions } = useSelector(
+    (state) => state?.transactions
+  );
+  console.log(transactions);
 
   const next = transactions?.data?.meta?.next;
   const previous = transactions?.data?.meta?.prev;
@@ -73,17 +75,16 @@ const Transfers = ({title}) => {
     setActivater(number);
   };
 
-
   const Downloading = () => {
     const data = transactions?.data?.data || [];
     const headers = data.length > 0 ? Object.keys(data[0]) : [];
-    const objValues = data.map(item => Object.values(item).join(','));
-    const csvContent = [headers.join(','), ...objValues].join('\n');
-    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const objValues = data.map((item) => Object.values(item).join(","));
+    const csvContent = [headers.join(","), ...objValues].join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
-    a.download = 'Institution.csv';
+    a.download = "Institution.csv";
     document.body.appendChild(a); // Required for Firefox
     a.click();
     document.body.removeChild(a); // Clean up
@@ -180,12 +181,16 @@ const Transfers = ({title}) => {
                   className="border-input-color border-[1px] rounded-custom  w-[117px] h-[36px] outline-none px-[10px] text-[11px]"
                   placeholder="Search by name, customerID, account number, transaction reference"
                 /> */}
-                <button onClick={() => Downloading()} className="px-2 h-[35px] flex flex-row gap-1 items-center bg-route-color w-[100%] rounded-custom text-white font-semibold text-[11px]">
+                <button
+                  onClick={() => Downloading()}
+                  className="px-2 h-[35px] flex flex-row gap-1 items-center bg-route-color w-[100%] rounded-custom text-white font-semibold text-[11px]"
+                >
                   Download Report <Download />
                 </button>
               </div>
             </div>
             <Tables transfers data={transactions?.data?.data} />
+            {/* {transactions?.data?.data >= 1 && ( */}
             <Pagination
               set={activater}
               currentPage={currentPage}
@@ -195,6 +200,7 @@ const Transfers = ({title}) => {
               previous={previous}
               next={next}
             />
+            {/* )} */}
           </div>
         </div>
       </div>
