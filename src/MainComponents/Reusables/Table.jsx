@@ -1016,9 +1016,9 @@ const Tables = ({
                       {item?.customerName}
                     </StyledTableCell>
                     <StyledTableCell style={{ width: "10%" }}>
-                      <Moment format="DD-MM-YYYY">
-                        {item?.paymentDate ? item?.paymentDate : 0}
-                      </Moment>
+                      {/* <Moment format="DD-MM-YYYY"> */}
+                      {item?.paymentDate ? item?.paymentDate : 0}
+                      {/* </Moment> */}
                     </StyledTableCell>
                     <StyledTableCell style={{ width: "10%" }}>
                       {item?.meterSerial}
@@ -1071,9 +1071,9 @@ const Tables = ({
                   <StyledTableCell style={{ width: "10%" }}>
                     CUSTOMER. NAME
                   </StyledTableCell>
-                  <StyledTableCell style={{ width: "8%" }}>
+                  {/* <StyledTableCell style={{ width: "8%" }}>
                     DATE
-                  </StyledTableCell>
+                  </StyledTableCell> */}
                   <StyledTableCell style={{ width: "9%" }}>
                     METER SERIAL
                   </StyledTableCell>
@@ -1112,9 +1112,9 @@ const Tables = ({
                     <StyledTableCell style={{ width: "10%" }}>
                       {item?.customerName}
                     </StyledTableCell>
-                    <StyledTableCell style={{ width: "10%" }}>
+                    {/* <StyledTableCell style={{ width: "10%" }}>
                       {item?.account?.disco?.name}
-                    </StyledTableCell>
+                    </StyledTableCell> */}
                     <StyledTableCell style={{ width: "10%" }}>
                       {item?.meterSerial}
                     </StyledTableCell>
