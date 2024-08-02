@@ -38,6 +38,7 @@ const PaymentShift = ({ title }) => {
     setWhitecrust(false);
     setOther(true);
     setSearcher("");
+    setStartDater("");
   };
 
   // const [endDate, setEndDate] = useState(
