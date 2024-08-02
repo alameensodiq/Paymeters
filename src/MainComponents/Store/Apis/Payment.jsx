@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 
 export const Payment = createAsyncThunk(
   "payment",
-  async ({ customerReference, currentPage }, thunkAPI) => {
+  async ({ customerReference, dateFrom, dateTo }, thunkAPI) => {
     console.log(process.env.REACT_APP_BASE_URL);
     const accessToken = sessionStorage.getItem("token");
 
@@ -18,7 +18,9 @@ export const Payment = createAsyncThunk(
             Authorization: `Bearer ${accessToken}`
           },
           body: JSON.stringify({
-            customerReference
+            customerReference,
+            dateFrom,
+            dateTo
           })
         }
       );

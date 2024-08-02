@@ -23,6 +23,8 @@ const PaymentShift = ({ title }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [searcher, setSearcher] = useState("");
   const [startDate, setStartDate] = useState(new Date("2022-01-01"));
+  const [startDater, setStartDater] = useState(new Date("2022-01-01"));
+  const [endDate, setEndDate] = useState(new Date("2022-01-01"));
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -38,23 +40,29 @@ const PaymentShift = ({ title }) => {
     setSearcher("");
   };
 
-  const [endDate, setEndDate] = useState(
-    new Date(Date.now() + 3600 * 1000 * 24)
-  );
-  const datePickerRef = useRef(null);
+  // const [endDate, setEndDate] = useState(
+  //   new Date(Date.now() + 3600 * 1000 * 24)
+  // );
+  // const datePickerRef = useRef(null);
 
-  const dateChanger = (date) => {
-    console.log(date);
-    setEndDate(date);
-  };
+  // const dateChanger = (date) => {
+  //   console.log(date);
+  //   setEndDate(date);
+  // };
 
-  const PickDate = () => {
-    datePickerRef.current.setOpen(true);
-  };
+  // const PickDate = () => {
+  //   datePickerRef.current.setOpen(true);
+  // };
 
   useEffect(() => {
     if (sessionStorage.getItem("token")) {
-      dispatch(Payment({ customerReference: searcher, currentPage }));
+      dispatch(
+        Payment({
+          customerReference: searcher,
+          dateFrom: startDater,
+          dateTo: endDate
+        })
+      );
       dispatch(Shift({ date: startDate, currentPage }));
       return;
     } else {
@@ -63,7 +71,7 @@ const PaymentShift = ({ title }) => {
     }
 
     //eslint-disable-next-line
-  }, [startDate, searcher, currentPage]);
+  }, [startDate, searcher, currentPage, startDater, endDate]);
 
   const { payment, authenticatingpayment } = useSelector(
     (state) => state?.payment
@@ -115,6 +123,15 @@ const PaymentShift = ({ title }) => {
     URL.revokeObjectURL(url);
   };
 
+  const handleStartDateChange = (e) => {
+    const selectedStartDate = e.target.value;
+    setStartDater(selectedStartDate);
+    // Calculate endDate as startDate + 30 days
+    const newEndDate = new Date(selectedStartDate);
+    newEndDate.setDate(newEndDate.getDate() + 30);
+    setEndDate(newEndDate.toISOString().split("T")[0]); // Format as YYYY-MM-DD
+  };
+
   return (
     <div className="flex flex-row">
       <div className="w-[15%] h-[100%]">
@@ -126,25 +143,58 @@ const PaymentShift = ({ title }) => {
         </div>
         <div className="w-[100%] py-9 px-5 flex flex-col gap-10">
           {whitecrust ? (
-            <div className="flex flex-row justify-between">
-              <span className="text-route-name text-[28px] font-semibold">
-                Meter Transactions
-              </span>
-              <div className="relative flex flex-row w-[50%]">
-                <div className="absolute top-3 left-4">
-                  <Search />
+            <>
+              <div className="flex flex-row justify-between">
+                <span className="text-route-name text-[28px] font-semibold">
+                  Meter Transactions
+                </span>
+                <div className="relative flex flex-row w-[50%]">
+                  <div className="absolute top-3 left-4">
+                    <Search />
+                  </div>
+                  <input
+                    className="border-input-color border-[1px] rounded-tl-custom rounded-bl-custom w-[85%] outline-none pl-[60px] text-[13px]"
+                    placeholder="Search by Customer reference"
+                    value={searcher}
+                    onChange={(e) => setSearcher(e.target.value)}
+                  />
+                  <button className="bg-route-color w-[15%] rounded-tr-custom rounded-br-custom text-white font-semibold text-[12px]">
+                    Search
+                  </button>
                 </div>
-                <input
-                  className="border-input-color border-[1px] rounded-tl-custom rounded-bl-custom w-[85%] outline-none pl-[60px] text-[13px]"
-                  placeholder="Search by Customer reference"
-                  value={searcher}
-                  onChange={(e) => setSearcher(e.target.value)}
-                />
-                <button className="bg-route-color w-[15%] rounded-tr-custom rounded-br-custom text-white font-semibold text-[12px]">
-                  Search
-                </button>
               </div>
-            </div>
+              <div className="flex h-[40px] gap-[10px] flex-row justify-end w-[100%]">
+                {/* <div className="absolute top-3 left-4">
+                  <Search />
+                </div> */}
+                <div className="flex flex-col w-[15%] h-[70px]">
+                  <span>Start Date</span>
+                  <input
+                    className="border-input-color border-[1px] rounded-tr-custom rounded-tl-custom rounded-bl-custom rounded-br-custom w-[100%] outline-none pl-[20px] h-[40px] text-[13px]"
+                    placeholder="Search by name, customerID, account number, transaction reference"
+                    value={startDater}
+                    type="date"
+                    format="YYYY-MM-DD"
+                    onChange={handleStartDateChange}
+                  />
+                </div>
+                <div className="flex flex-col w-[15%] h-[70px]">
+                  <span>End Date</span>
+                  <input
+                    className="border-input-color border-[1px] rounded-tr-custom rounded-tl-custom rounded-bl-custom rounded-br-custom w-[100%] outline-none pl-[20px] h-[40px] text-[13px]"
+                    placeholder="Search by name, customerID, account number, transaction reference"
+                    value={setEndDate}
+                    type="date"
+                    format="YYYY-MM-DD"
+                    disabled
+                    onChange={handleStartDateChange}
+                  />
+                </div>
+                {/* <button className="bg-route-color w-[15%] rounded-tr-custom rounded-br-custom text-white font-semibold text-[12px]">
+                  Search
+                </button> */}
+              </div>
+            </>
           ) : other ? (
             <div className="flex flex-row justify-between">
               <span className="text-route-name text-[28px] font-semibold">
