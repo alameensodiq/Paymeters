@@ -23,7 +23,7 @@ export const Discos = createAsyncThunk(
         }
       );
       let data = await response.json();
-      toast.success(data.message);
+      // toast.success(data.message);
       console.log(data);
       //   sessionStorage.setItem('firstName', data?.data?.user?.firstName);
       //   sessionStorage.setItem('role', data?.data?.user?.userRole);

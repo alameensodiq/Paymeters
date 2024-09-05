@@ -23,7 +23,7 @@ export const Transactions = createAsyncThunk(
         }
       );
       let data = await response.json();
-      toast.success(data.message);
+      // toast.success(data.message);
       console.log(data);
       return data;
     } catch (e) {
