@@ -11,6 +11,8 @@ import { PaymentSlice } from "./Reducers/Payments";
 import { ShiftSlice } from "./Reducers/Shift";
 import { ForgotSlice } from "./Reducers/ForgotPassword";
 import { ChangePasswordsSlice } from "./Reducers/ChangePassword";
+import { ApiAgentRoleSlice } from "./Reducers/ApiagentRole";
+import { CreatePartnerSlice } from "./Reducers/CreatePartner";
 
 export default configureStore({
   reducer: {
@@ -25,6 +27,8 @@ export default configureStore({
     payment: PaymentSlice?.reducer,
     shift: ShiftSlice?.reducer,
     forgot: ForgotSlice?.reducer,
-    changepassword: ChangePasswordsSlice?.reducer
+    changepassword: ChangePasswordsSlice?.reducer,
+    apiagentrole: ApiAgentRoleSlice?.reducer,
+    createpartner: CreatePartnerSlice?.reducer
   }
 });

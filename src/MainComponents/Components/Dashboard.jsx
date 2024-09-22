@@ -126,11 +126,12 @@ const Dashboard = ({ title }) => {
             >
               <div className="w-[77%] flex flex-col gap-2 mt-10 pl-5">
                 <span className="text-card-title text-[14px]">
-                  Daily Revenue
+                  Total Agents
                 </span>
                 <span className="text-color-user text-[20px] font-bold flex flex-wrap">
                   {/* ₦1 */}
-                  {dashboard?.data?.totalRevenue?.daily?.NGN}
+                  ---
+                  {/* {dashboard?.data?.totalRevenue?.daily?.NGN} */}
                 </span>
                 <div className="flex flex-row gap-1 text-[10px]">
                   <span>
@@ -150,10 +151,11 @@ const Dashboard = ({ title }) => {
             >
               <div className="w-[77%] flex flex-col gap-2 mt-10 pl-5">
                 <span className="text-card-title text-[14px]">
-                  Monthly Revenue
+                  Total Api-Partner
                 </span>
                 <span className="text-color-user text-[20px] font-bold flex flex-wrap">
-                  {dashboard?.data?.totalRevenue?.monthly?.NGN}
+                  ----
+                  {/* {dashboard?.data?.totalRevenue?.monthly?.NGN} */}
                 </span>
                 <div className="flex flex-row gap-1 text-[10px]">
                   <span>

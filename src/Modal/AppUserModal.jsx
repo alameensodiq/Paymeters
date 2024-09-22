@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { CreateBank } from "../MainComponents/Store/Apis/CreateBank";
 import { CreatedDisco } from "../MainComponents/Store/Apis/CreatedDisco";
 import { ChangePasswords } from "../MainComponents/Store/Apis/Change";
+import { CreatePartner } from "../MainComponents/Store/Apis/CreatePartner";
 
 const AppUserModal = ({ setStep, step, setReload }) => {
   const dispatch = useDispatch();
@@ -18,6 +19,15 @@ const AppUserModal = ({ setStep, step, setReload }) => {
   const [bustate, setBusstate] = useState(false);
   const [bustate2, setBusstate2] = useState(false);
   const [bustate3, setBusstate3] = useState(false);
+  const [bustate4, setBusstate4] = useState(false);
+  const [partner, setPartner] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+    password: "",
+    password_confirmation: ""
+  });
   const [regbus, setRegbus] = useState({
     name: "",
     code: "",
@@ -45,6 +55,11 @@ const AppUserModal = ({ setStep, step, setReload }) => {
   );
   console.log(changepassword);
 
+  const { createpartner, authenticatingcreatepartner } = useSelector(
+    (state) => state?.createpartner
+  );
+  console.log(createpartner);
+
   useEffect(() => {
     if (bustate && createdbank?.status) {
       setStep(3);
@@ -55,6 +70,9 @@ const AppUserModal = ({ setStep, step, setReload }) => {
     if (bustate3 && changepassword?.status) {
       setStep(8);
     }
+    if (bustate4 && createpartner?.status) {
+      setStep(10);
+    }
 
     console.log(update);
   }, [
@@ -64,7 +82,9 @@ const AppUserModal = ({ setStep, step, setReload }) => {
     createdbank?.status,
     createdisc?.status,
     bustate3,
-    changepassword?.status
+    changepassword?.status,
+    createpartner?.status,
+    bustate4
   ]);
 
   const Change = (e) => {
@@ -72,6 +92,15 @@ const AppUserModal = ({ setStep, step, setReload }) => {
     console.log(value);
     setRegbus({
       ...regbus,
+      [name]: value
+    });
+  };
+
+  const ChangePartner = (e) => {
+    const { name, value } = e.target;
+    console.log(value);
+    setPartner({
+      ...partner,
       [name]: value
     });
   };
@@ -125,12 +154,36 @@ const AppUserModal = ({ setStep, step, setReload }) => {
     setBusstate3(true);
   };
 
+  const SendPartner = () => {
+    const { name, email, phone, address, password, password_confirmation } =
+      partner;
+    dispatch(
+      CreatePartner({
+        name,
+        email,
+        phone,
+        address,
+        password,
+        password_confirmation
+      })
+    );
+    setBusstate4(true);
+  };
+
   const handleCloseModal4 = () => {
     setStep(0);
     setRegbus({
       name: "",
       code: "",
       ussd: ""
+    });
+    setPartner({
+      name: "",
+      email: "",
+      phone: "",
+      address: "",
+      password: "",
+      password_confirmation: ""
     });
     setDisc({
       name: "",
@@ -141,6 +194,34 @@ const AppUserModal = ({ setStep, step, setReload }) => {
     setBusstate3(false);
     setReload(true);
     setPassword("");
+  };
+
+  const handleSubmit = () => {
+    // Destructure partner object
+    const { name, email, phone, address, password, password_confirmation } =
+      partner;
+    if (
+      !name ||
+      !email ||
+      !phone ||
+      !address ||
+      !password ||
+      !password_confirmation
+    ) {
+      toast.error("Input all variables");
+      return;
+    }
+    if (!email.includes("@")) {
+      toast.error("Add @ to your email input");
+      return;
+    }
+    if (password !== password_confirmation) {
+      toast.error("Password and Confirm Password must be the same");
+      return;
+    }
+
+    // Proceed to next step if all validations pass
+    setStep(10);
   };
 
   return (
@@ -532,6 +613,128 @@ const AppUserModal = ({ setStep, step, setReload }) => {
               title="Close"
               onClick={() => handleCloseModal4()}
               big
+              background
+              color
+            />
+          </div>
+        </div>
+      </AppModal>
+      <AppModal
+        step={9}
+        currentStep={step}
+        closeModal={handleCloseModal4}
+        // updateUserListData(update);
+        // window.location.reload()
+
+        heading="Add Partner"
+      >
+        <ModalInputText
+          label="Name"
+          onChange={(e) => ChangePartner(e)}
+          name="name"
+          value={partner?.name}
+          placeholder={`${`Enter Partner Name`}`}
+        />
+        <ModalInputText
+          label="Email"
+          onChange={(e) => ChangePartner(e)}
+          name="email"
+          value={partner?.email}
+          placeholder={`${`Enter Email Address`}`}
+        />
+        <ModalInputText
+          label="Phone Number"
+          onChange={(e) => ChangePartner(e)}
+          name="phone"
+          value={partner?.phone}
+          placeholder={`${`Enter Phone Number`}`}
+        />
+        <ModalInputText
+          label="Address"
+          onChange={(e) => ChangePartner(e)}
+          name="address"
+          value={partner?.address}
+          placeholder={`${`Enter Address`}`}
+        />
+        <ModalInputText
+          label="Password"
+          onChange={(e) => ChangePartner(e)}
+          name="password"
+          value={partner?.password}
+          placeholder={`${`Enter Password`}`}
+        />
+        <ModalInputText
+          label="Confirm Password"
+          onChange={(e) => ChangePartner(e)}
+          name="password_confirmation"
+          value={partner?.password_confirmation}
+          placeholder={`${`Confirm Passowrd`}`}
+        />
+        <LargeSignInButton
+          onClick={() => handleSubmit()}
+          bigger
+          title={"Submit"}
+          background
+          color
+        />
+      </AppModal>
+      <AppModal
+        step={10}
+        currentStep={step}
+        closeModal={handleCloseModal4}
+        // updateUserListData(update);
+        // window.location.reload()
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "15px",
+            justifyContent: "center",
+            alignItems: "center"
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center"
+            }}
+          >
+            Confirm Changes
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "5px",
+              fontSize: "12px",
+              color: "#667085"
+            }}
+          >
+            <span>You are about to add a Partner, Are you sure the</span>
+            <span>details are accurate?</span>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "10px"
+            }}
+          >
+            <LargeSignInButton
+              title="Cancel"
+              large
+              onClick={() => setStep(0)}
+            />
+            <LargeSignInButton
+              title="Confirm"
+              onClick={() => SendPartner()}
+              large
               background
               color
             />

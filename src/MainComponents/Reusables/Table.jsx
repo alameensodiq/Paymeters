@@ -303,7 +303,7 @@ const Tables = ({
           >
             <TableHead>
               <TableRow style={{ paddingRight: "0px" }}>
-                <StyledTableCell style={{ width: "20%" }}>S/N</StyledTableCell>
+                <StyledTableCell style={{ width: "10%" }}>S/N</StyledTableCell>
                 <StyledTableCell style={{ width: "20%" }}>
                   INSTITUTION NAME
                 </StyledTableCell>
@@ -316,6 +316,9 @@ const Tables = ({
                 <StyledTableCell style={{ width: "20%" }}>
                   AMOUNT RECEIVED
                 </StyledTableCell>
+                <StyledTableCell style={{ width: "10%", textAlign: "center" }}>
+                  STATUS
+                </StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -323,7 +326,7 @@ const Tables = ({
                 <StyledTableRow>
                   <StyledTableCell
                     className="text-dob"
-                    style={{ width: "20%" }}
+                    style={{ width: "10%" }}
                   >
                     {index + 1}
                   </StyledTableCell>
@@ -338,6 +341,14 @@ const Tables = ({
                   </StyledTableCell>
                   <StyledTableCell style={{ width: "20%" }}>
                     200,000
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "10%" }}>
+                    <button
+                      // onClick={() => navigate(`/discos/${item?.id}`)}
+                      className="h-[30px] w-[100%] border border-none text-button-bg font-semibold text-[9px]"
+                    >
+                      View
+                    </button>
                   </StyledTableCell>
                 </StyledTableRow>
               ))}
@@ -845,25 +856,32 @@ const Tables = ({
               </TableRow>
             </TableHead>
             <TableBody>
-              <StyledTableRow>
-                <StyledTableCell className="text-dob" style={{ width: "10%" }}>
-                  1
-                </StyledTableCell>
-                <StyledTableCell style={{ width: "20%" }}>
-                  WARITH RASAK
-                </StyledTableCell>
-                <StyledTableCell style={{ width: "15%" }}>20</StyledTableCell>
-                <StyledTableCell style={{ width: "10%" }}>
-                  IBEDC
-                </StyledTableCell>
-                <StyledTableCell style={{ width: "10%" }}>20%</StyledTableCell>
-                <StyledTableCell style={{ width: "15%" }}>
-                  12/04/1975
-                </StyledTableCell>
-                <StyledTableCell style={{ width: "20%" }}>
-                  200,000
-                </StyledTableCell>
-              </StyledTableRow>
+              {data?.map((item) => (
+                <StyledTableRow>
+                  <StyledTableCell
+                    className="text-dob"
+                    style={{ width: "10%" }}
+                  >
+                    1
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "20%" }}>
+                    WARITH RASAK
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "15%" }}>20</StyledTableCell>
+                  <StyledTableCell style={{ width: "10%" }}>
+                    IBEDC
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "10%" }}>
+                    20%
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "15%" }}>
+                    12/04/1975
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "20%" }}>
+                    200,000
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
             </TableBody>
           </Table>
         </TableContainer>
@@ -900,25 +918,32 @@ const Tables = ({
               </TableRow>
             </TableHead>
             <TableBody>
-              <StyledTableRow>
-                <StyledTableCell className="text-dob" style={{ width: "10%" }}>
-                  1
-                </StyledTableCell>
-                <StyledTableCell style={{ width: "20%" }}>
-                  WARITH RASAK
-                </StyledTableCell>
-                <StyledTableCell style={{ width: "15%" }}>20</StyledTableCell>
-                <StyledTableCell style={{ width: "10%" }}>
-                  IBEDC
-                </StyledTableCell>
-                <StyledTableCell style={{ width: "10%" }}>20%</StyledTableCell>
-                <StyledTableCell style={{ width: "15%" }}>
-                  12/04/1975
-                </StyledTableCell>
-                <StyledTableCell style={{ width: "20%" }}>
-                  200,000
-                </StyledTableCell>
-              </StyledTableRow>
+              {data?.map((item) => (
+                <StyledTableRow>
+                  <StyledTableCell
+                    className="text-dob"
+                    style={{ width: "10%" }}
+                  >
+                    1
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "20%" }}>
+                    WARITH RASAK
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "15%" }}>20</StyledTableCell>
+                  <StyledTableCell style={{ width: "10%" }}>
+                    IBEDC
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "10%" }}>
+                    20%
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "15%" }}>
+                    12/04/1975
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "20%" }}>
+                    200,000
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
             </TableBody>
           </Table>
         </TableContainer>

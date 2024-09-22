@@ -14,6 +14,7 @@ import { Banks } from "../Store/Apis/Banks";
 import { useDispatch, useSelector } from "react-redux";
 import AppUserModal from "../../Modal/AppUserModal";
 import Pagination from "../Reusables/Pagination";
+import { ApiAgentRole } from "../Store/Apis/ApiAgentRoles";
 
 const Agents = ({ title }) => {
   const [endDate, setEndDate] = useState(
@@ -26,32 +27,35 @@ const Agents = ({ title }) => {
   const [activater, setActivater] = useState(1);
   const [currentPage, setCurrentPage] = useState(0);
   const [searcher, setSearcher] = useState("");
+  const [role, setRole] = useState("AGENT");
   const [startDate, setStartDate] = useState(new Date("2022-01-01"));
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (sessionStorage.getItem("token")) {
-    //   dispatch(Banks({ startDate, searcher, currentPage }));
+      dispatch(ApiAgentRole({ role }));
       return;
     } else {
       navigate("/");
       toast.error("You aren't logged in");
     }
     if (reload) {
-    //   dispatch(Banks({ startDate, searcher, currentPage }));
+      dispatch(ApiAgentRole({ role }));
       setReload(false);
     }
 
     //eslint-disable-next-line
-  }, [reload, searcher, currentPage, startDate]);
+  }, [reload]);
 
-//   const { banks, authenticatingbanks } = useSelector((state) => state?.banks);
-//   console.log(banks);
+  const { apiagentrole, authenticatingapiagentrole } = useSelector(
+    (state) => state?.apiagentrole
+  );
+  console.log(apiagentrole);
 
-//   const next = banks?.data?.meta?.next;
-//   const previous = banks?.data?.meta?.prev;
-//   const totalPosts = banks?.data?.meta?.totalCount;
+  const next = apiagentrole?.data?.meta?.next;
+  const previous = apiagentrole?.data?.meta?.prev;
+  const totalPosts = apiagentrole?.data?.meta?.totalCount;
 
   const paginate = (number) => {
     //  setSorted(tran)
@@ -139,15 +143,15 @@ const Agents = ({ title }) => {
                 />
                 <Calendar className="text-[10px]" onClick={() => PickDate()} />
               </div> */}
-              <button
+              {/* <button
                 // onClick={() => setStep(1)}
                 className="px-2 h-[35px] flex flex-row gap-1 items-center bg-route-color w-[10%] rounded-custom text-white font-semibold text-[11px]"
               >
                 Add Agents
-              </button>
+              </button> */}
               <button
                 onClick={() => Downloading()}
-                className="px-2 flex flex-row gap-1 items-center bg-route-color w-[12%] rounded-custom text-white font-semibold text-[11px]"
+                className="px-2 h-[35px] flex flex-row gap-1 items-center bg-route-color w-[12%] rounded-custom text-white font-semibold text-[11px]"
               >
                 Download Report <Download />
               </button>
@@ -157,16 +161,18 @@ const Agents = ({ title }) => {
               <Filter />
               <span className="text-route-noncolor text-[12px]">Filters</span>
             </div>
-            <Tables agents  />
-            {/* <Pagination
-              set={activater}
-              currentPage={currentPage}
-              postsPerPage={postsPerPage}
-              totalPosts={totalPosts}
-              paginate={paginate}
-              previous={previous}
-              next={next}
-            /> */}
+            <Tables agents data={apiagentrole?.data?.data} />
+            {apiagentrole?.data?.data?.length >= 1 && (
+              <Pagination
+                set={activater}
+                currentPage={currentPage}
+                postsPerPage={postsPerPage}
+                totalPosts={totalPosts}
+                paginate={paginate}
+                previous={previous}
+                next={next}
+              />
+            )}
           </div>
         </div>
       </div>

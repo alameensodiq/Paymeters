@@ -1,26 +1,23 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import toast from "react-hot-toast";
 
-export const Logins = createAsyncThunk(
-  "login",
-  async ({ phone, password }, thunkAPI) => {
+export const ApiAgentRole = createAsyncThunk(
+  "apiagent",
+  async ({ role }, thunkAPI) => {
     console.log(process.env.REACT_APP_BASE_URL);
+
+    const accessToken = sessionStorage.getItem("token");
 
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BASE_URL}auth/login`,
+        `${process.env.REACT_APP_BASE_URL}admin/byrole?roleName=${role}`,
         {
-          method: "POST",
+          method: "GET",
           headers: {
             Accept: "application/json",
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            // phone,
-            // password
-            phone: "2347012345678",
-            password: "@#pay!meter&*0@"
-          })
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`
+          }
         }
       );
       let data = await response.json();
@@ -28,7 +25,7 @@ export const Logins = createAsyncThunk(
       console.log(data);
       //   sessionStorage.setItem('firstName', data?.data?.user?.firstName);
       //   sessionStorage.setItem('role', data?.data?.user?.userRole);
-      sessionStorage.setItem("token", data?.data?.token);
+      // sessionStorage.setItem('token', data?.data?.token );
       return data;
     } catch (e) {
       return thunkAPI.rejectWithValue({
