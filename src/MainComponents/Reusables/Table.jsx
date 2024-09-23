@@ -23,7 +23,9 @@ const Tables = ({
   agents,
   apipartners,
   payment,
-  shift
+  shift,
+  setting,
+  setStep
 }) => {
   const navigate = useNavigate();
   console.log(data);
@@ -1145,6 +1147,98 @@ const Tables = ({
                     </StyledTableCell>
                   </StyledTableRow>
                 ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </ScrollableXContainer>
+      ) : setting ? (
+        <ScrollableXContainer>
+          <TableContainer
+            // component={Paper}
+            sx={{ maxHeight: "60vh" }}
+            style={{ boxShadow: "none" }}
+          >
+            <Table
+              stickyHeader
+              sx={{ minWidth: 1300, tableLayout: "auto" }}
+              aria-label="customized table"
+            >
+              <TableHead>
+                <TableRow style={{ paddingRight: "0px" }}>
+                  <StyledTableCell style={{ width: "20%" }}>
+                    S/N
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "20%" }}>
+                    DISCOS
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "20%" }}>
+                    USER TYPE
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "20%" }}>
+                    COMMISSION
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "20%" }}>
+                    COMMISSION TYPE
+                  </StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <StyledTableRow>
+                  <StyledTableCell style={{ width: "20%" }}>1</StyledTableCell>
+                  <StyledTableCell style={{ width: "20%" }}>
+                    EKO
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "20%" }}>
+                    AGENT
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "20%" }}>
+                    2500
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "20%" }}>
+                    FIXED
+                  </StyledTableCell>
+                </StyledTableRow>
+                <StyledTableRow>
+                  <StyledTableCell style={{ width: "20%" }}>2</StyledTableCell>
+                  <StyledTableCell style={{ width: "20%" }}>
+                    EKO
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "20%" }}>
+                    API PARTNER
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "20%" }}>2%</StyledTableCell>
+                  <StyledTableCell style={{ width: "20%" }}>
+                    PERCENTAGE
+                  </StyledTableCell>
+                </StyledTableRow>
+                <StyledTableRow>
+                  <StyledTableCell style={{ width: "20%" }}>3</StyledTableCell>
+                  <StyledTableCell style={{ width: "20%" }}>
+                    IKEJA
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "20%" }}>
+                    AGENT
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "20%" }}>
+                    2500
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "20%" }}>
+                    FIXED
+                  </StyledTableCell>
+                </StyledTableRow>
+                <StyledTableRow>
+                  <StyledTableCell style={{ width: "20%" }}>4</StyledTableCell>
+                  <StyledTableCell style={{ width: "20%" }}>
+                    IKEJA
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "20%" }}>
+                    API PARTNER
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "20%" }}>2%</StyledTableCell>
+                  <StyledTableCell style={{ width: "20%" }}>
+                    PERCENTAGE
+                  </StyledTableCell>
+                </StyledTableRow>
               </TableBody>
             </Table>
           </TableContainer>

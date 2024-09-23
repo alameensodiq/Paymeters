@@ -10,6 +10,8 @@ import { CreateBank } from "../MainComponents/Store/Apis/CreateBank";
 import { CreatedDisco } from "../MainComponents/Store/Apis/CreatedDisco";
 import { ChangePasswords } from "../MainComponents/Store/Apis/Change";
 import { CreatePartner } from "../MainComponents/Store/Apis/CreatePartner";
+import ModalInputSelect from "../bits/ModalInputSelect";
+import ModalInputSelectTwo from "../bits/ModalInputSelectTwo";
 
 const AppUserModal = ({ setStep, step, setReload }) => {
   const dispatch = useDispatch();
@@ -20,6 +22,7 @@ const AppUserModal = ({ setStep, step, setReload }) => {
   const [bustate2, setBusstate2] = useState(false);
   const [bustate3, setBusstate3] = useState(false);
   const [bustate4, setBusstate4] = useState(false);
+  const [itemers, setItemer] = useState("");
   const [partner, setPartner] = useState({
     name: "",
     email: "",
@@ -740,6 +743,198 @@ const AppUserModal = ({ setStep, step, setReload }) => {
             />
           </div>
         </div>
+      </AppModal>
+      <AppModal
+        step={11}
+        currentStep={step}
+        closeModal={handleCloseModal4}
+        // updateUserListData(update);
+        // window.location.reload()
+
+        heading="COMMISSION"
+      >
+        <ModalInputSelect
+          label="User Type"
+          options={["Agent", "Api-Partner"]}
+        />
+        <ModalInputSelectTwo
+          label="Commission Type"
+          options={["Fixed", "Percentage"]}
+          itemer={itemers}
+          big
+          setItemer={setItemer}
+        />
+        {itemers === "Fixed" ? (
+          <ModalInputText
+            label="Fixed"
+            // onChange={(e) => ChangePartner(e)}
+            name=""
+            // value={partner?.email}
+            placeholder={`${`Enter Fixed Commission`}`}
+          />
+        ) : itemers === "Percentage" ? (
+          <ModalInputText
+            label="Percentage"
+            // onChange={(e) => ChangePartner(e)}
+            name=""
+            // value={partner?.email}
+            placeholder={`${`Enter Percentage Commission`}`}
+          />
+        ) : (
+          ""
+        )}
+        {/* <ModalInputText
+          label="Name"
+          onChange={(e) => ChangePartner(e)}
+          name="name"
+          value={partner?.name}
+          placeholder={`${`Enter Partner Name`}`}
+        />
+        <ModalInputText
+          label="Email"
+          onChange={(e) => ChangePartner(e)}
+          name="email"
+          value={partner?.email}
+          placeholder={`${`Enter Email Address`}`}
+        />
+        <ModalInputText
+          label="Phone Number"
+          onChange={(e) => ChangePartner(e)}
+          name="phone"
+          value={partner?.phone}
+          placeholder={`${`Enter Phone Number`}`}
+        />
+        <ModalInputText
+          label="Address"
+          onChange={(e) => ChangePartner(e)}
+          name="address"
+          value={partner?.address}
+          placeholder={`${`Enter Address`}`}
+        />
+        <ModalInputText
+          label="Password"
+          onChange={(e) => ChangePartner(e)}
+          name="password"
+          value={partner?.password}
+          placeholder={`${`Enter Password`}`}
+        />
+        <ModalInputText
+          label="Confirm Password"
+          onChange={(e) => ChangePartner(e)}
+          name="password_confirmation"
+          value={partner?.password_confirmation}
+          placeholder={`${`Confirm Passowrd`}`}
+        /> */}
+        <LargeSignInButton
+          // onClick={() => handleSubmit()}
+          bigger
+          title={"Submit"}
+          background
+          color
+        />
+      </AppModal>
+      <AppModal
+        step={12}
+        currentStep={step}
+        closeModal={handleCloseModal4}
+        // updateUserListData(update);
+        // window.location.reload()
+
+        heading="COMMISSION"
+      >
+        <ModalInputSelect label="Disco" options={["Eko", "Ikeja"]} />
+        <ModalInputSelect
+          label="User Type"
+          options={["Agent", "Api-Partner"]}
+        />
+        <ModalInputSelectTwo
+          label="Commission Type"
+          options={["Fixed", "Percentage"]}
+          itemer={itemers}
+          big
+          setItemer={setItemer}
+        />
+        {itemers === "Fixed" ? (
+          <ModalInputText
+            label="Fixed"
+            // onChange={(e) => ChangePartner(e)}
+            name=""
+            // value={partner?.email}
+            placeholder={`${`Enter Fixed Commission`}`}
+          />
+        ) : itemers === "Percentage" ? (
+          <>
+            <ModalInputText
+              label="Percentage"
+              // onChange={(e) => ChangePartner(e)}
+              name=""
+              // value={partner?.email}
+              placeholder={`${`Enter Percentage Commission`}`}
+            />
+            <span style={{ color: "red", fontSize: "10px" }}>
+              Note:Percentage Must be less than or equal to Disco Percentage
+              with Paymeter
+            </span>
+            <ModalInputText
+              label="Cap Fee"
+              // onChange={(e) => ChangePartner(e)}
+              name=""
+              // value={partner?.email}
+              placeholder={`${`Enter Cap Fee`}`}
+            />
+          </>
+        ) : (
+          ""
+        )}
+        {/* <ModalInputText
+          label="Name"
+          onChange={(e) => ChangePartner(e)}
+          name="name"
+          value={partner?.name}
+          placeholder={`${`Enter Partner Name`}`}
+        />
+        <ModalInputText
+          label="Email"
+          onChange={(e) => ChangePartner(e)}
+          name="email"
+          value={partner?.email}
+          placeholder={`${`Enter Email Address`}`}
+        />
+        <ModalInputText
+          label="Phone Number"
+          onChange={(e) => ChangePartner(e)}
+          name="phone"
+          value={partner?.phone}
+          placeholder={`${`Enter Phone Number`}`}
+        />
+        <ModalInputText
+          label="Address"
+          onChange={(e) => ChangePartner(e)}
+          name="address"
+          value={partner?.address}
+          placeholder={`${`Enter Address`}`}
+        />
+        <ModalInputText
+          label="Password"
+          onChange={(e) => ChangePartner(e)}
+          name="password"
+          value={partner?.password}
+          placeholder={`${`Enter Password`}`}
+        />
+        <ModalInputText
+          label="Confirm Password"
+          onChange={(e) => ChangePartner(e)}
+          name="password_confirmation"
+          value={partner?.password_confirmation}
+          placeholder={`${`Confirm Passowrd`}`}
+        /> */}
+        <LargeSignInButton
+          // onClick={() => handleSubmit()}
+          bigger
+          title={"Submit"}
+          background
+          color
+        />
       </AppModal>
     </div>
   );

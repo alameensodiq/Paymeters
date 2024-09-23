@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { ReactComponent as Goback } from "./../../assets/goback.svg";
+import AppUserModal from "../../Modal/AppUserModal";
 
 const CustomerInfo = ({ title }) => {
   const [whitecrust, setWhitecrust] = useState(true);
@@ -91,6 +92,7 @@ const CustomerInfo = ({ title }) => {
       <div className="w-[15%] h-[100%]">
         <Sidebar />
       </div>
+      <AppUserModal setStep={setStep} step={step} setReload={setReload} />
       <div className="flex flex-col w-[85%] h-[100%]">
         <div className="w-[100%] h-[20%]">
           <Navbar title={title} />
@@ -159,7 +161,7 @@ const CustomerInfo = ({ title }) => {
                   )}
                 </div>
               </div> */}
-              <div className="flex h-[45px] w-[30%] flex-row justify-end gap-3 px-3">
+              <div className="flex h-[45px] w-[40%] flex-row justify-end gap-3 px-3">
                 {/* <input
                  type='date'
                  className="border-input-color border-[1px] rounded-custom  w-[117px] h-[36px] outline-none px-[10px] text-[11px]"
@@ -170,7 +172,13 @@ const CustomerInfo = ({ title }) => {
                  className="border-input-color border-[1px] rounded-custom  w-[117px] h-[36px] outline-none px-[10px] text-[11px]"
                  placeholder="Search by name, customerID, account number, transaction reference"
                /> */}
-                <button className="px-2 flex  flex-row gap-1 items-center bg-route-color w-[85%] rounded-custom text-white font-semibold text-[11px]">
+                <button
+                  onClick={() => setStep(11)}
+                  className="px-2 flex  flex-row gap-1 items-center bg-route-color w-[80%] rounded-custom text-white font-semibold text-[11px]"
+                >
+                  Commission
+                </button>
+                <button className="px-2 flex  flex-row gap-1 items-center bg-route-color w-[100%] rounded-custom text-white font-semibold text-[11px]">
                   Add New Meter
                 </button>
                 <button

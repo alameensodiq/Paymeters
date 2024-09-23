@@ -101,7 +101,14 @@ const Setting = ({ title }) => {
           >
             Change Password
           </button>
+          <button
+            onClick={() => setStep(12)}
+            className="px-2 h-[35px] flex flex-row gap-1 items-center bg-route-color w-[20%] rounded-custom text-white font-semibold text-[11px] justify-center"
+          >
+            Create Commission
+          </button>
         </div>
+        <Tables setting setStep={setStep} />
       </div>
     </div>
   );
