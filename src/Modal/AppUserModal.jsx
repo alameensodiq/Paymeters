@@ -753,10 +753,10 @@ const AppUserModal = ({ setStep, step, setReload }) => {
 
         heading="COMMISSION"
       >
-        <ModalInputSelect
+        {/* <ModalInputSelect
           label="User Type"
           options={["Agent", "Api-Partner"]}
-        />
+        /> */}
         <ModalInputSelectTwo
           label="Commission Type"
           options={["Fixed", "Percentage"]}
