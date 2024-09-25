@@ -13,6 +13,8 @@ import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { ReactComponent as Goback } from "./../../assets/goback.svg";
 import AppUserModal from "../../Modal/AppUserModal";
+import empty from "../../assets/empty.png";
+import { Loader } from "./Loader";
 
 const CustomerInfo = ({ title }) => {
   const [whitecrust, setWhitecrust] = useState(true);
@@ -23,6 +25,7 @@ const CustomerInfo = ({ title }) => {
   const [reload, setReload] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [searcher, setSearcher] = useState("");
+  const [loading, setloading] = useState(false);
   let id = window?.location?.pathname.split("/")[2];
   console.log(id);
 
@@ -70,6 +73,12 @@ const CustomerInfo = ({ title }) => {
     (state) => state?.discometer
   );
   console.log(discometer);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setloading(true);
+    }, [2000]);
+  }, [discometer]);
 
   const Downloading = () => {
     const data = discometer?.data?.data || [];
@@ -189,7 +198,28 @@ const CustomerInfo = ({ title }) => {
                 </button>
               </div>
             </div>
-            <Tables meter data={discometer?.data?.data} />
+            {loading ? (
+              <>
+                {discometer?.data?.data?.length >= 1 ? (
+                  <Tables meter data={discometer?.data?.data} />
+                ) : discometer?.data?.data?.length === 0 ? (
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center"
+                    }}
+                  >
+                    <img src={empty} alt="empty" />
+                  </div>
+                ) : (
+                  ""
+                )}
+              </>
+            ) : (
+              <Loader />
+            )}
           </div>
         </div>
       </div>

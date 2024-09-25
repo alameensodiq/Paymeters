@@ -16,6 +16,7 @@ import { CreatePartnerSlice } from "./Reducers/CreatePartner";
 import { GetPaySlice } from "./Reducers/GetPay";
 import { CreatePaySlice } from "./Reducers/CreatePay";
 import { TogglePaySlice } from "./Reducers/TogglePay";
+import { NotificationsSlice } from "./Reducers/Notifications";
 
 export default configureStore({
   reducer: {
@@ -35,6 +36,7 @@ export default configureStore({
     createpartner: CreatePartnerSlice?.reducer,
     paymentmethod: GetPaySlice.reducer,
     createpay: CreatePaySlice?.reducer,
-    togglepay: TogglePaySlice?.reducer
+    togglepay: TogglePaySlice?.reducer,
+    notifications: NotificationsSlice?.reducer
   }
 });

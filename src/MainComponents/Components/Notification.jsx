@@ -14,10 +14,13 @@ import { Banks } from "../Store/Apis/Banks";
 import { useDispatch, useSelector } from "react-redux";
 import AppUserModal from "../../Modal/AppUserModal";
 import Pagination from "../Reusables/Pagination";
+import { GetPay } from "../Store/Apis/GetPay";
+import { TogglePay } from "../Store/Apis/TogglePay";
 import empty from "../../assets/empty.png";
 import { Loader } from "./Loader";
+import { Notifications } from "../Store/Apis/Notifications";
 
-const Investments = ({ title }) => {
+const Notification = ({ title }) => {
   const [endDate, setEndDate] = useState(
     new Date(Date.now() + 3600 * 1000 * 24)
   );
@@ -29,38 +32,50 @@ const Investments = ({ title }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [searcher, setSearcher] = useState("");
   const [loading, setloading] = useState(false);
+  const [status, setStatus] = useState("ACCEPTED");
+  //   const [action, setAction] = useState("disable");
+  //   const [notificationsId, setnotificationsId] = useState(null);
+  const [role, setRole] = useState("APIPARTNER");
   const [startDate, setStartDate] = useState(new Date("2022-01-01"));
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const { togglepay, authenticatingtogglepay } = useSelector(
+    (state) => state?.togglepay
+  );
+  console.log(togglepay);
+
   useEffect(() => {
     if (sessionStorage.getItem("token")) {
-      dispatch(Banks({ startDate, searcher, currentPage }));
+      dispatch(Notifications({ status }));
       return;
     } else {
       navigate("/");
       toast.error("You aren't logged in");
     }
     if (reload) {
-      dispatch(Banks({ startDate, searcher, currentPage }));
+      //   dispatch(Banks({ startDate, searcher, currentPage }));
+      dispatch(Notifications({ status }));
       setReload(false);
     }
 
     //eslint-disable-next-line
-  }, [reload, searcher, currentPage, startDate]);
+  }, [reload, status]);
 
-  const { banks, authenticatingbanks } = useSelector((state) => state?.banks);
-  console.log(banks);
+  const { notifications, authenticatingnotifications } = useSelector(
+    (state) => state?.notifications
+  );
+  console.log(notifications);
 
   useEffect(() => {
     setTimeout(() => {
       setloading(true);
     }, [2000]);
-  }, [banks]);
+  }, [notifications?.data]);
 
-  const next = banks?.data?.meta?.next;
-  const previous = banks?.data?.meta?.prev;
-  const totalPosts = banks?.data?.meta?.totalCount;
+  const next = notifications?.data?.meta?.next;
+  const previous = notifications?.data?.meta?.prev;
+  const totalPosts = notifications?.data?.totalElements;
 
   const paginate = (number) => {
     //  setSorted(tran)
@@ -77,20 +92,24 @@ const Investments = ({ title }) => {
     datePickerRef.current.setOpen(true);
   };
 
+  const Pays = (notificationsId, action) => {
+    dispatch(TogglePay({ notificationsId, action }));
+  };
+
   const Downloading = () => {
-    const data = banks?.data?.data || [];
-    const headers = data.length > 0 ? Object.keys(data[0]) : [];
-    const objValues = data.map((item) => Object.values(item).join(","));
-    const csvContent = [headers.join(","), ...objValues].join("\n");
-    const blob = new Blob([csvContent], { type: "text/csv" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "Bank.csv";
-    document.body.appendChild(a); // Required for Firefox
-    a.click();
-    document.body.removeChild(a); // Clean up
-    URL.revokeObjectURL(url);
+    // const data = banks?.data?.data || [];
+    // const headers = data.length > 0 ? Object.keys(data[0]) : [];
+    // const objValues = data.map(item => Object.values(item).join(','));
+    // const csvContent = [headers.join(','), ...objValues].join('\n');
+    // const blob = new Blob([csvContent], { type: 'text/csv' });
+    // const url = URL.createObjectURL(blob);
+    // const a = document.createElement('a');
+    // a.href = url;
+    // a.download = 'Bank.csv';
+    // document.body.appendChild(a); // Required for Firefox
+    // a.click();
+    // document.body.removeChild(a); // Clean up
+    // URL.revokeObjectURL(url);
   };
   return (
     <div className="flex flex-row">
@@ -105,7 +124,7 @@ const Investments = ({ title }) => {
         <div className="w-[100%] py-9 px-5 flex flex-col gap-10">
           <div className="flex flex-row justify-between">
             <span className="text-route-name text-[28px] font-semibold">
-              Institution
+              Notification
             </span>
             <div className="relative flex flex-row w-[50%]">
               <div className="absolute top-3 left-4">
@@ -148,29 +167,106 @@ const Investments = ({ title }) => {
                 />
                 <Calendar className="text-[10px]" onClick={() => PickDate()} />
               </div> */}
-              <button
-                onClick={() => setStep(1)}
-                className="px-2 h-[35px] flex flex-row gap-1 items-center bg-route-color w-[10%] rounded-custom text-white font-semibold text-[11px]"
+              {/* <button
+                onClick={() => setStep(14)}
+                className="px-2 h-[35px] flex flex-row gap-1 items-center bg-route-color w-[13%] rounded-custom text-white font-semibold text-[11px]"
               >
-                Add Institution
-              </button>
-              <button
+                Add Payment Method
+              </button> */}
+              {/* <button
                 onClick={() => Downloading()}
                 className="px-2 flex flex-row gap-1 items-center bg-route-color w-[12%] rounded-custom text-white font-semibold text-[11px]"
               >
                 Download Report <Download />
-              </button>
+              </button> */}
             </div>
             <hr className="" />
-            <div className="flex flex-row justify-end px-8 gap-2">
-              <Filter />
-              <span className="text-route-noncolor text-[12px]">Filters</span>
+            <div className="flex flex-row justify-between gap-4 px-3">
+              <div className="flex flex-col">
+                <div className="flex flex-row gap-6 justify-center text-[14px] items-center text-route-noncolor pt-[10px] font-medium">
+                  <span
+                    onClick={() => setStatus("ACCEPTED")}
+                    className={`${
+                      status === "ACCEPTED"
+                        ? "text-route-color cursor-pointer"
+                        : "text-route-noncolor cursor-pointer"
+                    }`}
+                  >
+                    Accepted
+                  </span>
+                  <span
+                    onClick={() => setStatus("PENDING")}
+                    className={`${
+                      status === "PENDING"
+                        ? "text-route-color cursor-pointer"
+                        : "text-route-noncolor cursor-pointer"
+                    }`}
+                  >
+                    Pending
+                  </span>
+                  <span
+                    onClick={() => setStatus("REJECTED")}
+                    className={`${
+                      status === "REJECTED"
+                        ? "text-route-color cursor-pointer"
+                        : "text-route-noncolor cursor-pointer"
+                    }`}
+                  >
+                    Rejected
+                  </span>
+                </div>
+                <div className="gap-2">
+                  {status === "ACCEPTED" && (
+                    <div className="w-[70px] h-[2px] bg-route-color" />
+                  )}
+                  {status === "PENDING" && (
+                    <div className="w-[75px] h-[2px] bg-route-color ml-[34%]" />
+                  )}
+                  {status === "REJECTED" && (
+                    <div className="w-[80px] h-[2px] bg-route-color ml-[69%]" />
+                  )}
+                </div>
+              </div>
+              <div className="flex flex-row justify-end gap-4 px-3">
+                {/* <div className="position:relative w-[120px] h-[35px] rounded-custom px-[5px] flex flex-row border items-center">
+                  <DatePicker
+                    className="text-[8px] outline-none"
+                    selected={endDate}
+                    onChange={(date) => dateChanger(date)}
+                    ref={datePickerRef}
+                    showTimeSelect={false}
+                    dateFormat="MMM d yyyy" // Use format tokens to represent "Oct 13 2023"
+                    placeholderText="13 Oct 2023"
+                    popperPlacement="bottom-start"
+                  />
+                  <Calendar
+                    className="text-[10px]"
+                    onClick={() => PickDate()}
+                  />
+                </div> */}
+                {/* <input
+                  type="date"
+                  className="border-input-color border-[1px] rounded-custom  w-[117px] h-[36px] outline-none px-[10px] text-[11px]"
+                  placeholder="Search by name, customerID, account number, transaction reference"
+                />
+                <input
+                  type="date"
+                  className="border-input-color border-[1px] rounded-custom  w-[117px] h-[36px] outline-none px-[10px] text-[11px]"
+                  placeholder="Search by name, customerID, account number, transaction reference"
+                /> */}
+              </div>
             </div>
             {loading ? (
               <>
-                {banks?.data?.data?.length >= 1 ? (
-                  <Tables investments data={banks?.data?.data} />
-                ) : banks?.data?.data?.length === 0 ? (
+                {notifications?.data?.length >= 1 ? (
+                  <Tables
+                    notification
+                    Pay={Pays}
+                    set
+                    data={notifications?.data}
+                  />
+                ) : notifications?.data?.length === 0 ||
+                  notifications?.error ? (
                   <div
                     style={{
                       display: "flex",
@@ -184,8 +280,7 @@ const Investments = ({ title }) => {
                 ) : (
                   ""
                 )}
-
-                {banks?.data?.data >= 1 ? (
+                {notifications?.data?.content?.length >= 1 && (
                   <Pagination
                     set={activater}
                     currentPage={currentPage}
@@ -195,8 +290,6 @@ const Investments = ({ title }) => {
                     previous={previous}
                     next={next}
                   />
-                ) : (
-                  ""
                 )}
               </>
             ) : (
@@ -209,4 +302,4 @@ const Investments = ({ title }) => {
   );
 };
 
-export default Investments;
+export default Notification;

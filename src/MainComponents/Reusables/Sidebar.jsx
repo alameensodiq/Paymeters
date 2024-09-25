@@ -17,6 +17,7 @@ import { ReactComponent as LoanColor } from "./../../assets/Loan.svg";
 import { ReactComponent as Payment } from "./../../assets/Electricity.svg";
 import { ReactComponent as PaymentColor } from "./../../assets/ElectricityColor.svg";
 import { ReactComponent as Logout } from "./../../assets/logout.svg";
+import { ReactComponent as Bill } from "./../../assets/Biller.svg";
 
 import { Link, useLocation } from "react-router-dom";
 import { LogOutAuthentication } from "./LogOutAuthentication";
@@ -35,6 +36,7 @@ const Sidebar = () => {
   const [isHovered10, setIsHovered10] = useState(false);
   const [isHovered11, setIsHovered11] = useState(false);
   const [isHovered12, setIsHovered12] = useState(false);
+  const [isHovered14, setIsHovered14] = useState(false);
   const [show, setShow] = useState(false);
   const router = useLocation();
   return (
@@ -426,6 +428,49 @@ const Sidebar = () => {
             }`}
           >
             Payment Method
+          </p>
+        </Link>
+        <Link
+          to="/notification"
+          className={`flex flex-row h-[33px] ${
+            router.pathname === "/notification"
+              ? "bg-route-bg gap-2 rounded-custom-router"
+              : "bg-white hover:bg-route-bg gap-2 rounded-custom-router"
+          }`}
+          onMouseEnter={() => setIsHovered14(true)}
+          onMouseLeave={() => setIsHovered14(false)}
+        >
+          {router.pathname === "/notification" || isHovered14 ? (
+            <div className={`w-[3px] ${"bg-route-color rounded-t-l"}`}></div>
+          ) : (
+            <div className={`w-[3px] ${" bg-white rounded-t-l"}`}></div>
+          )}
+          {router.pathname === "/notification" || isHovered14 ? (
+            <Bill
+              className={`${
+                router.pathname === "/notification"
+                  ? "fill-current text-route-color my-[9px]"
+                  : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+              }`}
+            />
+          ) : (
+            <Bill
+              className={`${
+                router.pathname === "/notification"
+                  ? "fill-current text-route-color my-[9px]"
+                  : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+              }`}
+            />
+          )}
+
+          <p
+            className={`${
+              router.pathname === "/notification"
+                ? "text-route-color my-[9px] text-[12px] font-medium hidden sm:block md:block"
+                : "hover:text-route-color text-route-noncolor my-[9px] text-[12px] font-medium hidden sm:block md:block"
+            }`}
+          >
+            Notification
           </p>
         </Link>
         <Link

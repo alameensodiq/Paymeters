@@ -16,6 +16,8 @@ import AppUserModal from "../../Modal/AppUserModal";
 import Pagination from "../Reusables/Pagination";
 import { GetPay } from "../Store/Apis/GetPay";
 import { TogglePay } from "../Store/Apis/TogglePay";
+import empty from "../../assets/empty.png";
+import { Loader } from "./Loader";
 
 const Payment = ({ title }) => {
   const [endDate, setEndDate] = useState(
@@ -28,6 +30,7 @@ const Payment = ({ title }) => {
   const [activater, setActivater] = useState(1);
   const [currentPage, setCurrentPage] = useState(0);
   const [searcher, setSearcher] = useState("");
+  const [loading, setloading] = useState(false);
   //   const [action, setAction] = useState("disable");
   //   const [paymentMethodId, setPaymentMethodId] = useState(null);
   const [role, setRole] = useState("APIPARTNER");
@@ -64,6 +67,12 @@ const Payment = ({ title }) => {
     (state) => state?.paymentmethod
   );
   console.log(paymentmethod);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setloading(true);
+    }, [2000]);
+  }, [paymentmethod]);
 
   const next = paymentmethod?.data?.meta?.next;
   const previous = paymentmethod?.data?.meta?.prev;
@@ -177,17 +186,44 @@ const Payment = ({ title }) => {
               <Filter />
               <span className="text-route-noncolor text-[12px]">Filters</span>
             </div>
-            <Tables paymentsmethod Pay={Pays} set data={paymentmethod?.data} />
-            {paymentmethod?.data?.content?.length >= 1 && (
-              <Pagination
-                set={activater}
-                currentPage={currentPage}
-                postsPerPage={postsPerPage}
-                totalPosts={totalPosts}
-                paginate={paginate}
-                previous={previous}
-                next={next}
-              />
+            {loading ? (
+              <>
+                {paymentmethod?.data?.length >= 1 ? (
+                  <Tables
+                    paymentsmethod
+                    Pay={Pays}
+                    set
+                    data={paymentmethod?.data}
+                  />
+                ) : paymentmethod?.data?.length === 0 ||
+                  paymentmethod?.error ? (
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center"
+                    }}
+                  >
+                    <img src={empty} alt="empty" />
+                  </div>
+                ) : (
+                  ""
+                )}
+                {paymentmethod?.data?.content?.length >= 1 && (
+                  <Pagination
+                    set={activater}
+                    currentPage={currentPage}
+                    postsPerPage={postsPerPage}
+                    totalPosts={totalPosts}
+                    paginate={paginate}
+                    previous={previous}
+                    next={next}
+                  />
+                )}
+              </>
+            ) : (
+              <Loader />
             )}
           </div>
         </div>

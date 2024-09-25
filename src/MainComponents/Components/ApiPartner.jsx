@@ -15,6 +15,8 @@ import { useDispatch, useSelector } from "react-redux";
 import AppUserModal from "../../Modal/AppUserModal";
 import Pagination from "../Reusables/Pagination";
 import { ApiAgentRole } from "../Store/Apis/ApiAgentRoles";
+import empty from "../../assets/empty.png";
+import { Loader } from "./Loader";
 
 const ApiPartner = ({ title }) => {
   const [endDate, setEndDate] = useState(
@@ -27,6 +29,7 @@ const ApiPartner = ({ title }) => {
   const [activater, setActivater] = useState(1);
   const [currentPage, setCurrentPage] = useState(0);
   const [searcher, setSearcher] = useState("");
+  const [loading, setloading] = useState(false);
   const [role, setRole] = useState("APIPARTNER");
   const [startDate, setStartDate] = useState(new Date("2022-01-01"));
   const navigate = useNavigate();
@@ -34,7 +37,7 @@ const ApiPartner = ({ title }) => {
 
   useEffect(() => {
     if (sessionStorage.getItem("token")) {
-      dispatch(ApiAgentRole({ role }));
+      dispatch(ApiAgentRole({ role: "APIPARTNER" }));
       return;
     } else {
       navigate("/");
@@ -42,7 +45,7 @@ const ApiPartner = ({ title }) => {
     }
     if (reload) {
       //   dispatch(Banks({ startDate, searcher, currentPage }));
-      dispatch(ApiAgentRole({ role }));
+      dispatch(ApiAgentRole({ role: "APIPARTNER" }));
       setReload(false);
     }
 
@@ -53,6 +56,12 @@ const ApiPartner = ({ title }) => {
     (state) => state?.apiagentrole
   );
   console.log(apiagentrole);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setloading(true);
+    }, [2000]);
+  }, [apiagentrole?.data]);
 
   const next = apiagentrole?.data?.meta?.next;
   const previous = apiagentrole?.data?.meta?.prev;
@@ -162,17 +171,48 @@ const ApiPartner = ({ title }) => {
               <Filter />
               <span className="text-route-noncolor text-[12px]">Filters</span>
             </div>
-            <Tables apipartners data={apiagentrole?.data?.content} />
-            {apiagentrole?.data?.content?.length >= 1 && (
-              <Pagination
-                set={activater}
-                currentPage={currentPage}
-                postsPerPage={postsPerPage}
-                totalPosts={totalPosts}
-                paginate={paginate}
-                previous={previous}
-                next={next}
-              />
+            {loading ? (
+              <>
+                {apiagentrole?.data?.content ? (
+                  <Tables apipartners data={apiagentrole?.data?.content} />
+                ) : (
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center"
+                    }}
+                  >
+                    <img src={empty} alt="empty" />
+                  </div>
+                )}{" "}
+                {/* {(apiagentrole?.error || !apiagentrole?.data?.content) && (
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center"
+                    }}
+                  >
+                    <img src={empty} alt="empty" />
+                  </div>
+                )} */}
+                {apiagentrole?.data?.content?.length >= 1 && (
+                  <Pagination
+                    set={activater}
+                    currentPage={currentPage}
+                    postsPerPage={postsPerPage}
+                    totalPosts={totalPosts}
+                    paginate={paginate}
+                    previous={previous}
+                    next={next}
+                  />
+                )}
+              </>
+            ) : (
+              <Loader />
             )}
           </div>
         </div>

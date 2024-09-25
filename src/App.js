@@ -19,6 +19,7 @@ import ApiPartner from "./MainComponents/Components/ApiPartner";
 import Setting from "./MainComponents/Components/Setting";
 import PaymentShift from "./MainComponents/Components/Payment-Shift";
 import Payment from "./MainComponents/Components/Payment";
+import Notification from "./MainComponents/Components/Notification";
 
 function App() {
   const token = sessionStorage.getItem("token");
@@ -54,6 +55,10 @@ function App() {
           <Route path="/discos" element={<Loans title={"Discos"} />} />
           <Route path="/payment" element={<Payment title={"Payment"} />} />
           <Route path="/setting" element={<Setting title={"Settings"} />} />
+          <Route
+            path="/notification"
+            element={<Notification title={"Notification"} />}
+          />
         </>
       )}
       {/* <Route path='/audit' element={<Audit/>} />

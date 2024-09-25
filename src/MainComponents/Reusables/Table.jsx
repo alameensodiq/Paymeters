@@ -27,7 +27,8 @@ const Tables = ({
   setting,
   setStep,
   paymentsmethod,
-  Pay
+  Pay,
+  notification
 }) => {
   const navigate = useNavigate();
   console.log(data);
@@ -1293,6 +1294,90 @@ const Tables = ({
                         className="bg-failedbg h-[30px] w-[50%] rounded-full text-failedtext font-semibold text-[9px]"
                       >
                         DECLINE
+                      </button>
+                    )}
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      ) : notification ? (
+        <TableContainer
+          // component={Paper}
+          style={{ boxShadow: "none" }}
+        >
+          <Table
+            sx={{ minWidth: 700, tableLayout: "auto" }}
+            aria-label="customized table"
+          >
+            <TableHead>
+              <TableRow style={{ paddingRight: "0px" }}>
+                <StyledTableCell style={{ width: "10%" }}>S/N</StyledTableCell>
+                <StyledTableCell style={{ width: "10%" }}>NAME</StyledTableCell>
+                <StyledTableCell style={{ width: "15%" }}>
+                  EMAIL
+                </StyledTableCell>
+                <StyledTableCell style={{ width: "15%" }}>
+                  PHONE
+                </StyledTableCell>
+                <StyledTableCell style={{ width: "20%" }}>
+                  MESSAGE
+                </StyledTableCell>
+                <StyledTableCell style={{ width: "15%" }}>DATE</StyledTableCell>
+                <StyledTableCell style={{ width: "15%" }}>
+                  STATUS
+                </StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {data?.map((item, index) => (
+                <StyledTableRow>
+                  <StyledTableCell
+                    className="text-dob"
+                    style={{ width: "10%" }}
+                  >
+                    {index + 1}
+                  </StyledTableCell>
+                  <StyledTableCell
+                    className="text-dob"
+                    style={{ width: "10%" }}
+                  >
+                    {item?.user?.name}
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "15%" }}>
+                    {item?.user?.email}
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "15%" }}>
+                    {item?.user?.phone}
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "20%" }}>
+                    {item?.message}
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "15%" }}>
+                    <Moment format="YYYY-MM-DD">{item?.createdDate}</Moment>
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "15%" }}>
+                    {item?.status === "ACCEPETED" ? (
+                      <button
+                        onClick={() => Pay(item?.id, "disable")}
+                        className="bg-successbg h-[30px] w-[50%] rounded-full text-successtext font-semibold text-[9px]"
+                      >
+                        ACCEPETD
+                      </button>
+                    ) : item?.status === "REJECTED" ? (
+                      <button
+                        onClick={() => Pay(item?.id, "enable")}
+                        className="bg-failedbg h-[30px] w-[50%] rounded-full text-failedtext font-semibold text-[9px]"
+                      >
+                        DECLINED
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => Pay(item?.id, "enable")}
+                        className="bg-elect-bg h-[30px] w-[50%] rounded-full text-details-loancolor font-semibold text-[9px]"
+                      >
+                        PENDING
                       </button>
                     )}
                   </StyledTableCell>

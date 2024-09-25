@@ -15,6 +15,8 @@ import { useDispatch, useSelector } from "react-redux";
 import AppUserModal from "../../Modal/AppUserModal";
 import Pagination from "../Reusables/Pagination";
 import { ApiAgentRole } from "../Store/Apis/ApiAgentRoles";
+import empty from "../../assets/empty.png";
+import { Loader } from "./Loader";
 
 const Agents = ({ title }) => {
   const [endDate, setEndDate] = useState(
@@ -27,6 +29,7 @@ const Agents = ({ title }) => {
   const [activater, setActivater] = useState(1);
   const [currentPage, setCurrentPage] = useState(0);
   const [searcher, setSearcher] = useState("");
+  const [loading, setloading] = useState(false);
   const [role, setRole] = useState("AGENT");
   const [startDate, setStartDate] = useState(new Date("2022-01-01"));
   const navigate = useNavigate();
@@ -34,14 +37,14 @@ const Agents = ({ title }) => {
 
   useEffect(() => {
     if (sessionStorage.getItem("token")) {
-      dispatch(ApiAgentRole({ role }));
+      dispatch(ApiAgentRole({ role: "AGENT" }));
       return;
     } else {
       navigate("/");
       toast.error("You aren't logged in");
     }
     if (reload) {
-      dispatch(ApiAgentRole({ role }));
+      dispatch(ApiAgentRole({ role: "AGENT" }));
       setReload(false);
     }
 
@@ -52,6 +55,12 @@ const Agents = ({ title }) => {
     (state) => state?.apiagentrole
   );
   console.log(apiagentrole);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setloading(true);
+    }, [2000]);
+  }, [apiagentrole?.data]);
 
   const next = apiagentrole?.data?.meta?.next;
   const previous = apiagentrole?.data?.meta?.prev;
@@ -161,17 +170,48 @@ const Agents = ({ title }) => {
               <Filter />
               <span className="text-route-noncolor text-[12px]">Filters</span>
             </div>
-            <Tables agents data={apiagentrole?.data?.data} />
-            {apiagentrole?.data?.content?.length >= 1 && (
-              <Pagination
-                set={activater}
-                currentPage={currentPage}
-                postsPerPage={postsPerPage}
-                totalPosts={totalPosts}
-                paginate={paginate}
-                previous={previous}
-                next={next}
-              />
+            {loading ? (
+              <>
+                {apiagentrole?.data?.content ? (
+                  <Tables agents data={apiagentrole?.data?.content} />
+                ) : (
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center"
+                    }}
+                  >
+                    <img src={empty} alt="empty" />
+                  </div>
+                )}{" "}
+                {/* {(apiagentrole?.error || !apiagentrole?.data?.content) && (
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center"
+                    }}
+                  >
+                    <img src={empty} alt="empty" />
+                  </div>
+                )} */}
+                {apiagentrole?.data?.content?.length >= 1 && (
+                  <Pagination
+                    set={activater}
+                    currentPage={currentPage}
+                    postsPerPage={postsPerPage}
+                    totalPosts={totalPosts}
+                    paginate={paginate}
+                    previous={previous}
+                    next={next}
+                  />
+                )}
+              </>
+            ) : (
+              <Loader />
             )}
           </div>
         </div>

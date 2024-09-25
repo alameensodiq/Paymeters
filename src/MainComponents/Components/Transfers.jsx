@@ -12,6 +12,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Transactions } from "../Store/Apis/Transactions";
 import toast from "react-hot-toast";
 import Pagination from "../Reusables/Pagination";
+import empty from "../../assets/empty.png";
+import { Loader } from "./Loader";
 
 const Transfers = ({ title }) => {
   const [whitecrust, setWhitecrust] = useState(true);
@@ -19,6 +21,7 @@ const Transfers = ({ title }) => {
   const [postsPerPage, setPostsPerPage] = useState(10);
   const [activater, setActivater] = useState(1);
   const [currentPage, setCurrentPage] = useState(0);
+  const [loading, setloading] = useState(false);
   const [searcher, setSearcher] = useState("");
   const [startDate, setStartDate] = useState(new Date("2022-01-01"));
   const navigate = useNavigate();
@@ -64,6 +67,10 @@ const Transfers = ({ title }) => {
     (state) => state?.transactions
   );
   console.log(transactions);
+
+  useEffect(() => {
+    setloading(true);
+  }, [transactions]);
 
   const next = transactions?.data?.meta?.next;
   const previous = transactions?.data?.meta?.prev;
@@ -189,18 +196,39 @@ const Transfers = ({ title }) => {
                 </button>
               </div>
             </div>
-            <Tables transfers data={transactions?.data?.data} />
-            {/* {transactions?.data?.data >= 1 && ( */}
-            <Pagination
-              set={activater}
-              currentPage={currentPage}
-              postsPerPage={postsPerPage}
-              totalPosts={totalPosts}
-              paginate={paginate}
-              previous={previous}
-              next={next}
-            />
-            {/* )} */}
+            {loading ? (
+              <>
+                {transactions?.data?.data?.length >= 1 ? (
+                  <Tables transfers data={transactions?.data?.data} />
+                ) : transactions?.data?.data?.length === 0 ? (
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center"
+                    }}
+                  >
+                    <img src={empty} alt="empty" />
+                  </div>
+                ) : (
+                  ""
+                )}
+                {transactions?.data?.data?.length >= 1 && (
+                  <Pagination
+                    set={activater}
+                    currentPage={currentPage}
+                    postsPerPage={postsPerPage}
+                    totalPosts={totalPosts}
+                    paginate={paginate}
+                    previous={previous}
+                    next={next}
+                  />
+                )}
+              </>
+            ) : (
+              <Loader />
+            )}
           </div>
         </div>
       </div>

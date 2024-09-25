@@ -15,6 +15,8 @@ import { Banks } from "../Store/Apis/Banks";
 import { Discos } from "../Store/Apis/Discos";
 import AppUserModal from "../../Modal/AppUserModal";
 import Pagination from "../Reusables/Pagination";
+import empty from "../../assets/empty.png";
+import { Loader } from "./Loader";
 
 const Loans = ({ title }) => {
   const [endDate, setEndDate] = useState(
@@ -24,6 +26,7 @@ const Loans = ({ title }) => {
   const [activater, setActivater] = useState(1);
   const [currentPage, setCurrentPage] = useState(0);
   const [searcher, setSearcher] = useState("");
+  const [loading, setloading] = useState(false);
   const [startDate, setStartDate] = useState(new Date("2022-01-01"));
 
   const navigate = useNavigate();
@@ -51,6 +54,12 @@ const Loans = ({ title }) => {
     (state) => state?.discos
   );
   console.log(discos);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setloading(true);
+    }, [2000]);
+  }, [discos?.data]);
 
   const next = discos?.data?.meta?.next;
   const previous = discos?.data?.meta?.prev;
@@ -160,17 +169,40 @@ const Loans = ({ title }) => {
               <Filter />
               <span className="text-route-noncolor text-[12px]">Filters</span>
             </div>
-            <Tables loans data={discos?.data?.data} />
+            {loading ? (
+              <>
+                {discos?.data?.data?.length >= 1 ? (
+                  <>
+                    <Tables loans data={discos?.data?.data} />
+                    <Pagination
+                      set={activater}
+                      currentPage={currentPage}
+                      postsPerPage={postsPerPage}
+                      totalPosts={totalPosts}
+                      paginate={paginate}
+                      previous={previous}
+                      next={next}
+                    />
+                  </>
+                ) : discos?.data?.data?.length === 0 ? (
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center"
+                    }}
+                  >
+                    <img src={empty} alt="empty" />
+                  </div>
+                ) : (
+                  ""
+                )}
+              </>
+            ) : (
+              <Loader />
+            )}
             {/* {discos?.data?.data >= 1 && ( */}
-            <Pagination
-              set={activater}
-              currentPage={currentPage}
-              postsPerPage={postsPerPage}
-              totalPosts={totalPosts}
-              paginate={paginate}
-              previous={previous}
-              next={next}
-            />
             {/* )} */}
           </div>
         </div>
