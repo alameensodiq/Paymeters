@@ -34,6 +34,7 @@ const Sidebar = () => {
   const [isHovered9, setIsHovered9] = useState(false);
   const [isHovered10, setIsHovered10] = useState(false);
   const [isHovered11, setIsHovered11] = useState(false);
+  const [isHovered12, setIsHovered12] = useState(false);
   const [show, setShow] = useState(false);
   const router = useLocation();
   return (
@@ -374,6 +375,57 @@ const Sidebar = () => {
             }`}
           >
             Payment-Shift
+          </p>
+        </Link>
+        <Link
+          to="/payment"
+          className={`flex flex-row h-[33px] ${
+            router.pathname === "/discos" ||
+            router.pathname.startsWith("/discos/")
+              ? "bg-route-bg gap-2 rounded-custom-router"
+              : "bg-white hover:bg-route-bg gap-2 rounded-custom-router"
+          }`}
+          onMouseEnter={() => setIsHovered12(true)}
+          onMouseLeave={() => setIsHovered12(false)}
+        >
+          {router.pathname === "/payment" ||
+          isHovered4 ||
+          router.pathname.startsWith("/payment") ? (
+            <div className={`w-[3px] ${"bg-route-color rounded-t-l"}`}></div>
+          ) : (
+            <div className={`w-[3px] ${" bg-white rounded-t-l"}`}></div>
+          )}
+          {router.pathname === "/payment" ||
+          isHovered4 ||
+          router.pathname.startsWith("/payment/") ? (
+            <LoanColor
+              className={`${
+                router.pathname === "/payment" ||
+                router.pathname.startsWith("/payment/")
+                  ? "fill-current text-route-color my-[9px]"
+                  : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+              }`}
+            />
+          ) : (
+            <Loan
+              className={`${
+                router.pathname === "/payment" ||
+                router.pathname.startsWith("/payment/")
+                  ? "fill-current text-route-color my-[9px]"
+                  : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+              }`}
+            />
+          )}
+
+          <p
+            className={`${
+              router.pathname === "/payment" ||
+              router.pathname.startsWith("/payment/")
+                ? "text-route-color my-[9px] text-[12px] font-medium hidden sm:block md:block"
+                : "hover:text-route-color text-route-noncolor my-[9px] text-[12px] font-medium hidden sm:block md:block"
+            }`}
+          >
+            Payment Method
           </p>
         </Link>
         <Link

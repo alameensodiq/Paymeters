@@ -56,7 +56,7 @@ const ApiPartner = ({ title }) => {
 
   const next = apiagentrole?.data?.meta?.next;
   const previous = apiagentrole?.data?.meta?.prev;
-  const totalPosts = apiagentrole?.data?.meta?.totalCount;
+  const totalPosts = apiagentrole?.data?.totalElements;
 
   const paginate = (number) => {
     //  setSorted(tran)
@@ -162,8 +162,8 @@ const ApiPartner = ({ title }) => {
               <Filter />
               <span className="text-route-noncolor text-[12px]">Filters</span>
             </div>
-            <Tables apipartners data={apiagentrole?.data?.data} />
-            {apiagentrole?.data?.data?.length >= 1 && (
+            <Tables apipartners data={apiagentrole?.data?.content} />
+            {apiagentrole?.data?.content?.length >= 1 && (
               <Pagination
                 set={activater}
                 currentPage={currentPage}

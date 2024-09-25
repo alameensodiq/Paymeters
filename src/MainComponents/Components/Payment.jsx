@@ -14,9 +14,10 @@ import { Banks } from "../Store/Apis/Banks";
 import { useDispatch, useSelector } from "react-redux";
 import AppUserModal from "../../Modal/AppUserModal";
 import Pagination from "../Reusables/Pagination";
-import { ApiAgentRole } from "../Store/Apis/ApiAgentRoles";
+import { GetPay } from "../Store/Apis/GetPay";
+import { TogglePay } from "../Store/Apis/TogglePay";
 
-const Agents = ({ title }) => {
+const Payment = ({ title }) => {
   const [endDate, setEndDate] = useState(
     new Date(Date.now() + 3600 * 1000 * 24)
   );
@@ -27,35 +28,46 @@ const Agents = ({ title }) => {
   const [activater, setActivater] = useState(1);
   const [currentPage, setCurrentPage] = useState(0);
   const [searcher, setSearcher] = useState("");
-  const [role, setRole] = useState("AGENT");
+  //   const [action, setAction] = useState("disable");
+  //   const [paymentMethodId, setPaymentMethodId] = useState(null);
+  const [role, setRole] = useState("APIPARTNER");
   const [startDate, setStartDate] = useState(new Date("2022-01-01"));
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const { togglepay, authenticatingtogglepay } = useSelector(
+    (state) => state?.togglepay
+  );
+  console.log(togglepay);
+
   useEffect(() => {
     if (sessionStorage.getItem("token")) {
-      dispatch(ApiAgentRole({ role }));
+      dispatch(GetPay());
       return;
     } else {
       navigate("/");
       toast.error("You aren't logged in");
     }
     if (reload) {
-      dispatch(ApiAgentRole({ role }));
+      //   dispatch(Banks({ startDate, searcher, currentPage }));
+      dispatch(GetPay());
       setReload(false);
+    }
+    if (togglepay && !authenticatingtogglepay) {
+      setReload(true);
     }
 
     //eslint-disable-next-line
-  }, [reload]);
+  }, [reload, togglepay?.status, authenticatingtogglepay]);
 
-  const { apiagentrole, authenticatingapiagentrole } = useSelector(
-    (state) => state?.apiagentrole
+  const { paymentmethod, authenticatingpaymentmethod } = useSelector(
+    (state) => state?.paymentmethod
   );
-  console.log(apiagentrole);
+  console.log(paymentmethod);
 
-  const next = apiagentrole?.data?.meta?.next;
-  const previous = apiagentrole?.data?.meta?.prev;
-  const totalPosts = apiagentrole?.data?.totalElements;
+  const next = paymentmethod?.data?.meta?.next;
+  const previous = paymentmethod?.data?.meta?.prev;
+  const totalPosts = paymentmethod?.data?.totalElements;
 
   const paginate = (number) => {
     //  setSorted(tran)
@@ -70,6 +82,10 @@ const Agents = ({ title }) => {
 
   const PickDate = () => {
     datePickerRef.current.setOpen(true);
+  };
+
+  const Pays = (paymentMethodId, action) => {
+    dispatch(TogglePay({ paymentMethodId, action }));
   };
 
   const Downloading = () => {
@@ -100,7 +116,7 @@ const Agents = ({ title }) => {
         <div className="w-[100%] py-9 px-5 flex flex-col gap-10">
           <div className="flex flex-row justify-between">
             <span className="text-route-name text-[28px] font-semibold">
-              Agents
+              Payment
             </span>
             <div className="relative flex flex-row w-[50%]">
               <div className="absolute top-3 left-4">
@@ -143,26 +159,26 @@ const Agents = ({ title }) => {
                 />
                 <Calendar className="text-[10px]" onClick={() => PickDate()} />
               </div> */}
-              {/* <button
-                // onClick={() => setStep(1)}
-                className="px-2 h-[35px] flex flex-row gap-1 items-center bg-route-color w-[10%] rounded-custom text-white font-semibold text-[11px]"
-              >
-                Add Agents
-              </button> */}
               <button
+                onClick={() => setStep(14)}
+                className="px-2 h-[35px] flex flex-row gap-1 items-center bg-route-color w-[13%] rounded-custom text-white font-semibold text-[11px]"
+              >
+                Add Payment Method
+              </button>
+              {/* <button
                 onClick={() => Downloading()}
-                className="px-2 h-[35px] flex flex-row gap-1 items-center bg-route-color w-[12%] rounded-custom text-white font-semibold text-[11px]"
+                className="px-2 flex flex-row gap-1 items-center bg-route-color w-[12%] rounded-custom text-white font-semibold text-[11px]"
               >
                 Download Report <Download />
-              </button>
+              </button> */}
             </div>
             <hr className="" />
             <div className="flex flex-row justify-end px-8 gap-2">
               <Filter />
               <span className="text-route-noncolor text-[12px]">Filters</span>
             </div>
-            <Tables agents data={apiagentrole?.data?.data} />
-            {apiagentrole?.data?.content?.length >= 1 && (
+            <Tables paymentsmethod Pay={Pays} set data={paymentmethod?.data} />
+            {paymentmethod?.data?.content?.length >= 1 && (
               <Pagination
                 set={activater}
                 currentPage={currentPage}
@@ -180,4 +196,4 @@ const Agents = ({ title }) => {
   );
 };
 
-export default Agents;
+export default Payment;

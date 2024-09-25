@@ -12,6 +12,7 @@ import { ChangePasswords } from "../MainComponents/Store/Apis/Change";
 import { CreatePartner } from "../MainComponents/Store/Apis/CreatePartner";
 import ModalInputSelect from "../bits/ModalInputSelect";
 import ModalInputSelectTwo from "../bits/ModalInputSelectTwo";
+import { CreatePay } from "../MainComponents/Store/Apis/CreatePay";
 
 const AppUserModal = ({ setStep, step, setReload }) => {
   const dispatch = useDispatch();
@@ -22,6 +23,7 @@ const AppUserModal = ({ setStep, step, setReload }) => {
   const [bustate2, setBusstate2] = useState(false);
   const [bustate3, setBusstate3] = useState(false);
   const [bustate4, setBusstate4] = useState(false);
+  const [bustate5, setBusstate5] = useState(false);
   const [itemers, setItemer] = useState("");
   const [partner, setPartner] = useState({
     name: "",
@@ -35,6 +37,9 @@ const AppUserModal = ({ setStep, step, setReload }) => {
     name: "",
     code: "",
     ussd: ""
+  });
+  const [pay, setPay] = useState({
+    name: ""
   });
   const [disc, setDisc] = useState({
     name: "",
@@ -63,6 +68,11 @@ const AppUserModal = ({ setStep, step, setReload }) => {
   );
   console.log(createpartner);
 
+  const { createpay, authenticatingcreatepay } = useSelector(
+    (state) => state?.createpay
+  );
+  console.log(createpay);
+
   useEffect(() => {
     if (bustate && createdbank?.status) {
       setStep(3);
@@ -74,7 +84,10 @@ const AppUserModal = ({ setStep, step, setReload }) => {
       setStep(8);
     }
     if (bustate4 && createpartner?.status) {
-      setStep(10);
+      setStep(13);
+    }
+    if (bustate5 && createpay?.status) {
+      setStep(16);
     }
 
     console.log(update);
@@ -87,13 +100,24 @@ const AppUserModal = ({ setStep, step, setReload }) => {
     bustate3,
     changepassword?.status,
     createpartner?.status,
-    bustate4
+    bustate4,
+    bustate5,
+    createpay?.status
   ]);
 
   const Change = (e) => {
     const { name, value } = e.target;
     console.log(value);
     setRegbus({
+      ...regbus,
+      [name]: value
+    });
+  };
+
+  const ChangePay = (e) => {
+    const { name, value } = e.target;
+    console.log(value);
+    setPay({
       ...regbus,
       [name]: value
     });
@@ -157,6 +181,15 @@ const AppUserModal = ({ setStep, step, setReload }) => {
     setBusstate3(true);
   };
 
+  const SendPay = () => {
+    dispatch(
+      CreatePay({
+        name: pay?.name
+      })
+    );
+    setBusstate5(true);
+  };
+
   const SendPartner = () => {
     const { name, email, phone, address, password, password_confirmation } =
       partner;
@@ -192,9 +225,14 @@ const AppUserModal = ({ setStep, step, setReload }) => {
       name: "",
       shortName: ""
     });
+    setPay({
+      name: ""
+    });
     setBusstate(false);
     setBusstate2(false);
     setBusstate3(false);
+    setBusstate4(false);
+    setBusstate5(false);
     setReload(true);
     setPassword("");
   };
@@ -935,6 +973,214 @@ const AppUserModal = ({ setStep, step, setReload }) => {
           background
           color
         />
+      </AppModal>
+      <AppModal
+        step={13}
+        currentStep={step}
+        closeModal={handleCloseModal4}
+        // updateUserListData(update);
+        // window.location.reload()
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "15px",
+            justifyContent: "center",
+            alignItems: "center"
+          }}
+        >
+          {/* <Success /> */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center"
+            }}
+          >
+            Api-Partner Created
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "5px",
+              fontSize: "12px",
+              color: "#667085"
+            }}
+          >
+            <span>You have successfully Added Api-Partner</span>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "10px"
+            }}
+          >
+            <LargeSignInButton
+              title="Close"
+              onClick={() => handleCloseModal4()}
+              big
+              background
+              color
+            />
+          </div>
+        </div>
+      </AppModal>
+      <AppModal
+        step={14}
+        currentStep={step}
+        closeModal={handleCloseModal4}
+        // updateUserListData(update);
+        // window.location.reload()
+
+        heading="Payment"
+      >
+        <ModalInputText
+          label="Name"
+          onChange={(e) => ChangePay(e)}
+          name="name"
+          value={pay?.name}
+          placeholder={`${`Enter Bank Name`}`}
+        />
+        <LargeSignInButton
+          onClick={() => {
+            if (pay?.name === "") {
+              toast.error("Input Payment Name");
+            }
+            setStep(15);
+          }}
+          bigger
+          title={"Submit"}
+          background
+          color
+        />
+      </AppModal>
+      <AppModal
+        step={15}
+        currentStep={step}
+        closeModal={handleCloseModal4}
+        // updateUserListData(update);
+        // window.location.reload()
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "15px",
+            justifyContent: "center",
+            alignItems: "center"
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center"
+            }}
+          >
+            Confirm Changes
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "5px",
+              fontSize: "12px",
+              color: "#667085"
+            }}
+          >
+            <span>You are about to add a Payment Method, Are you sure the</span>
+            <span>details are accurate?</span>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "10px"
+            }}
+          >
+            <LargeSignInButton
+              title="Cancel"
+              large
+              onClick={() => setStep(0)}
+            />
+            <LargeSignInButton
+              title="Confirm"
+              onClick={() => SendPay()}
+              large
+              background
+              color
+            />
+          </div>
+        </div>
+      </AppModal>
+      <AppModal
+        step={16}
+        currentStep={step}
+        closeModal={handleCloseModal4}
+        // updateUserListData(update);
+        // window.location.reload()
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "15px",
+            justifyContent: "center",
+            alignItems: "center"
+          }}
+        >
+          {/* <Success /> */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center"
+            }}
+          >
+            Payment Method Created
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "5px",
+              fontSize: "12px",
+              color: "#667085"
+            }}
+          >
+            <span>You have successfully Added Payment-method</span>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "10px"
+            }}
+          >
+            <LargeSignInButton
+              title="Close"
+              onClick={() => handleCloseModal4()}
+              big
+              background
+              color
+            />
+          </div>
+        </div>
       </AppModal>
     </div>
   );

@@ -18,6 +18,7 @@ import Agents from "./MainComponents/Components/Agents";
 import ApiPartner from "./MainComponents/Components/ApiPartner";
 import Setting from "./MainComponents/Components/Setting";
 import PaymentShift from "./MainComponents/Components/Payment-Shift";
+import Payment from "./MainComponents/Components/Payment";
 
 function App() {
   const token = sessionStorage.getItem("token");
@@ -51,6 +52,7 @@ function App() {
 
           <Route path="/api" element={<ApiPartner title={"Api-Partner"} />} />
           <Route path="/discos" element={<Loans title={"Discos"} />} />
+          <Route path="/payment" element={<Payment title={"Payment"} />} />
           <Route path="/setting" element={<Setting title={"Settings"} />} />
         </>
       )}

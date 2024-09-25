@@ -25,7 +25,9 @@ const Tables = ({
   payment,
   shift,
   setting,
-  setStep
+  setStep,
+  paymentsmethod,
+  Pay
 }) => {
   const navigate = useNavigate();
   console.log(data);
@@ -1243,6 +1245,62 @@ const Tables = ({
             </Table>
           </TableContainer>
         </ScrollableXContainer>
+      ) : paymentsmethod ? (
+        <TableContainer
+          // component={Paper}
+          style={{ boxShadow: "none" }}
+        >
+          <Table
+            sx={{ minWidth: 700, tableLayout: "auto" }}
+            aria-label="customized table"
+          >
+            <TableHead>
+              <TableRow style={{ paddingRight: "0px" }}>
+                <StyledTableCell style={{ width: "25%" }}>S/N</StyledTableCell>
+                <StyledTableCell style={{ width: "25%" }}>NAME</StyledTableCell>
+                <StyledTableCell style={{ width: "25%" }}>DATE</StyledTableCell>
+                <StyledTableCell style={{ width: "25%" }}>
+                  STATUS
+                </StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {data?.map((item) => (
+                <StyledTableRow>
+                  <StyledTableCell
+                    className="text-dob"
+                    style={{ width: "25%" }}
+                  >
+                    {item?.id}
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "25%" }}>
+                    {item?.name}
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "25%" }}>
+                    <Moment format="YYYY-MM-DD">{item?.createdDate}</Moment>
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "25%" }}>
+                    {item?.status === "ENABLED" ? (
+                      <button
+                        onClick={() => Pay(item?.id, "disable")}
+                        className="bg-successbg h-[30px] w-[50%] rounded-full text-successtext font-semibold text-[9px]"
+                      >
+                        ENABLED
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => Pay(item?.id, "enable")}
+                        className="bg-failedbg h-[30px] w-[50%] rounded-full text-failedtext font-semibold text-[9px]"
+                      >
+                        DECLINE
+                      </button>
+                    )}
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       ) : (
         ""
       )}
