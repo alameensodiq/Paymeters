@@ -963,7 +963,7 @@ const AppUserModal = ({ setStep, step, setReload, retrieval, setShow }) => {
                     <div key={`${key}-${index}`} style={{ marginLeft: "20px" }}>
                       {Object.entries(item).map(([subKey, subValue]) => (
                         <div key={`${key}-${index}-${subKey}`}>
-                          {`[${index}]["${subKey}"]: ${subValue}`}
+                          {`${subKey}: ${subValue}`}
                         </div>
                       ))}
                     </div>
