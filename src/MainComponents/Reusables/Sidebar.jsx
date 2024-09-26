@@ -420,6 +420,57 @@ const Sidebar = () => {
           </p>
         </Link>
         <Link
+          to="/payment-retrieval"
+          className={`flex flex-row h-[33px] ${
+            router.pathname === "/payment-retrieval" ||
+            router.pathname.startsWith("/payment-retrieval")
+              ? "bg-route-bg gap-2 rounded-custom-router"
+              : "bg-white hover:bg-route-bg gap-2 rounded-custom-router"
+          }`}
+          onMouseEnter={() => setIsHovered10(true)}
+          onMouseLeave={() => setIsHovered10(false)}
+        >
+          {router.pathname === "/payment-retrieval" ||
+          isHovered10 ||
+          router.pathname.startsWith("/payment-retrieval") ? (
+            <div className={`w-[3px] ${"bg-route-color rounded-t-l"}`}></div>
+          ) : (
+            <div className={`w-[3px] ${" bg-white rounded-t-l"}`}></div>
+          )}
+          {router.pathname === "/payment-retrieval" ||
+          isHovered10 ||
+          router.pathname.startsWith("/payment-retrieval") ? (
+            <PaymentColor
+              className={`${
+                router.pathname === "/payment-retrieval" ||
+                router.pathname.startsWith("/payment-retrieval")
+                  ? "fill-current text-route-color my-[9px]"
+                  : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+              }`}
+            />
+          ) : (
+            <Payment
+              className={`${
+                router.pathname === "/payment-retrieval" ||
+                router.pathname.startsWith("/payment-retrieval")
+                  ? "fill-current text-route-color my-[9px]"
+                  : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+              }`}
+            />
+          )}
+
+          <p
+            className={`${
+              router.pathname === "/payment-retrieval" ||
+              router.pathname.startsWith("/payment-retrieval")
+                ? "text-route-color my-[9px] text-[12px] font-medium hidden sm:block md:block"
+                : "hover:text-route-color text-route-noncolor my-[9px] text-[12px] font-medium hidden sm:block md:block"
+            }`}
+          >
+            Payment-Retrieval
+          </p>
+        </Link>
+        <Link
           to="/setting"
           className={`flex flex-row h-[33px] ${
             router.pathname === "/setting"

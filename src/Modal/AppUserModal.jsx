@@ -13,7 +13,7 @@ import { CreatePartner } from "../MainComponents/Store/Apis/CreatePartner";
 import ModalInputSelect from "../bits/ModalInputSelect";
 import ModalInputSelectTwo from "../bits/ModalInputSelectTwo";
 
-const AppUserModal = ({ setStep, step, setReload }) => {
+const AppUserModal = ({ setStep, step, setReload, retrieval, setShow }) => {
   const dispatch = useDispatch();
   const [hide, sethide] = useState(false);
   const [uploadfile, setupload] = useState("");
@@ -174,6 +174,7 @@ const AppUserModal = ({ setStep, step, setReload }) => {
   };
 
   const handleCloseModal4 = () => {
+    setReload(true);
     setStep(0);
     setRegbus({
       name: "",
@@ -195,8 +196,8 @@ const AppUserModal = ({ setStep, step, setReload }) => {
     setBusstate(false);
     setBusstate2(false);
     setBusstate3(false);
-    setReload(true);
     setPassword("");
+    setShow(false);
   };
 
   const handleSubmit = () => {
@@ -935,6 +936,91 @@ const AppUserModal = ({ setStep, step, setReload }) => {
           background
           color
         />
+      </AppModal>
+      <AppModal
+        step={13}
+        currentStep={step}
+        closeModal={handleCloseModal4}
+        // updateUserListData(update);
+        // window.location.reload()
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "10px",
+            justifyContent: "center",
+            alignItems: "center"
+          }}
+        >
+          {retrieval?.map(([key, value]) => {
+            // Check if the value is an array and has more than 1 item
+            if (Array.isArray(value) && value.length > 1) {
+              return (
+                <div key={key}>
+                  <strong>{key}:</strong>
+                  {value.map((item, index) => (
+                    <div key={`${key}-${index}`} style={{ marginLeft: "20px" }}>
+                      {Object.entries(item).map(([subKey, subValue]) => (
+                        <div key={`${key}-${index}-${subKey}`}>
+                          {`[${index}]["${subKey}"]: ${subValue}`}
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              );
+            } else if (typeof value === "object" && value !== null) {
+              return (
+                <div key={key}>
+                  <strong>{key}:</strong>
+                  <span>{JSON.stringify(value)}</span>
+                </div>
+              );
+            } else {
+              return (
+                <div
+                  key={key}
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginBottom: "0px"
+                  }}
+                >
+                  <strong>{key}:</strong>
+                  <span>{value}</span>
+                </div>
+              );
+            }
+          })}
+          {/* <Success /> */}
+          {/* <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center"
+            }}
+          >
+            Password Changed
+          </div> */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "10px"
+            }}
+          >
+            <LargeSignInButton
+              title="Close"
+              onClick={() => handleCloseModal4()}
+              big
+              background
+              color
+            />
+          </div>
+        </div>
       </AppModal>
     </div>
   );

@@ -158,19 +158,19 @@ const Investments = ({ title }) => {
               <span className="text-route-noncolor text-[12px]">Filters</span>
             </div>
             <Tables investments data={banks?.data?.data} />
-            {/* {banks?.data?.data >= 1 ? ( */}
-            <Pagination
-              set={activater}
-              currentPage={currentPage}
-              postsPerPage={postsPerPage}
-              totalPosts={totalPosts}
-              paginate={paginate}
-              previous={previous}
-              next={next}
-            />
-            {/* ) : (
+            {banks?.data?.data >= 1 ? (
+              <Pagination
+                set={activater}
+                currentPage={currentPage}
+                postsPerPage={postsPerPage}
+                totalPosts={totalPosts}
+                paginate={paginate}
+                previous={previous}
+                next={next}
+              />
+            ) : (
               ""
-            )} */}
+            )}
           </div>
         </div>
       </div>

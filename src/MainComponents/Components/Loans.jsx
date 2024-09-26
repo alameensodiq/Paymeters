@@ -161,17 +161,17 @@ const Loans = ({ title }) => {
               <span className="text-route-noncolor text-[12px]">Filters</span>
             </div>
             <Tables loans data={discos?.data?.data} />
-            {/* {discos?.data?.data >= 1 && ( */}
-            <Pagination
-              set={activater}
-              currentPage={currentPage}
-              postsPerPage={postsPerPage}
-              totalPosts={totalPosts}
-              paginate={paginate}
-              previous={previous}
-              next={next}
-            />
-            {/* )} */}
+            {discos?.data?.data >= 1 && (
+              <Pagination
+                set={activater}
+                currentPage={currentPage}
+                postsPerPage={postsPerPage}
+                totalPosts={totalPosts}
+                paginate={paginate}
+                previous={previous}
+                next={next}
+              />
+            )}
           </div>
         </div>
       </div>

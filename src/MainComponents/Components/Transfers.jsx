@@ -190,17 +190,17 @@ const Transfers = ({ title }) => {
               </div>
             </div>
             <Tables transfers data={transactions?.data?.data} />
-            {/* {transactions?.data?.data >= 1 && ( */}
-            <Pagination
-              set={activater}
-              currentPage={currentPage}
-              postsPerPage={postsPerPage}
-              totalPosts={totalPosts}
-              paginate={paginate}
-              previous={previous}
-              next={next}
-            />
-            {/* )} */}
+            {transactions?.data?.data >= 1 && (
+              <Pagination
+                set={activater}
+                currentPage={currentPage}
+                postsPerPage={postsPerPage}
+                totalPosts={totalPosts}
+                paginate={paginate}
+                previous={previous}
+                next={next}
+              />
+            )}
           </div>
         </div>
       </div>
