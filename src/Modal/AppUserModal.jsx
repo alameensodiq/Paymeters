@@ -228,6 +228,12 @@ const AppUserModal = ({ setStep, step, setReload, retrieval, setShow }) => {
     setStep(10);
   };
 
+  const formatKey = (key) => {
+    return key
+      .replace(/([a-z])([A-Z])/g, "$1 $2") // Add space between camel case
+      .replace(/^\w/, (c) => c.toUpperCase()); // Capitalize the first letter
+  };
+
   return (
     <div>
       <AppModal
@@ -958,22 +964,49 @@ const AppUserModal = ({ setStep, step, setReload, retrieval, setShow }) => {
             if (Array.isArray(value) && value.length > 1) {
               return (
                 <div key={key}>
-                  <strong>{key}:</strong>
-                  {value.map((item, index) => (
-                    <div key={`${key}-${index}`} style={{ marginLeft: "20px" }}>
-                      {Object.entries(item).map(([subKey, subValue]) => (
-                        <div key={`${key}-${index}-${subKey}`}>
-                          {`${subKey}: ${subValue}`}
-                        </div>
+                  <strong>{formatKey(key)}:</strong>
+                  <table
+                    style={{ marginLeft: "20px", borderCollapse: "collapse" }}
+                  >
+                    <thead>
+                      <tr>
+                        {Object.keys(value[0]).map((subKey) => (
+                          <th
+                            key={subKey}
+                            style={{
+                              border: "1px solid black",
+                              padding: "5px"
+                            }}
+                          >
+                            {formatKey(subKey)} {/* Format the key here */}
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {value.map((item, index) => (
+                        <tr key={`${key}-${index}`}>
+                          {Object.values(item).map((subValue, subIndex) => (
+                            <td
+                              key={`${key}-${index}-${subIndex}`}
+                              style={{
+                                border: "1px solid black",
+                                padding: "5px"
+                              }}
+                            >
+                              {subValue}
+                            </td>
+                          ))}
+                        </tr>
                       ))}
-                    </div>
-                  ))}
+                    </tbody>
+                  </table>
                 </div>
               );
             } else if (typeof value === "object" && value !== null) {
               return (
                 <div key={key}>
-                  <strong>{key}:</strong>
+                  <strong>{formatKey(key)}:</strong>
                   <span>{JSON.stringify(value)}</span>
                 </div>
               );
@@ -987,7 +1020,7 @@ const AppUserModal = ({ setStep, step, setReload, retrieval, setShow }) => {
                     marginBottom: "0px"
                   }}
                 >
-                  <strong>{key}:</strong>
+                  <strong>{formatKey(key)}:</strong>
                   <span>{value}</span>
                 </div>
               );
