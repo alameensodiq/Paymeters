@@ -21,6 +21,7 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { Dashboards } from "../Store/Apis/Dashboard";
+import { Balance } from "../Store/Apis/Balance";
 
 const Dashboard = ({ title }) => {
   const [endDate, setEndDate] = useState(
@@ -33,6 +34,7 @@ const Dashboard = ({ title }) => {
   useEffect(() => {
     if (sessionStorage.getItem("token")) {
       dispatch(Dashboards());
+      dispatch(Balance({ status: true }));
       return;
     } else {
       navigate("/");
@@ -55,6 +57,11 @@ const Dashboard = ({ title }) => {
     (state) => state?.dashboard
   );
   console.log(dashboard);
+
+  const { balance, authenticatingbalance } = useSelector(
+    (state) => state?.balance
+  );
+  console.log(balance);
   return (
     <div className="flex flex-row">
       <div className="w-[15%] h-[100%]">
@@ -62,7 +69,7 @@ const Dashboard = ({ title }) => {
       </div>
       <div className="flex flex-col w-[85%] h-[100%]">
         <div className="w-[100%] h-[20%]">
-          <Navbar title={title} />
+          <Navbar balance={balance?.data?.NGN} title={title} />
         </div>
         <div className="w-[100%] py-9 px-5 flex flex-col gap-7">
           <div className="flex flex-row justify-start">

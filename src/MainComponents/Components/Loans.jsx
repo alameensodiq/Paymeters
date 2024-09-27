@@ -15,6 +15,7 @@ import { Banks } from "../Store/Apis/Banks";
 import { Discos } from "../Store/Apis/Discos";
 import AppUserModal from "../../Modal/AppUserModal";
 import Pagination from "../Reusables/Pagination";
+import { Balance } from "../Store/Apis/Balance";
 
 const Loans = ({ title }) => {
   const [endDate, setEndDate] = useState(
@@ -34,6 +35,8 @@ const Loans = ({ title }) => {
   useEffect(() => {
     if (sessionStorage.getItem("token")) {
       dispatch(Discos({ startDate, searcher, currentPage }));
+      dispatch(Balance({ status: true }));
+
       return;
     } else {
       navigate("/");
@@ -41,6 +44,8 @@ const Loans = ({ title }) => {
     }
     if (reload) {
       dispatch(Discos({ startDate, searcher, currentPage }));
+      dispatch(Balance({ status: true }));
+
       setReload(false);
     }
 
@@ -87,6 +92,11 @@ const Loans = ({ title }) => {
     document.body.removeChild(a); // Clean up
     URL.revokeObjectURL(url);
   };
+
+  const { balance, authenticatingbalance } = useSelector(
+    (state) => state?.balance
+  );
+  console.log(balance);
   return (
     <div className="flex flex-row">
       <div className="w-[15%] h-[100%]">
@@ -94,7 +104,7 @@ const Loans = ({ title }) => {
       </div>
       <div className="flex flex-col w-[85%] h-[100%]">
         <div className="w-[100%] h-[20%]">
-          <Navbar title={title} />
+          <Navbar balance={balance?.data?.NGN} title={title} />
         </div>
         <AppUserModal setStep={setStep} step={step} setReload={setReload} />
         <div className="w-[100%] py-9 px-5 flex flex-col gap-10">

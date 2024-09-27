@@ -197,7 +197,9 @@ const AppUserModal = ({ setStep, step, setReload, retrieval, setShow }) => {
     setBusstate2(false);
     setBusstate3(false);
     setPassword("");
-    setShow(false);
+    if (setShow) {
+      setShow(false);
+    }
   };
 
   const handleSubmit = () => {

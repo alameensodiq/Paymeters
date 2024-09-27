@@ -14,6 +14,7 @@ import toast from "react-hot-toast";
 import Pagination from "../Reusables/Pagination";
 import { Payment } from "../Store/Apis/Payment";
 import { Shift } from "../Store/Apis/Shift";
+import { Balance } from "../Store/Apis/Balance";
 
 const PaymentShift = ({ title }) => {
   const [whitecrust, setWhitecrust] = useState(true);
@@ -65,6 +66,7 @@ const PaymentShift = ({ title }) => {
         })
       );
       dispatch(Shift({ date: startDate, currentPage }));
+      dispatch(Balance({ status: true }));
       return;
     } else {
       navigate("/");
@@ -133,6 +135,11 @@ const PaymentShift = ({ title }) => {
     setEndDate(newEndDate.toISOString().split("T")[0]); // Format as YYYY-MM-DD
   };
 
+  const { balance, authenticatingbalance } = useSelector(
+    (state) => state?.balance
+  );
+  console.log(balance);
+
   return (
     <div className="flex flex-row">
       <div className="w-[15%] h-[100%]">
@@ -140,7 +147,7 @@ const PaymentShift = ({ title }) => {
       </div>
       <div className="flex flex-col w-[85%] h-[100%]">
         <div className="w-[100%] h-[20%]">
-          <Navbar title={title} />
+          <Navbar balance={balance?.data?.NGN} title={title} />
         </div>
         <div className="w-[100%] py-9 px-5 flex flex-col gap-10">
           {whitecrust ? (

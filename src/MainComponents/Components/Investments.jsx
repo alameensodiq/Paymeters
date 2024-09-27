@@ -83,6 +83,11 @@ const Investments = ({ title }) => {
     document.body.removeChild(a); // Clean up
     URL.revokeObjectURL(url);
   };
+
+  const { balance, authenticatingbalance } = useSelector(
+    (state) => state?.balance
+  );
+  console.log(balance);
   return (
     <div className="flex flex-row">
       <div className="w-[15%] h-[100%]">
@@ -90,7 +95,7 @@ const Investments = ({ title }) => {
       </div>
       <div className="flex flex-col w-[85%] h-[100%]">
         <div className="w-[100%] h-[20%]">
-          <Navbar title={title} />
+          <Navbar balance={balance?.data?.NGN} title={title} />
         </div>
         <AppUserModal setStep={setStep} step={step} setReload={setReload} />
         <div className="w-[100%] py-9 px-5 flex flex-col gap-10">

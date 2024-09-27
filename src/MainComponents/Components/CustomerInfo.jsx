@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { ReactComponent as Goback } from "./../../assets/goback.svg";
 import AppUserModal from "../../Modal/AppUserModal";
+import { Balance } from "../Store/Apis/Balance";
 
 const CustomerInfo = ({ title }) => {
   const [whitecrust, setWhitecrust] = useState(true);
@@ -53,6 +54,7 @@ const CustomerInfo = ({ title }) => {
   useEffect(() => {
     if (sessionStorage.getItem("token")) {
       dispatch(Discometer({ id, searcher, currentPage }));
+      dispatch(Balance({ status: true }));
       return;
     } else {
       navigate("/");
@@ -60,6 +62,7 @@ const CustomerInfo = ({ title }) => {
     }
     if (reload) {
       dispatch(Discometer());
+      dispatch(Balance({ status: true }));
       setReload(false);
     }
 
@@ -87,6 +90,11 @@ const CustomerInfo = ({ title }) => {
     URL.revokeObjectURL(url);
   };
 
+  const { balance, authenticatingbalance } = useSelector(
+    (state) => state?.balance
+  );
+  console.log(balance);
+
   return (
     <div className="flex flex-row">
       <div className="w-[15%] h-[100%]">
@@ -95,7 +103,7 @@ const CustomerInfo = ({ title }) => {
       <AppUserModal setStep={setStep} step={step} setReload={setReload} />
       <div className="flex flex-col w-[85%] h-[100%]">
         <div className="w-[100%] h-[20%]">
-          <Navbar title={title} />
+          <Navbar balance={balance?.data?.NGN} title={title} />
         </div>
         <div className="w-[100%] py-9 px-5 flex flex-col gap-10">
           <div className="flex flex-row h-[40px] justify-between">

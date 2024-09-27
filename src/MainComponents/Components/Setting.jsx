@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import AppUserModal from "../../Modal/AppUserModal";
 import Pagination from "../Reusables/Pagination";
 import { Forgot } from "../Store/Apis/ForgotPassword";
+import { Balance } from "../Store/Apis/Balance";
 
 const Setting = ({ title }) => {
   const [endDate, setEndDate] = useState(
@@ -33,6 +34,7 @@ const Setting = ({ title }) => {
 
   useEffect(() => {
     if (sessionStorage.getItem("token")) {
+      dispatch(Balance({ status: true }));
       // dispatch(Banks({ startDate, searcher, currentPage }));
       return;
     } else {
@@ -77,6 +79,11 @@ const Setting = ({ title }) => {
     (state) => state?.forgot
   );
   console.log(forgot);
+
+  const { balance, authenticatingbalance } = useSelector(
+    (state) => state?.balance
+  );
+  console.log(balance);
   return (
     <div className="flex flex-row">
       <AppUserModal setStep={setStep} step={step} setReload={setReload} />
@@ -85,7 +92,7 @@ const Setting = ({ title }) => {
       </div>
       <div className="flex flex-col w-[85%] h-[100%]">
         <div className="w-[100%] h-[20%]">
-          <Navbar title={title} />
+          <Navbar balance={balance?.data?.NGN} title={title} />
         </div>
         <AppUserModal setStep={setStep} step={step} setReload={setReload} />
         <div className="w-[100%] py-9 px-5 flex flex-row gap-10">

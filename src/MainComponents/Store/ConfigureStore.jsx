@@ -14,6 +14,7 @@ import { ChangePasswordsSlice } from "./Reducers/ChangePassword";
 import { ApiAgentRoleSlice } from "./Reducers/ApiagentRole";
 import { CreatePartnerSlice } from "./Reducers/CreatePartner";
 import { RetrievalSlice } from "./Reducers/Retrieval";
+import { BalanceSlice } from "./Reducers/Balance";
 
 export default configureStore({
   reducer: {
@@ -31,6 +32,7 @@ export default configureStore({
     changepassword: ChangePasswordsSlice?.reducer,
     apiagentrole: ApiAgentRoleSlice?.reducer,
     createpartner: CreatePartnerSlice?.reducer,
-    retrieval: RetrievalSlice?.reducer
+    retrieval: RetrievalSlice?.reducer,
+    balance: BalanceSlice?.reducer
   }
 });

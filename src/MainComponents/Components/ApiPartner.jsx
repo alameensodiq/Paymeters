@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import AppUserModal from "../../Modal/AppUserModal";
 import Pagination from "../Reusables/Pagination";
 import { ApiAgentRole } from "../Store/Apis/ApiAgentRoles";
+import { Balance } from "../Store/Apis/Balance";
 
 const ApiPartner = ({ title }) => {
   const [endDate, setEndDate] = useState(
@@ -35,6 +36,8 @@ const ApiPartner = ({ title }) => {
   useEffect(() => {
     if (sessionStorage.getItem("token")) {
       dispatch(ApiAgentRole({ role }));
+      dispatch(Balance({ status: true }));
+
       return;
     } else {
       navigate("/");
@@ -43,6 +46,8 @@ const ApiPartner = ({ title }) => {
     if (reload) {
       //   dispatch(Banks({ startDate, searcher, currentPage }));
       dispatch(ApiAgentRole({ role }));
+      dispatch(Balance({ status: true }));
+
       setReload(false);
     }
 
@@ -53,6 +58,11 @@ const ApiPartner = ({ title }) => {
     (state) => state?.apiagentrole
   );
   console.log(apiagentrole);
+
+  const { balance, authenticatingbalance } = useSelector(
+    (state) => state?.balance
+  );
+  console.log(balance);
 
   const next = apiagentrole?.data?.meta?.next;
   const previous = apiagentrole?.data?.meta?.prev;
@@ -95,7 +105,7 @@ const ApiPartner = ({ title }) => {
       </div>
       <div className="flex flex-col w-[85%] h-[100%]">
         <div className="w-[100%] h-[20%]">
-          <Navbar title={title} />
+          <Navbar balance={balance?.data?.NGN} title={title} />
         </div>
         <AppUserModal setStep={setStep} step={step} setReload={setReload} />
         <div className="w-[100%] py-9 px-5 flex flex-col gap-10">

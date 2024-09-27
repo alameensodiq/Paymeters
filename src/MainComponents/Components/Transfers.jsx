@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Transactions } from "../Store/Apis/Transactions";
 import toast from "react-hot-toast";
 import Pagination from "../Reusables/Pagination";
+import { Balance } from "../Store/Apis/Balance";
 
 const Transfers = ({ title }) => {
   const [whitecrust, setWhitecrust] = useState(true);
@@ -51,6 +52,7 @@ const Transfers = ({ title }) => {
   useEffect(() => {
     if (sessionStorage.getItem("token")) {
       dispatch(Transactions({ startDate, searcher, currentPage }));
+      dispatch(Balance({ status: true }));
       return;
     } else {
       navigate("/");
@@ -91,6 +93,11 @@ const Transfers = ({ title }) => {
     URL.revokeObjectURL(url);
   };
 
+  const { balance, authenticatingbalance } = useSelector(
+    (state) => state?.balance
+  );
+  console.log(balance);
+
   return (
     <div className="flex flex-row">
       <div className="w-[15%] h-[100%]">
@@ -98,7 +105,7 @@ const Transfers = ({ title }) => {
       </div>
       <div className="flex flex-col w-[85%] h-[100%]">
         <div className="w-[100%] h-[20%]">
-          <Navbar title={title} />
+          <Navbar balance={balance?.data?.NGN} title={title} />
         </div>
         <div className="w-[100%] py-9 px-5 flex flex-col gap-10">
           <div className="flex flex-row justify-between">

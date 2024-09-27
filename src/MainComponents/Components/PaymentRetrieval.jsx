@@ -16,6 +16,7 @@ import { Payment } from "../Store/Apis/Payment";
 import { Shift } from "../Store/Apis/Shift";
 import { Retrieval } from "../Store/Apis/Retrieval";
 import AppUserModal from "../../Modal/AppUserModal";
+import { Balance } from "../Store/Apis/Balance";
 
 const PaymentRetrieval = ({ title }) => {
   const [whitecrust, setWhitecrust] = useState(true);
@@ -45,6 +46,7 @@ const PaymentRetrieval = ({ title }) => {
 
   useEffect(() => {
     if (sessionStorage.getItem("token")) {
+      dispatch(Balance({ status: true }));
       return;
     } else {
       navigate("/");
@@ -76,6 +78,11 @@ const PaymentRetrieval = ({ title }) => {
   const retrievalEntries = retrieval ? Object.entries(retrieval?.data) : [];
   console.log(retrievalEntries);
 
+  const { balance, authenticatingbalance } = useSelector(
+    (state) => state?.balance
+  );
+  console.log(balance);
+
   return (
     <div className="flex flex-row">
       <div className="w-[15%] h-[100%]">
@@ -90,7 +97,7 @@ const PaymentRetrieval = ({ title }) => {
       />
       <div className="flex flex-col w-[85%] h-[100%]">
         <div className="w-[100%] h-[20%]">
-          <Navbar title={title} />
+          <Navbar balance={balance?.data?.NGN} title={title} />
         </div>
         <div className="w-[100%] py-9 px-5 flex flex-col gap-10">
           {whitecrust ? (
