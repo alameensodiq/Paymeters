@@ -103,7 +103,7 @@ const PaymentShift = ({ title }) => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "Institution.csv";
+    a.download = "Meter.csv";
     document.body.appendChild(a); // Required for Firefox
     a.click();
     document.body.removeChild(a); // Clean up
@@ -119,7 +119,7 @@ const PaymentShift = ({ title }) => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "Institution.csv";
+    a.download = "Payment.csv";
     document.body.appendChild(a); // Required for Firefox
     a.click();
     document.body.removeChild(a); // Clean up

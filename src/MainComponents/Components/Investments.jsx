@@ -14,6 +14,7 @@ import { Banks } from "../Store/Apis/Banks";
 import { useDispatch, useSelector } from "react-redux";
 import AppUserModal from "../../Modal/AppUserModal";
 import Pagination from "../Reusables/Pagination";
+import { Balance } from "../Store/Apis/Balance";
 
 const Investments = ({ title }) => {
   const [endDate, setEndDate] = useState(
@@ -33,6 +34,7 @@ const Investments = ({ title }) => {
   useEffect(() => {
     if (sessionStorage.getItem("token")) {
       dispatch(Banks({ startDate, searcher, currentPage }));
+      dispatch(Balance({ status: true }));
       return;
     } else {
       navigate("/");
@@ -41,6 +43,7 @@ const Investments = ({ title }) => {
     if (reload) {
       dispatch(Banks({ startDate, searcher, currentPage }));
       setReload(false);
+      dispatch(Balance({ status: true }));
     }
 
     //eslint-disable-next-line
