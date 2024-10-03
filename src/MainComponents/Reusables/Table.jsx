@@ -1188,22 +1188,26 @@ const Tables = ({
                 </TableRow>
               </TableHead>
               <TableBody>
-                <StyledTableRow>
-                  <StyledTableCell style={{ width: "20%" }}>1</StyledTableCell>
-                  <StyledTableCell style={{ width: "20%" }}>
-                    EKO
-                  </StyledTableCell>
-                  <StyledTableCell style={{ width: "20%" }}>
-                    AGENT
-                  </StyledTableCell>
-                  <StyledTableCell style={{ width: "20%" }}>
-                    2500
-                  </StyledTableCell>
-                  <StyledTableCell style={{ width: "20%" }}>
-                    FIXED
-                  </StyledTableCell>
-                </StyledTableRow>
-                <StyledTableRow>
+                {data?.map((item, index) => (
+                  <StyledTableRow>
+                    <StyledTableCell style={{ width: "20%" }}>
+                      {index + 1}
+                    </StyledTableCell>
+                    <StyledTableCell style={{ width: "20%" }}>
+                      {item?.discoName}
+                    </StyledTableCell>
+                    <StyledTableCell style={{ width: "20%" }}>
+                      {item?.userType}
+                    </StyledTableCell>
+                    <StyledTableCell style={{ width: "20%" }}>
+                      {item?.commissionDTO?.capFee}
+                    </StyledTableCell>
+                    <StyledTableCell style={{ width: "20%" }}>
+                      {item?.commissionDTO?.commissionType}
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ))}
+                {/* <StyledTableRow>
                   <StyledTableCell style={{ width: "20%" }}>2</StyledTableCell>
                   <StyledTableCell style={{ width: "20%" }}>
                     EKO
@@ -1243,7 +1247,7 @@ const Tables = ({
                   <StyledTableCell style={{ width: "20%" }}>
                     PERCENTAGE
                   </StyledTableCell>
-                </StyledTableRow>
+                </StyledTableRow> */}
               </TableBody>
             </Table>
           </TableContainer>

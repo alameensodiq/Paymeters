@@ -49,12 +49,17 @@ const Setting = ({ title }) => {
     //eslint-disable-next-line
   }, [reload, searcher, currentPage, startDate]);
 
+  const { getsettings, authenticatinggetsettings } = useSelector(
+    (state) => state?.getsettings
+  );
+  console.log(getsettings);
+
   //   const { banks, authenticatingbanks } = useSelector((state) => state?.banks);
   //   console.log(banks);
 
-  //   const next = banks?.data?.meta?.next;
-  //   const previous = banks?.data?.meta?.prev;
-  //   const totalPosts = banks?.data?.meta?.totalCount;
+  const next = getsettings?.data?.meta?.next;
+  const previous = getsettings?.data?.meta?.prev;
+  const totalPosts = getsettings?.data?.meta?.totalCount;
 
   const paginate = (number) => {
     //  setSorted(tran)
@@ -75,10 +80,6 @@ const Setting = ({ title }) => {
     dispatch(Forgot());
   };
 
-  const { getsettings, authenticatinggetsettings } = useSelector(
-    (state) => state?.getsettings
-  );
-  console.log(getsettings);
   return (
     <div className="flex flex-row">
       <AppUserModal setStep={setStep} step={step} setReload={setReload} />
@@ -110,7 +111,18 @@ const Setting = ({ title }) => {
             Create Commission
           </button>
         </div>
-        <Tables setting setStep={setStep} />
+        <Tables setting data={getsettings?.data?.data} setStep={setStep} />
+        {getsettings?.data?.meta?.totalCount >= 1 && (
+          <Pagination
+            set={activater}
+            currentPage={currentPage}
+            postsPerPage={postsPerPage}
+            totalPosts={totalPosts}
+            paginate={paginate}
+            previous={previous}
+            next={next}
+          />
+        )}
       </div>
     </div>
   );

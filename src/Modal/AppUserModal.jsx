@@ -344,7 +344,7 @@ const AppUserModal = ({ setStep, step, setReload }) => {
       ...prev,
       commissions: {
         ...prev.commissions,
-        [name]: value
+        [name]: JSON.parse(value)
       }
     }));
   };
@@ -975,7 +975,7 @@ const AppUserModal = ({ setStep, step, setReload }) => {
           name="userType"
           value={settingglobal?.userType}
           onChange={(e) => ChangeSettings(e)}
-          options={["User Types List", "Agent", "Api-Partner"]}
+          options={["User Types List", "AGENT", "APIPARTNER"]}
         />
         <ModalInputSelectTwo
           name="commissionType"
