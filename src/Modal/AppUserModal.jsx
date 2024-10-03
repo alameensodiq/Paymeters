@@ -13,6 +13,7 @@ import { CreatePartner } from "../MainComponents/Store/Apis/CreatePartner";
 import ModalInputSelect from "../bits/ModalInputSelect";
 import ModalInputSelectTwo from "../bits/ModalInputSelectTwo";
 import { CreatePay } from "../MainComponents/Store/Apis/CreatePay";
+import { CreateSettings } from "../MainComponents/Store/Apis/CreateSettings";
 
 const AppUserModal = ({ setStep, step, setReload }) => {
   const dispatch = useDispatch();
@@ -24,6 +25,7 @@ const AppUserModal = ({ setStep, step, setReload }) => {
   const [bustate3, setBusstate3] = useState(false);
   const [bustate4, setBusstate4] = useState(false);
   const [bustate5, setBusstate5] = useState(false);
+  const [bustate6, setBusstate6] = useState(false);
   const [itemers, setItemer] = useState("");
   const [partner, setPartner] = useState({
     name: "",
@@ -32,6 +34,16 @@ const AppUserModal = ({ setStep, step, setReload }) => {
     address: "",
     password: "",
     password_confirmation: ""
+  });
+
+  const [settingglobal, setSettingsGlobal] = useState({
+    name: "",
+    userType: "",
+    commissions: {
+      commissionType: "",
+      fee: null,
+      capFee: null
+    }
   });
   const [regbus, setRegbus] = useState({
     name: "",
@@ -73,6 +85,11 @@ const AppUserModal = ({ setStep, step, setReload }) => {
   );
   console.log(createpay);
 
+  const { createsettings, authenticatingcreatesettings } = useSelector(
+    (state) => state?.createsettings
+  );
+  console.log(createpay);
+
   useEffect(() => {
     if (bustate && createdbank?.status) {
       setStep(3);
@@ -89,6 +106,9 @@ const AppUserModal = ({ setStep, step, setReload }) => {
     if (bustate5 && createpay?.status) {
       setStep(16);
     }
+    if (bustate6 && createsettings?.status) {
+      setStep(17);
+    }
 
     console.log(update);
   }, [
@@ -102,7 +122,9 @@ const AppUserModal = ({ setStep, step, setReload }) => {
     createpartner?.status,
     bustate4,
     bustate5,
-    createpay?.status
+    bustate6,
+    createpay?.status,
+    createsettings?.status
   ]);
 
   const Change = (e) => {
@@ -206,12 +228,34 @@ const AppUserModal = ({ setStep, step, setReload }) => {
     setBusstate4(true);
   };
 
+  const SendSettings = () => {
+    const { name, userType, commissions } = settingglobal;
+    console.log({ name, userType, commissions });
+    dispatch(
+      CreateSettings({
+        name,
+        userType,
+        commissions
+      })
+    );
+    setBusstate6(true);
+  };
+
   const handleCloseModal4 = () => {
     setStep(0);
     setRegbus({
       name: "",
       code: "",
       ussd: ""
+    });
+    setSettingsGlobal({
+      name: "",
+      userType: "",
+      commissions: {
+        commissionType: "",
+        fee: null,
+        capFee: null
+      }
     });
     setPartner({
       name: "",
@@ -221,6 +265,7 @@ const AppUserModal = ({ setStep, step, setReload }) => {
       password: "",
       password_confirmation: ""
     });
+    setItemer("");
     setDisc({
       name: "",
       shortName: ""
@@ -233,6 +278,7 @@ const AppUserModal = ({ setStep, step, setReload }) => {
     setBusstate3(false);
     setBusstate4(false);
     setBusstate5(false);
+    setBusstate6(false);
     setReload(true);
     setPassword("");
   };
@@ -263,6 +309,44 @@ const AppUserModal = ({ setStep, step, setReload }) => {
 
     // Proceed to next step if all validations pass
     setStep(10);
+  };
+
+  useEffect(() => {
+    setSettingsGlobal((prev) => ({
+      ...prev,
+      commissions:
+        itemers === "Fixed"
+          ? {
+              commissionType: "FIXED",
+              fee: null
+            }
+          : {
+              commissionType: "PERCENTAGE",
+              fee: null,
+              capFee: null
+            }
+    }));
+  }, [itemers]);
+
+  const ChangeSettings = (e) => {
+    const { name, value } = e.target;
+    console.log(value);
+    setSettingsGlobal({
+      ...settingglobal,
+      [name]: value
+    });
+  };
+
+  const ChangeSettingsType = (e) => {
+    const { name, value } = e.target;
+    console.log(value);
+    setSettingsGlobal((prev) => ({
+      ...prev,
+      commissions: {
+        ...prev.commissions,
+        [name]: value
+      }
+    }));
   };
 
   return (
@@ -805,8 +889,7 @@ const AppUserModal = ({ setStep, step, setReload }) => {
         {itemers === "Fixed" ? (
           <ModalInputText
             label="Fixed"
-            // onChange={(e) => ChangePartner(e)}
-            name=""
+            name="fee"
             // value={partner?.email}
             placeholder={`${`Enter Fixed Commission`}`}
           />
@@ -880,13 +963,24 @@ const AppUserModal = ({ setStep, step, setReload }) => {
 
         heading="COMMISSION"
       >
-        <ModalInputSelect label="Disco" options={["Eko", "Ikeja"]} />
+        <ModalInputSelect
+          name="name"
+          label="Disco"
+          value={settingglobal?.name}
+          onChange={(e) => ChangeSettings(e)}
+          options={["Disco List", "EKEDC", "IKJEDC"]}
+        />
         <ModalInputSelect
           label="User Type"
-          options={["Agent", "Api-Partner"]}
+          name="userType"
+          value={settingglobal?.userType}
+          onChange={(e) => ChangeSettings(e)}
+          options={["User Types List", "Agent", "Api-Partner"]}
         />
         <ModalInputSelectTwo
+          name="commissionType"
           label="Commission Type"
+          onChange={(e) => ChangeSettings(e)}
           options={["Fixed", "Percentage"]}
           itemer={itemers}
           big
@@ -895,18 +989,18 @@ const AppUserModal = ({ setStep, step, setReload }) => {
         {itemers === "Fixed" ? (
           <ModalInputText
             label="Fixed"
-            // onChange={(e) => ChangePartner(e)}
-            name=""
-            // value={partner?.email}
+            onChange={(e) => ChangeSettingsType(e)}
+            name="fee"
+            value={settingglobal?.commissions?.fee}
             placeholder={`${`Enter Fixed Commission`}`}
           />
         ) : itemers === "Percentage" ? (
           <>
             <ModalInputText
               label="Percentage"
-              // onChange={(e) => ChangePartner(e)}
-              name=""
-              // value={partner?.email}
+              onChange={(e) => ChangeSettingsType(e)}
+              name="fee"
+              value={settingglobal?.commissions?.fee}
               placeholder={`${`Enter Percentage Commission`}`}
             />
             <span style={{ color: "red", fontSize: "10px" }}>
@@ -915,9 +1009,9 @@ const AppUserModal = ({ setStep, step, setReload }) => {
             </span>
             <ModalInputText
               label="Cap Fee"
-              // onChange={(e) => ChangePartner(e)}
-              name=""
-              // value={partner?.email}
+              onChange={(e) => ChangeSettingsType(e)}
+              name="capFee"
+              value={settingglobal?.commissions?.capFee}
               placeholder={`${`Enter Cap Fee`}`}
             />
           </>
@@ -967,7 +1061,26 @@ const AppUserModal = ({ setStep, step, setReload }) => {
           placeholder={`${`Confirm Passowrd`}`}
         /> */}
         <LargeSignInButton
-          // onClick={() => handleSubmit()}
+          onClick={() => {
+            const { name, userType, commissions } = settingglobal;
+            console.log({ name, userType, commissions });
+
+            // Check for missing values
+            const isFeeMissing = commissions?.fee === null;
+            const isCapFeeMissing = commissions?.capFee === null;
+
+            if (
+              name &&
+              userType &&
+              (itemers === "Fixed"
+                ? !isFeeMissing
+                : !isFeeMissing && !isCapFeeMissing)
+            ) {
+              SendSettings();
+            } else {
+              toast.error("Fill all details");
+            }
+          }}
           bigger
           title={"Submit"}
           background
@@ -1162,6 +1275,64 @@ const AppUserModal = ({ setStep, step, setReload }) => {
             }}
           >
             <span>You have successfully Added Payment-method</span>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "10px"
+            }}
+          >
+            <LargeSignInButton
+              title="Close"
+              onClick={() => handleCloseModal4()}
+              big
+              background
+              color
+            />
+          </div>
+        </div>
+      </AppModal>
+      <AppModal
+        step={17}
+        currentStep={step}
+        closeModal={handleCloseModal4}
+        // updateUserListData(update);
+        // window.location.reload()
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "15px",
+            justifyContent: "center",
+            alignItems: "center"
+          }}
+        >
+          {/* <Success /> */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center"
+            }}
+          >
+            Commmission Created
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "5px",
+              fontSize: "12px",
+              color: "#667085"
+            }}
+          >
+            <span>You have successfully Added Commission</span>
           </div>
           <div
             style={{

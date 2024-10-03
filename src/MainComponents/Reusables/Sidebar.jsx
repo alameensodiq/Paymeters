@@ -380,6 +380,49 @@ const Sidebar = () => {
           </p>
         </Link>
         <Link
+          to="/funding"
+          className={`flex flex-row h-[33px] ${
+            router.pathname === "/funding"
+              ? "bg-route-bg gap-2 rounded-custom-router"
+              : "bg-white hover:bg-route-bg gap-2 rounded-custom-router"
+          }`}
+          onMouseEnter={() => setIsHovered10(true)}
+          onMouseLeave={() => setIsHovered10(false)}
+        >
+          {router.pathname === "/funding" || isHovered10 ? (
+            <div className={`w-[3px] ${"bg-route-color rounded-t-l"}`}></div>
+          ) : (
+            <div className={`w-[3px] ${" bg-white rounded-t-l"}`}></div>
+          )}
+          {router.pathname === "/funding" || isHovered10 ? (
+            <SettingsColor
+              className={`${
+                router.pathname === "/setting"
+                  ? "fill-current text-route-color my-[9px]"
+                  : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+              }`}
+            />
+          ) : (
+            <Settings
+              className={`${
+                router.pathname === "/funding"
+                  ? "fill-current text-route-color my-[9px]"
+                  : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+              }`}
+            />
+          )}
+
+          <p
+            className={`${
+              router.pathname === "/funding"
+                ? "text-route-color my-[9px] text-[12px] font-medium hidden sm:block md:block"
+                : "hover:text-route-color text-route-noncolor my-[9px] text-[12px] font-medium hidden sm:block md:block"
+            }`}
+          >
+            Funding
+          </p>
+        </Link>
+        <Link
           to="/payment"
           className={`flex flex-row h-[33px] ${
             router.pathname === "/discos" ||

@@ -18,10 +18,10 @@ import { GetPay } from "../Store/Apis/GetPay";
 import { TogglePay } from "../Store/Apis/TogglePay";
 import empty from "../../assets/empty.png";
 import { Loader } from "./Loader";
-import { Notifications } from "../Store/Apis/Notifications";
-import { Approve } from "../Store/Apis/Approve";
+import { Fundings } from "../Store/Apis/Funding";
+import { FundingApproval } from "../Store/Apis/FundingApproval";
 
-const Notification = ({ title }) => {
+const Funding = ({ title }) => {
   const [endDate, setEndDate] = useState(
     new Date(Date.now() + 3600 * 1000 * 24)
   );
@@ -33,54 +33,53 @@ const Notification = ({ title }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [searcher, setSearcher] = useState("");
   const [loading, setloading] = useState(false);
-  const [status, setStatus] = useState("accepted");
   //   const [action, setAction] = useState("disable");
-  //   const [notificationsId, setnotificationsId] = useState(null);
+  //   const [paymentMethodId, setPaymentMethodId] = useState(null);
   const [role, setRole] = useState("APIPARTNER");
   const [startDate, setStartDate] = useState(new Date("2022-01-01"));
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { approve, authenticatingapprove } = useSelector(
-    (state) => state?.approve
+  const { fundingapproval, authenticatingfundingapproval } = useSelector(
+    (state) => state?.fundingapproval
   );
-  console.log(approve);
+  console.log(fundingapproval);
 
   useEffect(() => {
     if (sessionStorage.getItem("token")) {
-      dispatch(Notifications({ status }));
+      dispatch(Fundings());
       return;
     } else {
       navigate("/");
       toast.error("You aren't logged in");
     }
-    if (reload && approve?.status) {
-      //   dispatch(Banks({ startDate, searcher, currentPage }));
-      dispatch(Notifications({ status }));
-      setReload(false);
-    }
     if (reload) {
       //   dispatch(Banks({ startDate, searcher, currentPage }));
-      dispatch(Notifications({ status }));
+      dispatch(Fundings());
       setReload(false);
     }
-    //eslint-disable-next-line
-  }, [reload, status, approve?.status]);
+    if (fundingapproval && !fundingapproval) {
+      setReload(true);
+    }
 
-  const { notifications, authenticatingnotifications } = useSelector(
-    (state) => state?.notifications
+    //eslint-disable-next-line
+  }, [reload, fundingapproval?.status, authenticatingfundingapproval]);
+
+  const { funding, authenticatingfunding } = useSelector(
+    (state) => state?.funding
   );
-  console.log(notifications);
+  console.log(funding);
 
   useEffect(() => {
     setTimeout(() => {
       setloading(true);
     }, [2000]);
-  }, [notifications?.data]);
+  }, [funding]);
 
-  const next = notifications?.data?.meta?.next;
-  const previous = notifications?.data?.meta?.prev;
-  const totalPosts = notifications?.data?.meta?.totalCount;
+  const next = funding?.data?.meta?.next;
+  const previous = funding?.data?.meta?.prev;
+  const totalPosts = funding?.data?.meta?.totalCount;
+
   const paginate = (number) => {
     //  setSorted(tran)
     setCurrentPage(number - 1);
@@ -96,9 +95,8 @@ const Notification = ({ title }) => {
     datePickerRef.current.setOpen(true);
   };
 
-  const Pays = (notificationsId, notId, action) => {
-    dispatch(Approve({ userId: notificationsId, notId, stat: action }));
-    setReload(true);
+  const Pays = (transactionId, userPhoneNumber, amount) => {
+    dispatch(FundingApproval({ transactionId, userPhoneNumber, amount }));
   };
 
   const Downloading = () => {
@@ -129,7 +127,7 @@ const Notification = ({ title }) => {
         <div className="w-[100%] py-9 px-5 flex flex-col gap-10">
           <div className="flex flex-row justify-between">
             <span className="text-route-name text-[28px] font-semibold">
-              Notification
+              Funding
             </span>
             <div className="relative flex flex-row w-[50%]">
               <div className="absolute top-3 left-4">
@@ -186,92 +184,15 @@ const Notification = ({ title }) => {
               </button> */}
             </div>
             <hr className="" />
-            <div className="flex flex-row justify-between gap-4 px-3">
-              <div className="flex flex-col">
-                <div className="flex flex-row gap-6 justify-center text-[14px] items-center text-route-noncolor pt-[10px] font-medium">
-                  <span
-                    onClick={() => setStatus("accepted")}
-                    className={`${
-                      status === "accepted"
-                        ? "text-route-color cursor-pointer"
-                        : "text-route-noncolor cursor-pointer"
-                    }`}
-                  >
-                    Accepted
-                  </span>
-                  <span
-                    onClick={() => setStatus("pending")}
-                    className={`${
-                      status === "pending"
-                        ? "text-route-color cursor-pointer"
-                        : "text-route-noncolor cursor-pointer"
-                    }`}
-                  >
-                    Pending
-                  </span>
-                  <span
-                    onClick={() => setStatus("rejected")}
-                    className={`${
-                      status === "rejected"
-                        ? "text-route-color cursor-pointer"
-                        : "text-route-noncolor cursor-pointer"
-                    }`}
-                  >
-                    Rejected
-                  </span>
-                </div>
-                <div className="gap-2">
-                  {status === "accepted" && (
-                    <div className="w-[70px] h-[2px] bg-route-color" />
-                  )}
-                  {status === "pending" && (
-                    <div className="w-[75px] h-[2px] bg-route-color ml-[34%]" />
-                  )}
-                  {status === "rejected" && (
-                    <div className="w-[80px] h-[2px] bg-route-color ml-[69%]" />
-                  )}
-                </div>
-              </div>
-              <div className="flex flex-row justify-end gap-4 px-3">
-                {/* <div className="position:relative w-[120px] h-[35px] rounded-custom px-[5px] flex flex-row border items-center">
-                  <DatePicker
-                    className="text-[8px] outline-none"
-                    selected={endDate}
-                    onChange={(date) => dateChanger(date)}
-                    ref={datePickerRef}
-                    showTimeSelect={false}
-                    dateFormat="MMM d yyyy" // Use format tokens to represent "Oct 13 2023"
-                    placeholderText="13 Oct 2023"
-                    popperPlacement="bottom-start"
-                  />
-                  <Calendar
-                    className="text-[10px]"
-                    onClick={() => PickDate()}
-                  />
-                </div> */}
-                {/* <input
-                  type="date"
-                  className="border-input-color border-[1px] rounded-custom  w-[117px] h-[36px] outline-none px-[10px] text-[11px]"
-                  placeholder="Search by name, customerID, account number, transaction reference"
-                />
-                <input
-                  type="date"
-                  className="border-input-color border-[1px] rounded-custom  w-[117px] h-[36px] outline-none px-[10px] text-[11px]"
-                  placeholder="Search by name, customerID, account number, transaction reference"
-                /> */}
-              </div>
+            <div className="flex flex-row justify-end px-8 gap-2">
+              <Filter />
+              <span className="text-route-noncolor text-[12px]">Filters</span>
             </div>
             {loading ? (
               <>
-                {notifications?.data?.meta?.totalCount >= 1 ? (
-                  <Tables
-                    notification
-                    Pay={Pays}
-                    set
-                    data={notifications?.data?.data}
-                  />
-                ) : notifications?.data?.length === 0 ||
-                  notifications?.error ? (
+                {funding?.data?.meta?.totalCount >= 1 ? (
+                  <Tables funding Pay={Pays} set data={funding?.data?.data} />
+                ) : funding?.data?.meta?.totalCount === 0 || funding?.error ? (
                   <div
                     style={{
                       display: "flex",
@@ -285,7 +206,7 @@ const Notification = ({ title }) => {
                 ) : (
                   ""
                 )}
-                {notifications?.data?.meta?.totalCount >= 1 && (
+                {funding?.data?.meta?.totalCount >= 1 && (
                   <Pagination
                     set={activater}
                     currentPage={currentPage}
@@ -307,4 +228,4 @@ const Notification = ({ title }) => {
   );
 };
 
-export default Notification;
+export default Funding;

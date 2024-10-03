@@ -1,15 +1,23 @@
 import React from "react";
 import styled from "styled-components";
 
-const ModalSelect = ({ options, itemer, big, setItemer }) => {
+const ModalSelect = ({
+  options,
+  itemer,
+  big,
+  setItemer,
+  onChange,
+  value,
+  name
+}) => {
   const handleChange = (e) => {
     setItemer(e.target.value);
   };
 
   return (
     <Flex>
-      <select className="input">
-        {options?.map((item) => (
+      <select name={name} value={value} onChange={onChange} className="input">
+        {options?.map((item, index) => (
           <option key={item} value={item}>
             {item}
           </option>

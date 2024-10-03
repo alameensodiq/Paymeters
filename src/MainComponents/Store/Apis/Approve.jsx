@@ -1,16 +1,16 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import toast from "react-hot-toast";
 
-export const TogglePay = createAsyncThunk(
-  "togglepay",
-  async ({ paymentMethodId, action }, thunkAPI) => {
+export const Approve = createAsyncThunk(
+  "approve",
+  async ({ userId, notId, stat }, thunkAPI) => {
     console.log(process.env.REACT_APP_BASE_URL);
 
     const accessToken = sessionStorage.getItem("token");
 
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BASE_URL}admin/toggle?paymentMethodId=${paymentMethodId}&action=${action}`,
+        `${process.env.REACT_APP_BASE_URL}admin/approve-upgrade?userId=${userId}&notificationId=${notId}&action=${stat}&=`,
         {
           method: "POST",
           headers: {
@@ -22,12 +22,6 @@ export const TogglePay = createAsyncThunk(
       );
       let data = await response.json();
       // toast.success(data.message);
-      if (!data?.status) {
-        toast.error(data.message);
-      }
-      if (data?.status) {
-        toast.success(data.message);
-      }
       console.log(data);
       //   sessionStorage.setItem('firstName', data?.data?.user?.firstName);
       //   sessionStorage.setItem('role', data?.data?.user?.userRole);

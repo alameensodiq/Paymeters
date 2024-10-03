@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import AppUserModal from "../../Modal/AppUserModal";
 import Pagination from "../Reusables/Pagination";
 import { Forgot } from "../Store/Apis/ForgotPassword";
+import { GetSettings } from "../Store/Apis/GetSettings";
 
 const Setting = ({ title }) => {
   const [endDate, setEndDate] = useState(
@@ -33,13 +34,14 @@ const Setting = ({ title }) => {
 
   useEffect(() => {
     if (sessionStorage.getItem("token")) {
-      // dispatch(Banks({ startDate, searcher, currentPage }));
+      dispatch(GetSettings());
       return;
     } else {
       navigate("/");
       toast.error("You aren't logged in");
     }
     if (reload) {
+      dispatch(GetSettings());
       //   dispatch(Banks({ startDate, searcher, currentPage }));
       setReload(false);
     }
@@ -73,10 +75,10 @@ const Setting = ({ title }) => {
     dispatch(Forgot());
   };
 
-  const { forgot, authenticatingforgot } = useSelector(
-    (state) => state?.forgot
+  const { getsettings, authenticatinggetsettings } = useSelector(
+    (state) => state?.getsettings
   );
-  console.log(forgot);
+  console.log(getsettings);
   return (
     <div className="flex flex-row">
       <AppUserModal setStep={setStep} step={step} setReload={setReload} />

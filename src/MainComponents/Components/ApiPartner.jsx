@@ -65,7 +65,7 @@ const ApiPartner = ({ title }) => {
 
   const next = apiagentrole?.data?.meta?.next;
   const previous = apiagentrole?.data?.meta?.prev;
-  const totalPosts = apiagentrole?.data?.totalElements;
+  const totalPosts = apiagentrole?.data?.meta?.totalCount;
 
   const paginate = (number) => {
     //  setSorted(tran)
@@ -173,8 +173,8 @@ const ApiPartner = ({ title }) => {
             </div>
             {loading ? (
               <>
-                {apiagentrole?.data?.content ? (
-                  <Tables apipartners data={apiagentrole?.data?.content} />
+                {apiagentrole?.data?.meta?.totalCount >= 1 ? (
+                  <Tables apipartners data={apiagentrole?.data?.data} />
                 ) : (
                   <div
                     style={{
@@ -199,7 +199,7 @@ const ApiPartner = ({ title }) => {
                     <img src={empty} alt="empty" />
                   </div>
                 )} */}
-                {apiagentrole?.data?.content?.length >= 1 && (
+                {apiagentrole?.data?.meta?.totalCount >= 1 && (
                   <Pagination
                     set={activater}
                     currentPage={currentPage}

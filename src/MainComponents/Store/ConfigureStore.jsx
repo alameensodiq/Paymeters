@@ -17,6 +17,11 @@ import { GetPaySlice } from "./Reducers/GetPay";
 import { CreatePaySlice } from "./Reducers/CreatePay";
 import { TogglePaySlice } from "./Reducers/TogglePay";
 import { NotificationsSlice } from "./Reducers/Notifications";
+import { ApproveSlice } from "./Reducers/Approve";
+import { FundingSlice } from "./Reducers/Funding";
+import { FundingApprovalSlice } from "./Reducers/FundingApproval";
+import { GetSettingsSlice } from "./Reducers/GetSettings";
+import { CreateSettingsSlice } from "./Reducers/CreateSettings";
 
 export default configureStore({
   reducer: {
@@ -37,6 +42,11 @@ export default configureStore({
     paymentmethod: GetPaySlice.reducer,
     createpay: CreatePaySlice?.reducer,
     togglepay: TogglePaySlice?.reducer,
-    notifications: NotificationsSlice?.reducer
+    notifications: NotificationsSlice?.reducer,
+    approve: ApproveSlice?.reducer,
+    funding: FundingSlice?.reducer,
+    fundingapproval: FundingApprovalSlice?.reducer,
+    getsettings: GetSettingsSlice?.reducer,
+    createsettings: CreateSettingsSlice?.reducer
   }
 });
