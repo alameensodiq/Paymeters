@@ -30,7 +30,8 @@ const Tables = ({
   paymentsmethod,
   Pay,
   notification,
-  funding
+  funding,
+  setUserIds
 }) => {
   const navigate = useNavigate();
   console.log(data);
@@ -843,13 +844,13 @@ const Tables = ({
               <TableRow style={{ paddingRight: "0px" }}>
                 <StyledTableCell style={{ width: "10%" }}>S/N</StyledTableCell>
                 <StyledTableCell style={{ width: "20%" }}>
-                  AGENTS NAME
+                  PARTNER NAME
                 </StyledTableCell>
                 <StyledTableCell style={{ width: "15%" }}>
-                  NO OF CUSTOMERS
+                  EMAIL
                 </StyledTableCell>
                 <StyledTableCell style={{ width: "10%" }}>
-                  DISCO
+                  ADDRESS
                 </StyledTableCell>
                 <StyledTableCell style={{ width: "10%" }}>
                   COMMISSION
@@ -863,26 +864,31 @@ const Tables = ({
               </TableRow>
             </TableHead>
             <TableBody>
-              {data?.map((item) => (
-                <StyledTableRow>
+              {data?.map((item, index) => (
+                <StyledTableRow
+                  onClick={() => {
+                    setStep(11);
+                    setUserIds(item?.id);
+                  }}
+                >
                   <StyledTableCell
                     className="text-dob"
                     style={{ width: "10%" }}
                   >
-                    1
+                    {index + 1}
                   </StyledTableCell>
                   <StyledTableCell style={{ width: "20%" }}>
-                    WARITH RASAK
-                  </StyledTableCell>
-                  <StyledTableCell style={{ width: "15%" }}>20</StyledTableCell>
-                  <StyledTableCell style={{ width: "10%" }}>
-                    IBEDC
-                  </StyledTableCell>
-                  <StyledTableCell style={{ width: "10%" }}>
-                    20%
+                    {item?.firstName}
                   </StyledTableCell>
                   <StyledTableCell style={{ width: "15%" }}>
-                    12/04/1975
+                    {item?.email}
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "10%" }}>
+                    {item?.address}
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "10%" }}></StyledTableCell>
+                  <StyledTableCell style={{ width: "15%" }}>
+                    <Moment format="DD-MM-YYYY">{item?.dateJoined}</Moment>
                   </StyledTableCell>
                   <StyledTableCell style={{ width: "20%" }}>
                     200,000
@@ -908,10 +914,10 @@ const Tables = ({
                   PARTNER NAME
                 </StyledTableCell>
                 <StyledTableCell style={{ width: "15%" }}>
-                  NO OF CUSTOMERS
+                  EMAIL
                 </StyledTableCell>
                 <StyledTableCell style={{ width: "10%" }}>
-                  DISCO
+                  ADDRESS
                 </StyledTableCell>
                 <StyledTableCell style={{ width: "10%" }}>
                   COMMISSION
@@ -925,26 +931,31 @@ const Tables = ({
               </TableRow>
             </TableHead>
             <TableBody>
-              {data?.map((item) => (
-                <StyledTableRow>
+              {data?.map((item, index) => (
+                <StyledTableRow
+                  onClick={() => {
+                    setStep(11);
+                    setUserIds(item?.id);
+                  }}
+                >
                   <StyledTableCell
                     className="text-dob"
                     style={{ width: "10%" }}
                   >
-                    1
+                    {index + 1}
                   </StyledTableCell>
                   <StyledTableCell style={{ width: "20%" }}>
-                    WARITH RASAK
-                  </StyledTableCell>
-                  <StyledTableCell style={{ width: "15%" }}>20</StyledTableCell>
-                  <StyledTableCell style={{ width: "10%" }}>
-                    IBEDC
-                  </StyledTableCell>
-                  <StyledTableCell style={{ width: "10%" }}>
-                    20%
+                    {item?.firstName}
                   </StyledTableCell>
                   <StyledTableCell style={{ width: "15%" }}>
-                    12/04/1975
+                    {item?.email}
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "10%" }}>
+                    {item?.address}
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "10%" }}></StyledTableCell>
+                  <StyledTableCell style={{ width: "15%" }}>
+                    <Moment format="DD-MM-YYYY">{item?.dateJoined}</Moment>
                   </StyledTableCell>
                   <StyledTableCell style={{ width: "20%" }}>
                     200,000

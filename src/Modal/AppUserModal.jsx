@@ -14,8 +14,9 @@ import ModalInputSelect from "../bits/ModalInputSelect";
 import ModalInputSelectTwo from "../bits/ModalInputSelectTwo";
 import { CreatePay } from "../MainComponents/Store/Apis/CreatePay";
 import { CreateSettings } from "../MainComponents/Store/Apis/CreateSettings";
+import { UserCom } from "../MainComponents/Store/Apis/UserCom";
 
-const AppUserModal = ({ setStep, step, setReload }) => {
+const AppUserModal = ({ setStep, step, setReload, userIds, setUserIds }) => {
   const dispatch = useDispatch();
   const [hide, sethide] = useState(false);
   const [uploadfile, setupload] = useState("");
@@ -40,6 +41,16 @@ const AppUserModal = ({ setStep, step, setReload }) => {
     name: "",
     userType: "",
     commissions: {
+      commissionType: "",
+      fee: null,
+      capFee: null
+    }
+  });
+
+  const [userglobal, setUserGlobal] = useState({
+    discoName: "",
+    userId: "",
+    commissionDetails: {
       commissionType: "",
       fee: null,
       capFee: null
@@ -90,6 +101,11 @@ const AppUserModal = ({ setStep, step, setReload }) => {
   );
   console.log(createpay);
 
+  const { usercom, authenticatingusercom } = useSelector(
+    (state) => state?.usercom
+  );
+  console.log(usercom);
+
   useEffect(() => {
     if (bustate && createdbank?.status) {
       setStep(3);
@@ -109,6 +125,9 @@ const AppUserModal = ({ setStep, step, setReload }) => {
     if (bustate6 && createsettings?.status) {
       setStep(17);
     }
+    if (bustate6 && usercom?.status) {
+      setStep(17);
+    }
 
     console.log(update);
   }, [
@@ -124,7 +143,8 @@ const AppUserModal = ({ setStep, step, setReload }) => {
     bustate5,
     bustate6,
     createpay?.status,
-    createsettings?.status
+    createsettings?.status,
+    usercom?.status
   ]);
 
   const Change = (e) => {
@@ -241,6 +261,19 @@ const AppUserModal = ({ setStep, step, setReload }) => {
     setBusstate6(true);
   };
 
+  const SendUser = () => {
+    const { discoName, userId, commissionDetails } = userglobal;
+    console.log({ discoName, userId, commissionDetails });
+    dispatch(
+      UserCom({
+        discoName,
+        userId,
+        commissionDetails
+      })
+    );
+    setBusstate6(true);
+  };
+
   const handleCloseModal4 = () => {
     setStep(0);
     setRegbus({
@@ -273,6 +306,15 @@ const AppUserModal = ({ setStep, step, setReload }) => {
     setPay({
       name: ""
     });
+    setUserGlobal({
+      discoName: "",
+      userId: "",
+      commissionDetails: {
+        commissionType: "",
+        fee: null,
+        capFee: null
+      }
+    });
     setBusstate(false);
     setBusstate2(false);
     setBusstate3(false);
@@ -281,6 +323,7 @@ const AppUserModal = ({ setStep, step, setReload }) => {
     setBusstate6(false);
     setReload(true);
     setPassword("");
+    setUserIds("");
   };
 
   const handleSubmit = () => {
@@ -312,7 +355,28 @@ const AppUserModal = ({ setStep, step, setReload }) => {
   };
 
   useEffect(() => {
+    setUserGlobal((prev) => ({
+      ...prev,
+      userId: userIds
+    }));
+  }, [userIds]);
+
+  useEffect(() => {
     setSettingsGlobal((prev) => ({
+      ...prev,
+      commissions:
+        itemers === "Fixed"
+          ? {
+              commissionType: "FIXED",
+              fee: null
+            }
+          : {
+              commissionType: "PERCENTAGE",
+              fee: null,
+              capFee: null
+            }
+    }));
+    setUserGlobal((prev) => ({
       ...prev,
       commissions:
         itemers === "Fixed"
@@ -337,12 +401,33 @@ const AppUserModal = ({ setStep, step, setReload }) => {
     });
   };
 
+  const ChangeSettingsUser = (e) => {
+    const { name, value } = e.target;
+    console.log(value);
+    setUserGlobal({
+      ...userglobal,
+      [name]: value
+    });
+  };
+
   const ChangeSettingsType = (e) => {
     const { name, value } = e.target;
     console.log(value);
     setSettingsGlobal((prev) => ({
       ...prev,
       commissions: {
+        ...prev.commissions,
+        [name]: JSON.parse(value)
+      }
+    }));
+  };
+
+  const ChangeSettingsTypeUser = (e) => {
+    const { name, value } = e.target;
+    console.log(value);
+    setUserGlobal((prev) => ({
+      ...prev,
+      commissionDetails: {
         ...prev.commissions,
         [name]: JSON.parse(value)
       }
@@ -879,8 +964,24 @@ const AppUserModal = ({ setStep, step, setReload }) => {
           label="User Type"
           options={["Agent", "Api-Partner"]}
         /> */}
+        <ModalInputSelect
+          name="discoName"
+          label="Disco"
+          value={userglobal?.discoName}
+          onChange={(e) => ChangeSettingsUser(e)}
+          options={["Disco List", "EKEDC", "IKJEDC"]}
+        />
+        {/* <ModalInputSelect
+          label="User Type"
+          name="userType"
+          value={userglobal?.userType}
+          onChange={(e) => ChangeSettings(e)}
+          options={["User Types List", "AGENT", "APIPARTNER"]}
+        /> */}
         <ModalInputSelectTwo
+          name="commissionType"
           label="Commission Type"
+          onChange={(e) => ChangeSettingsUser(e)}
           options={["Fixed", "Percentage"]}
           itemer={itemers}
           big
@@ -889,18 +990,32 @@ const AppUserModal = ({ setStep, step, setReload }) => {
         {itemers === "Fixed" ? (
           <ModalInputText
             label="Fixed"
+            onChange={(e) => ChangeSettingsTypeUser(e)}
             name="fee"
-            // value={partner?.email}
+            value={userglobal?.commissionDetails?.fee}
             placeholder={`${`Enter Fixed Commission`}`}
           />
         ) : itemers === "Percentage" ? (
-          <ModalInputText
-            label="Percentage"
-            // onChange={(e) => ChangePartner(e)}
-            name=""
-            // value={partner?.email}
-            placeholder={`${`Enter Percentage Commission`}`}
-          />
+          <>
+            <ModalInputText
+              label="Percentage"
+              onChange={(e) => ChangeSettingsTypeUser(e)}
+              name="fee"
+              value={userglobal?.commissionDetails?.fee}
+              placeholder={`${`Enter Percentage Commission`}`}
+            />
+            <span style={{ color: "red", fontSize: "10px" }}>
+              Note:Percentage Must be less than or equal to Disco Percentage
+              with Paymeter
+            </span>
+            <ModalInputText
+              label="Cap Fee"
+              onChange={(e) => ChangeSettingsTypeUser(e)}
+              name="capFee"
+              value={userglobal?.commissionDetails?.capFee}
+              placeholder={`${`Enter Cap Fee`}`}
+            />
+          </>
         ) : (
           ""
         )}
@@ -947,7 +1062,26 @@ const AppUserModal = ({ setStep, step, setReload }) => {
           placeholder={`${`Confirm Passowrd`}`}
         /> */}
         <LargeSignInButton
-          // onClick={() => handleSubmit()}
+          onClick={() => {
+            const { discoName, userId, commissionDetails } = userglobal;
+            console.log({ discoName, userId, commissionDetails });
+
+            // Check for missing values
+            const isFeeMissing = commissionDetails?.fee === null;
+            const isCapFeeMissing = commissionDetails?.capFee === null;
+
+            if (
+              discoName &&
+              userId &&
+              (itemers === "Fixed"
+                ? !isFeeMissing
+                : !isFeeMissing && !isCapFeeMissing)
+            ) {
+              SendUser();
+            } else {
+              toast.error("Fill all details");
+            }
+          }}
           bigger
           title={"Submit"}
           background

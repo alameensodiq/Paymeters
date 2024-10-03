@@ -22,6 +22,7 @@ import { FundingSlice } from "./Reducers/Funding";
 import { FundingApprovalSlice } from "./Reducers/FundingApproval";
 import { GetSettingsSlice } from "./Reducers/GetSettings";
 import { CreateSettingsSlice } from "./Reducers/CreateSettings";
+import { UserComSlice } from "./Reducers/UserCom";
 
 export default configureStore({
   reducer: {
@@ -47,6 +48,7 @@ export default configureStore({
     funding: FundingSlice?.reducer,
     fundingapproval: FundingApprovalSlice?.reducer,
     getsettings: GetSettingsSlice?.reducer,
-    createsettings: CreateSettingsSlice?.reducer
+    createsettings: CreateSettingsSlice?.reducer,
+    usercom: UserComSlice?.reducer
   }
 });

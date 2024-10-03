@@ -31,6 +31,7 @@ const ApiPartner = ({ title }) => {
   const [searcher, setSearcher] = useState("");
   const [loading, setloading] = useState(false);
   const [role, setRole] = useState("APIPARTNER");
+  const [userIds, setUserIds] = useState("");
   const [startDate, setStartDate] = useState(new Date("2022-01-01"));
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -106,7 +107,13 @@ const ApiPartner = ({ title }) => {
         <div className="w-[100%] h-[20%]">
           <Navbar title={title} />
         </div>
-        <AppUserModal setStep={setStep} step={step} setReload={setReload} />
+        <AppUserModal
+          setStep={setStep}
+          userIds={userIds}
+          setUserIds={setUserIds}
+          step={step}
+          setReload={setReload}
+        />
         <div className="w-[100%] py-9 px-5 flex flex-col gap-10">
           <div className="flex flex-row justify-between">
             <span className="text-route-name text-[28px] font-semibold">
@@ -174,7 +181,12 @@ const ApiPartner = ({ title }) => {
             {loading ? (
               <>
                 {apiagentrole?.data?.meta?.totalCount >= 1 ? (
-                  <Tables apipartners data={apiagentrole?.data?.data} />
+                  <Tables
+                    apipartners
+                    data={apiagentrole?.data?.data}
+                    setUserIds={setUserIds}
+                    setStep={setStep}
+                  />
                 ) : (
                   <div
                     style={{
