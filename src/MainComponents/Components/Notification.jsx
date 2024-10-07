@@ -31,6 +31,7 @@ const Notification = ({ title }) => {
   const [postsPerPage, setPostsPerPage] = useState(10);
   const [activater, setActivater] = useState(1);
   const [currentPage, setCurrentPage] = useState(0);
+  const [userIds, setUserIds] = useState("");
   const [searcher, setSearcher] = useState("");
   const [loading, setloading] = useState(false);
   const [status, setStatus] = useState("accepted");
@@ -125,11 +126,17 @@ const Notification = ({ title }) => {
         <div className="w-[100%] h-[20%]">
           <Navbar title={title} />
         </div>
-        <AppUserModal setStep={setStep} step={step} setReload={setReload} />
+        <AppUserModal
+          userIds={userIds}
+          setUserIds={setUserIds}
+          setStep={setStep}
+          step={step}
+          setReload={setReload}
+        />
         <div className="w-[100%] py-9 px-5 flex flex-col gap-10">
           <div className="flex flex-row justify-between">
             <span className="text-route-name text-[28px] font-semibold">
-              Notification
+              Agents
             </span>
             <div className="relative flex flex-row w-[50%]">
               <div className="absolute top-3 left-4">
@@ -267,7 +274,9 @@ const Notification = ({ title }) => {
                   <Tables
                     notification
                     Pay={Pays}
+                    setUserIds={setUserIds}
                     set
+                    setStep={setStep}
                     data={notifications?.data?.data}
                   />
                 ) : notifications?.data?.length === 0 ||

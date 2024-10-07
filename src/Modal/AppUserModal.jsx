@@ -584,7 +584,7 @@ const AppUserModal = ({
     }));
     setUserGlobal((prev) => ({
       ...prev,
-      commissions:
+      commissionDetails:
         itemers === "Fixed"
           ? {
               commissionType: "FIXED",

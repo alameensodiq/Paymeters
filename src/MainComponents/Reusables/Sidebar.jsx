@@ -277,6 +277,49 @@ const Sidebar = () => {
             </p>
           </Link>
           <Link
+            to="/notification"
+            className={`flex flex-row h-[33px] ${
+              router.pathname === "/notification"
+                ? "bg-route-bg gap-2 rounded-custom-router"
+                : "bg-white hover:bg-route-bg gap-2 rounded-custom-router"
+            }`}
+            onMouseEnter={() => setIsHovered14(true)}
+            onMouseLeave={() => setIsHovered14(false)}
+          >
+            {router.pathname === "/notification" || isHovered14 ? (
+              <div className={`w-[3px] ${"bg-route-color rounded-t-l"}`}></div>
+            ) : (
+              <div className={`w-[3px] ${" bg-white rounded-t-l"}`}></div>
+            )}
+            {router.pathname === "/notification" || isHovered14 ? (
+              <Bill
+                className={`${
+                  router.pathname === "/notification"
+                    ? "fill-current text-route-color my-[9px]"
+                    : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+                }`}
+              />
+            ) : (
+              <Bill
+                className={`${
+                  router.pathname === "/notification"
+                    ? "fill-current text-route-color my-[9px]"
+                    : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+                }`}
+              />
+            )}
+
+            <p
+              className={`${
+                router.pathname === "/notification"
+                  ? "text-route-color my-[9px] text-[12px] font-medium hidden sm:block md:block"
+                  : "hover:text-route-color text-route-noncolor my-[9px] text-[12px] font-medium hidden sm:block md:block"
+              }`}
+            >
+              Agents
+            </p>
+          </Link>
+          {/* <Link
             to="/agents"
             className={`flex flex-row h-[33px] ${
               router.pathname === "/agents" ||
@@ -326,7 +369,7 @@ const Sidebar = () => {
             >
               Agents
             </p>
-          </Link>
+          </Link> */}
           <Link
             to="/earning"
             className={`flex flex-row h-[33px] ${
@@ -425,7 +468,7 @@ const Sidebar = () => {
                   : "hover:text-route-color text-route-noncolor my-[9px] text-[12px] font-medium hidden sm:block md:block"
               }`}
             >
-              Api-Partner
+              API-Partner
             </p>
           </Link>
           <Link
@@ -519,7 +562,7 @@ const Sidebar = () => {
                   : "hover:text-route-color text-route-noncolor my-[9px] text-[12px] font-medium hidden sm:block md:block"
               }`}
             >
-              Funding
+              Funding Request
             </p>
           </Link>
           <Link
@@ -571,49 +614,6 @@ const Sidebar = () => {
               }`}
             >
               Payment Method
-            </p>
-          </Link>
-          <Link
-            to="/notification"
-            className={`flex flex-row h-[33px] ${
-              router.pathname === "/notification"
-                ? "bg-route-bg gap-2 rounded-custom-router"
-                : "bg-white hover:bg-route-bg gap-2 rounded-custom-router"
-            }`}
-            onMouseEnter={() => setIsHovered14(true)}
-            onMouseLeave={() => setIsHovered14(false)}
-          >
-            {router.pathname === "/notification" || isHovered14 ? (
-              <div className={`w-[3px] ${"bg-route-color rounded-t-l"}`}></div>
-            ) : (
-              <div className={`w-[3px] ${" bg-white rounded-t-l"}`}></div>
-            )}
-            {router.pathname === "/notification" || isHovered14 ? (
-              <Bill
-                className={`${
-                  router.pathname === "/notification"
-                    ? "fill-current text-route-color my-[9px]"
-                    : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
-                }`}
-              />
-            ) : (
-              <Bill
-                className={`${
-                  router.pathname === "/notification"
-                    ? "fill-current text-route-color my-[9px]"
-                    : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
-                }`}
-              />
-            )}
-
-            <p
-              className={`${
-                router.pathname === "/notification"
-                  ? "text-route-color my-[9px] text-[12px] font-medium hidden sm:block md:block"
-                  : "hover:text-route-color text-route-noncolor my-[9px] text-[12px] font-medium hidden sm:block md:block"
-              }`}
-            >
-              Notification
             </p>
           </Link>
           <Link

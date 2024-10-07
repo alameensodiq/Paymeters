@@ -1350,7 +1350,12 @@ const Tables = ({
             </TableHead>
             <TableBody>
               {data?.map((item, index) => (
-                <StyledTableRow>
+                <StyledTableRow
+                  onClick={() => {
+                    setStep(11);
+                    setUserIds(item?.id);
+                  }}
+                >
                   <StyledTableCell
                     className="text-dob"
                     style={{ width: "10%" }}

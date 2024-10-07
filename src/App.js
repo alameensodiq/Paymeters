@@ -62,14 +62,14 @@ function App() {
             element={<Complaints title={"Complaints"} />}
           />
 
-          <Route path="/api" element={<ApiPartner title={"Api-Partner"} />} />
+          <Route path="/api" element={<ApiPartner title={"API-Partner"} />} />
           <Route path="/discos" element={<Loans title={"Discos"} />} />
           <Route path="/funding" element={<Funding title={"Funding"} />} />
           <Route path="/payment" element={<Payment title={"Payment"} />} />
           <Route path="/setting" element={<Setting title={"Settings"} />} />
           <Route
             path="/notification"
-            element={<Notification title={"Notification"} />}
+            element={<Notification title={"Agents"} />}
           />
         </>
       )}
