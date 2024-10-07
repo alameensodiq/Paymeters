@@ -1,14 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { Logins } from '../Apis/Login';
+import { createSlice } from "@reduxjs/toolkit";
+import { Logins } from "../Apis/Login";
 
 export const LoginSlice = createSlice({
-  name: 'login',
+  name: "login",
   initialState: {
     login: null,
     authenticating: false,
     authenticated: false,
     isError: false,
-    errors: null,
+    errors: null
   },
   reducers: {
     clearState: (state) => {
@@ -17,27 +17,28 @@ export const LoginSlice = createSlice({
       state.authenticated = false;
       state.authenticating = false;
       return state;
-    },
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(Logins.fulfilled, (state, action) => {
       state.login = action.payload;
       state.authenticated = false;
       state.authenticating = false;
+      console.log(action.payload);
       return state;
     });
     builder.addCase(Logins.pending, (state, action) => {
-        state.authenticating = true;
-        state.authenticated = true;
+      state.authenticating = true;
+      state.authenticated = true;
     });
     builder.addCase(Logins.rejected, (state, action) => {
-        state.errors = action.errors || action.payload;
-        state.authenticated = false;
-        state.authenticating = false;
-        state.isError = true;
-        return state;
+      state.errors = action.errors || action.payload;
+      state.authenticated = false;
+      state.authenticating = false;
+      state.isError = true;
+      return state;
     });
-  },
+  }
 });
 
 export const { clearState } = LoginSlice.actions;

@@ -3,27 +3,26 @@ import toast from "react-hot-toast";
 
 export const CreateBank = createAsyncThunk(
   "createdbank",
-  async ({ name, code, ussd }, thunkAPI) => {
+  async ({ code, name, ussd, logoUrl, bankCommission }, thunkAPI) => {
     console.log(process.env.REACT_APP_BASE_URL);
-    const accessToken = sessionStorage.getItem('token')
+    const accessToken = sessionStorage.getItem("token");
 
     try {
-      const response = await fetch(
-        `${process.env.REACT_APP_BASE_URL}bank`,
-        {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-          body: JSON.stringify({
-            name,
-            code,
-            ussd
-          })
-        }
-      );
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}bank`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`
+        },
+        body: JSON.stringify({
+          code,
+          name,
+          ussd,
+          logoUrl,
+          bankCommission
+        })
+      });
       let data = await response.json();
       toast.success(data.message);
       console.log(data);

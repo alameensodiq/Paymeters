@@ -1,25 +1,15 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import toast from "react-hot-toast";
 
-export const CreatedDisco = createAsyncThunk(
-  "createddisco",
-  async (
-    {
-      name,
-      shortName,
-      commissionsDTO,
-      earningPartnerId,
-      email,
-      logoUrl,
-      phone
-    },
-    thunkAPI
-  ) => {
+export const CreateEarnings = createAsyncThunk(
+  "createearnings",
+  async ({ email, name, address, phone, nin }, thunkAPI) => {
     console.log(process.env.REACT_APP_BASE_URL);
     const accessToken = sessionStorage.getItem("token");
+
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BASE_URL}admin/onboard-disco`,
+        `${process.env.REACT_APP_BASE_URL}admin/create-earningpartner`,
         {
           method: "POST",
           headers: {
@@ -28,13 +18,11 @@ export const CreatedDisco = createAsyncThunk(
             Authorization: `Bearer ${accessToken}`
           },
           body: JSON.stringify({
-            name,
-            shortName,
-            commissionsDTO,
-            earningPartnerId,
             email,
-            logoUrl,
-            phone
+            name,
+            address,
+            phone,
+            nin
           })
         }
       );

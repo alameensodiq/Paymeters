@@ -33,6 +33,9 @@ const Funding = ({ title }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [searcher, setSearcher] = useState("");
   const [loading, setloading] = useState(false);
+  const [paymentMethodIds, setpaymentMethodIds] = useState("");
+  const [actions, setActions] = useState("");
+  const [real, setReal] = useState("");
   //   const [action, setAction] = useState("disable");
   //   const [paymentMethodId, setPaymentMethodId] = useState(null);
   const [role, setRole] = useState("APIPARTNER");
@@ -71,10 +74,10 @@ const Funding = ({ title }) => {
   console.log(funding);
 
   useEffect(() => {
-    setTimeout(() => {
-      setloading(true);
-    }, [2000]);
-  }, [funding]);
+    // setTimeout(() => {
+    setloading(true);
+    // }, [2000]);
+  }, [funding?.data]);
 
   const next = funding?.data?.meta?.next;
   const previous = funding?.data?.meta?.prev;
@@ -96,7 +99,11 @@ const Funding = ({ title }) => {
   };
 
   const Pays = (transactionId, userPhoneNumber, amount) => {
-    dispatch(FundingApproval({ transactionId, userPhoneNumber, amount }));
+    setStep(22);
+    setpaymentMethodIds(transactionId);
+    setActions(userPhoneNumber);
+    setReal(amount);
+    // dispatch(FundingApproval({ transactionId, userPhoneNumber, amount }));
   };
 
   const Downloading = () => {
@@ -123,7 +130,17 @@ const Funding = ({ title }) => {
         <div className="w-[100%] h-[20%]">
           <Navbar title={title} />
         </div>
-        <AppUserModal setStep={setStep} step={step} setReload={setReload} />
+        <AppUserModal
+          paymentMethodIds={paymentMethodIds}
+          setpaymentMethodIds={setpaymentMethodIds}
+          setActions={setActions}
+          actions={actions}
+          setReal={setReal}
+          real={real}
+          setStep={setStep}
+          step={step}
+          setReload={setReload}
+        />
         <div className="w-[100%] py-9 px-5 flex flex-col gap-10">
           <div className="flex flex-row justify-between">
             <span className="text-route-name text-[28px] font-semibold">

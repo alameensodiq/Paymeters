@@ -16,10 +16,10 @@ export const Logins = createAsyncThunk(
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
-            // phone,
-            // password
-            phone: "2347012345678",
-            password: "@#pay!meter&*0@"
+            phone,
+            password
+            // phone: "2347012345678",
+            // password: "@#pay!meter&*0@"
           })
         }
       );
@@ -29,7 +29,13 @@ export const Logins = createAsyncThunk(
       //   sessionStorage.setItem('firstName', data?.data?.user?.firstName);
       //   sessionStorage.setItem('role', data?.data?.user?.userRole);
       sessionStorage.setItem("token", data?.data?.token);
-      return data;
+      sessionStorage.setItem("roleName", data?.data?.user?.roleName);
+      if (data?.data?.token && data?.data?.user?.roleName === "ADMIN") {
+        window.location.pathname = "/dashboard";
+      }
+      if (data?.data?.token && data?.data?.user?.roleName !== "ADMIN") {
+        window.location.pathname = "/complaint";
+      }
     } catch (e) {
       return thunkAPI.rejectWithValue({
         error: "Failed! To establish connection."

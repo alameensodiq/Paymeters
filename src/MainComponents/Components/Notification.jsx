@@ -59,11 +59,11 @@ const Notification = ({ title }) => {
       dispatch(Notifications({ status }));
       setReload(false);
     }
-    if (reload) {
-      //   dispatch(Banks({ startDate, searcher, currentPage }));
-      dispatch(Notifications({ status }));
-      setReload(false);
-    }
+    // if (reload) {
+    //   //   dispatch(Banks({ startDate, searcher, currentPage }));
+    //   dispatch(Notifications({ status }));
+    //   setReload(false);
+    // }
     //eslint-disable-next-line
   }, [reload, status, approve?.status]);
 
@@ -73,9 +73,9 @@ const Notification = ({ title }) => {
   console.log(notifications);
 
   useEffect(() => {
-    setTimeout(() => {
-      setloading(true);
-    }, [2000]);
+    // setTimeout(() => {
+    setloading(true);
+    // }, [2000]);
   }, [notifications?.data]);
 
   const next = notifications?.data?.meta?.next;

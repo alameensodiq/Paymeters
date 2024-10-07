@@ -15,8 +15,23 @@ import ModalInputSelectTwo from "../bits/ModalInputSelectTwo";
 import { CreatePay } from "../MainComponents/Store/Apis/CreatePay";
 import { CreateSettings } from "../MainComponents/Store/Apis/CreateSettings";
 import { UserCom } from "../MainComponents/Store/Apis/UserCom";
+import { CreateEarnings } from "../MainComponents/Store/Apis/CreateEarnings";
+import { TogglePay } from "../MainComponents/Store/Apis/TogglePay";
+import { FundingApproval } from "../MainComponents/Store/Apis/FundingApproval";
 
-const AppUserModal = ({ setStep, step, setReload, userIds, setUserIds }) => {
+const AppUserModal = ({
+  setStep,
+  step,
+  setReload,
+  userIds,
+  setUserIds,
+  paymentMethodIds,
+  actions,
+  real,
+  setpaymentMethodIds,
+  setActions,
+  setReal
+}) => {
   const dispatch = useDispatch();
   const [hide, sethide] = useState(false);
   const [uploadfile, setupload] = useState("");
@@ -27,7 +42,12 @@ const AppUserModal = ({ setStep, step, setReload, userIds, setUserIds }) => {
   const [bustate4, setBusstate4] = useState(false);
   const [bustate5, setBusstate5] = useState(false);
   const [bustate6, setBusstate6] = useState(false);
+  const [bustate7, setBusstate7] = useState(false);
+  const [bustate8, setBusstate8] = useState(false);
+  const [bustate9, setBusstate9] = useState(false);
   const [itemers, setItemer] = useState("");
+  const [itemersdisco, setItemerdisco] = useState("");
+  const [itemersinst, setItemersinst] = useState("");
   const [partner, setPartner] = useState({
     name: "",
     email: "",
@@ -56,17 +76,41 @@ const AppUserModal = ({ setStep, step, setReload, userIds, setUserIds }) => {
       capFee: null
     }
   });
+
   const [regbus, setRegbus] = useState({
     name: "",
     code: "",
-    ussd: ""
+    ussd: "",
+    logoUrl: "",
+    bankCommission: {
+      bankCommissionType: "",
+      bankFixedCommissionFee: "",
+      bankFeeTax: "",
+      fee: ""
+    }
+  });
+  const [earnings, setEarnings] = useState({
+    email: "",
+    name: "",
+    address: "",
+    phone: "",
+    nin: ""
   });
   const [pay, setPay] = useState({
     name: ""
   });
   const [disc, setDisc] = useState({
     name: "",
-    shortName: ""
+    shortName: "",
+    commissionsDTO: {
+      commissionType: "",
+      fee: null,
+      capFee: null
+    },
+    earningPartnerId: "",
+    email: "",
+    logoUrl: "",
+    phone: null
   });
 
   const [password, setPassword] = useState("");
@@ -106,6 +150,21 @@ const AppUserModal = ({ setStep, step, setReload, userIds, setUserIds }) => {
   );
   console.log(usercom);
 
+  const { earningpartner, authenticatingearningpartner } = useSelector(
+    (state) => state?.earningpartner
+  );
+  console.log(earningpartner);
+
+  const { togglepay, authenticatingtogglepay } = useSelector(
+    (state) => state?.togglepay
+  );
+  console.log(togglepay);
+
+  const { fundingapproval, authenticatingfundingapproval } = useSelector(
+    (state) => state?.fundingapproval
+  );
+  console.log(fundingapproval);
+
   useEffect(() => {
     if (bustate && createdbank?.status) {
       setStep(3);
@@ -128,6 +187,15 @@ const AppUserModal = ({ setStep, step, setReload, userIds, setUserIds }) => {
     if (bustate6 && usercom?.status) {
       setStep(17);
     }
+    if (bustate7 && earningpartner?.status) {
+      setStep(19);
+    }
+    if (bustate8 && togglepay?.status) {
+      setStep(21);
+    }
+    if (bustate9 && fundingapproval?.status) {
+      setStep(23);
+    }
 
     console.log(update);
   }, [
@@ -142,9 +210,15 @@ const AppUserModal = ({ setStep, step, setReload, userIds, setUserIds }) => {
     bustate4,
     bustate5,
     bustate6,
+    bustate7,
+    bustate8,
+    bustate9,
     createpay?.status,
     createsettings?.status,
-    usercom?.status
+    usercom?.status,
+    earningpartner?.status,
+    togglepay?.status,
+    fundingapproval?.status
   ]);
 
   const Change = (e) => {
@@ -152,6 +226,15 @@ const AppUserModal = ({ setStep, step, setReload, userIds, setUserIds }) => {
     console.log(value);
     setRegbus({
       ...regbus,
+      [name]: value
+    });
+  };
+
+  const ChangeEarning = (e) => {
+    const { name, value } = e.target;
+    console.log(value);
+    setEarnings({
+      ...earnings,
       [name]: value
     });
   };
@@ -174,6 +257,28 @@ const AppUserModal = ({ setStep, step, setReload, userIds, setUserIds }) => {
     });
   };
 
+  const ChangePartnerNumber = (e) => {
+    const { name, value } = e.target;
+
+    // Allow only numbers and one decimal point
+    const sanitizedValue = value.replace(/[^0-9.]/g, ""); // Remove non-numeric characters
+
+    // Ensure only one decimal point is allowed
+    const decimalCount = (sanitizedValue.match(/\./g) || []).length;
+
+    // If there's more than one decimal point, keep only the first one
+    if (decimalCount > 1) {
+      const firstDecimalIndex = sanitizedValue.indexOf(".");
+      const parts = sanitizedValue.split(".");
+      sanitizedValue =
+        parts[0] + "." + parts.slice(1).join("").replace(/\./g, "");
+    }
+    setPartner({
+      ...partner,
+      [name]: sanitizedValue
+    });
+  };
+
   const ChangeDisc = (e) => {
     const { name, value } = e.target;
     console.log(value);
@@ -181,6 +286,52 @@ const AppUserModal = ({ setStep, step, setReload, userIds, setUserIds }) => {
       ...disc,
       [name]: value
     });
+  };
+
+  const ChangeDiscNumber = (e) => {
+    const { name, value } = e.target;
+
+    // Allow only numbers and one decimal point
+    const sanitizedValue = value.replace(/[^0-9.]/g, ""); // Remove non-numeric characters
+
+    // Ensure only one decimal point is allowed
+    const decimalCount = (sanitizedValue.match(/\./g) || []).length;
+
+    // If there's more than one decimal point, keep only the first one
+    if (decimalCount > 1) {
+      const firstDecimalIndex = sanitizedValue.indexOf(".");
+      const parts = sanitizedValue.split(".");
+      sanitizedValue =
+        parts[0] + "." + parts.slice(1).join("").replace(/\./g, "");
+    }
+
+    setDisc((prevDisc) => ({
+      ...prevDisc,
+      [name]: sanitizedValue
+    }));
+  };
+
+  const ChangeEarningNumber = (e) => {
+    const { name, value } = e.target;
+
+    // Allow only numbers and one decimal point
+    const sanitizedValue = value.replace(/[^0-9.]/g, ""); // Remove non-numeric characters
+
+    // Ensure only one decimal point is allowed
+    const decimalCount = (sanitizedValue.match(/\./g) || []).length;
+
+    // If there's more than one decimal point, keep only the first one
+    if (decimalCount > 1) {
+      const firstDecimalIndex = sanitizedValue.indexOf(".");
+      const parts = sanitizedValue.split(".");
+      sanitizedValue =
+        parts[0] + "." + parts.slice(1).join("").replace(/\./g, "");
+    }
+
+    setEarnings((prevDisc) => ({
+      ...earnings,
+      [name]: sanitizedValue
+    }));
   };
 
   const ChangePass = (e) => {
@@ -192,26 +343,55 @@ const AppUserModal = ({ setStep, step, setReload, userIds, setUserIds }) => {
   const datePickerRef = useRef(null);
 
   const SendDetailsBank = () => {
-    const { name, code, ussd } = regbus;
+    const { code, name, ussd, logoUrl, bankCommission } = regbus;
     dispatch(
       CreateBank({
-        name,
         code,
-        ussd
+        name,
+        ussd,
+        logoUrl,
+        bankCommission
       })
     );
     setBusstate(true);
   };
 
   const SendDetailsDisco = () => {
-    const { name, shortName } = disc;
+    const {
+      name,
+      shortName,
+      earningPartnerDto,
+      commissionsDTO,
+      email,
+      logoUrl,
+      phone
+    } = disc;
     dispatch(
       CreatedDisco({
         name,
-        shortName
+        shortName,
+        commissionsDTO,
+        earningPartnerDto,
+        email,
+        logoUrl,
+        phone
       })
     );
     setBusstate2(true);
+  };
+
+  const SendEarningPartner = () => {
+    const { email, name, address, phone, nin } = earnings;
+    dispatch(
+      CreateEarnings({
+        email,
+        name,
+        address,
+        phone,
+        nin
+      })
+    );
+    setBusstate7(true);
   };
 
   const SendPassword = () => {
@@ -279,7 +459,14 @@ const AppUserModal = ({ setStep, step, setReload, userIds, setUserIds }) => {
     setRegbus({
       name: "",
       code: "",
-      ussd: ""
+      ussd: "",
+      logoUrl: "",
+      bankCommission: {
+        bankCommissionType: "",
+        bankFixedCommissionFee: "",
+        bankFeeTax: "",
+        fee: ""
+      }
     });
     setSettingsGlobal({
       name: "",
@@ -301,7 +488,15 @@ const AppUserModal = ({ setStep, step, setReload, userIds, setUserIds }) => {
     setItemer("");
     setDisc({
       name: "",
-      shortName: ""
+      shortName: "",
+      commissionsDTO: {
+        commissionType: "",
+        fee: null,
+        capFee: null
+      },
+      earningPartnerId: "",
+      email: "",
+      logoUrl: ""
     });
     setPay({
       name: ""
@@ -323,7 +518,18 @@ const AppUserModal = ({ setStep, step, setReload, userIds, setUserIds }) => {
     setBusstate6(false);
     setReload(true);
     setPassword("");
-    setUserIds("");
+    if (userIds) {
+      setUserIds("");
+    }
+    if (paymentMethodIds) {
+      setpaymentMethodIds("");
+    }
+    if (actions) {
+      setActions("");
+    }
+    if (real) {
+      setReal("");
+    }
   };
 
   const handleSubmit = () => {
@@ -390,7 +596,38 @@ const AppUserModal = ({ setStep, step, setReload, userIds, setUserIds }) => {
               capFee: null
             }
     }));
-  }, [itemers]);
+    setDisc((prev) => ({
+      ...prev,
+      commissionsDTO:
+        itemersdisco === "Fixed"
+          ? {
+              commissionType: "FIXED",
+              fee: null
+            }
+          : {
+              commissionType: "PERCENTAGE",
+              fee: null,
+              capFee: null
+            }
+    }));
+    setRegbus((prev) => ({
+      ...prev,
+      bankCommission:
+        itemersinst === "Fixed"
+          ? {
+              bankCommissionType: "FIXED",
+              bankFixedCommissionFee: "",
+              bankFeeTax: "",
+              fee: ""
+            }
+          : {
+              bankCommissionType: "PERCENTAGE",
+              bankFixedCommissionFee: "",
+              bankFeeTax: "",
+              fee: ""
+            }
+    }));
+  }, [itemers, itemersdisco, itemersinst]);
 
   const ChangeSettings = (e) => {
     const { name, value } = e.target;
@@ -412,26 +649,161 @@ const AppUserModal = ({ setStep, step, setReload, userIds, setUserIds }) => {
 
   const ChangeSettingsType = (e) => {
     const { name, value } = e.target;
-    console.log(value);
+
+    // Allow only numbers and one decimal point
+    const sanitizedValue = value.replace(/[^0-9.]/g, ""); // Remove non-numeric characters
+
+    // Ensure only one decimal point is allowed
+    const decimalCount = (sanitizedValue.match(/\./g) || []).length;
+
+    // If there's more than one decimal point, keep only the first one
+    if (decimalCount > 1) {
+      const firstDecimalIndex = sanitizedValue.indexOf(".");
+      const parts = sanitizedValue.split(".");
+      sanitizedValue =
+        parts[0] + "." + parts.slice(1).join("").replace(/\./g, "");
+    }
     setSettingsGlobal((prev) => ({
       ...prev,
       commissions: {
         ...prev.commissions,
-        [name]: JSON.parse(value)
+        [name]: sanitizedValue
       }
     }));
   };
 
   const ChangeSettingsTypeUser = (e) => {
     const { name, value } = e.target;
-    console.log(value);
+
+    // Allow only numbers and one decimal point
+    const sanitizedValue = value.replace(/[^0-9.]/g, ""); // Remove non-numeric characters
+
+    // Ensure only one decimal point is allowed
+    const decimalCount = (sanitizedValue.match(/\./g) || []).length;
+
+    // If there's more than one decimal point, keep only the first one
+    if (decimalCount > 1) {
+      const firstDecimalIndex = sanitizedValue.indexOf(".");
+      const parts = sanitizedValue.split(".");
+      sanitizedValue =
+        parts[0] + "." + parts.slice(1).join("").replace(/\./g, "");
+    }
     setUserGlobal((prev) => ({
       ...prev,
       commissionDetails: {
-        ...prev.commissions,
-        [name]: JSON.parse(value)
+        ...prev.commissionDetails,
+        [name]: sanitizedValue
       }
     }));
+  };
+
+  const ChangeSettingsTypeUserDisco = (e) => {
+    const { name, value } = e.target;
+
+    // Allow only numbers and one decimal point
+    const sanitizedValue = value.replace(/[^0-9.]/g, ""); // Remove non-numeric characters
+
+    // Ensure only one decimal point is allowed
+    const decimalCount = (sanitizedValue.match(/\./g) || []).length;
+
+    // If there's more than one decimal point, keep only the first one
+    if (decimalCount > 1) {
+      const firstDecimalIndex = sanitizedValue.indexOf(".");
+      const parts = sanitizedValue.split(".");
+      sanitizedValue =
+        parts[0] + "." + parts.slice(1).join("").replace(/\./g, "");
+    }
+    setDisc((prev) => ({
+      ...prev,
+      commissionsDTO: {
+        ...prev.commissionsDTO,
+        [name]: sanitizedValue
+      }
+    }));
+  };
+
+  const ChangeSettingsTypeUserInst = (e) => {
+    const { name, value } = e.target;
+
+    // Allow only numbers and one decimal point
+    const sanitizedValue = value.replace(/[^0-9.]/g, ""); // Remove non-numeric characters
+
+    // Ensure only one decimal point is allowed
+    const decimalCount = (sanitizedValue.match(/\./g) || []).length;
+
+    // If there's more than one decimal point, keep only the first one
+    if (decimalCount > 1) {
+      const firstDecimalIndex = sanitizedValue.indexOf(".");
+      const parts = sanitizedValue.split(".");
+      sanitizedValue =
+        parts[0] + "." + parts.slice(1).join("").replace(/\./g, "");
+    }
+    setRegbus((prev) => ({
+      ...prev,
+      bankCommission: {
+        ...prev.bankCommission,
+        [name]: sanitizedValue
+      }
+    }));
+  };
+
+  const sendingsImage = (e) => {
+    // Check if the event and files are defined
+    if (!e || !e.target || !e.target.files || e.target.files.length === 0) {
+      console.error("No file selected");
+      return; // Exit if no file is selected
+    }
+
+    const accessToken = sessionStorage.getItem("token");
+    const folder = e.target.files[0]; // Get the first file
+
+    const myHeaders = new Headers();
+    myHeaders.append("X-Api-Key", "YOUR_API_KEY_HERE");
+    myHeaders.append("Authorization", `Bearer ${accessToken}`);
+
+    const formdata = new FormData();
+    formdata.append("file", folder, folder.name); // Append the file with its name
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: formdata,
+      redirect: "follow"
+    };
+
+    fetch(`${process.env.REACT_APP_BASE_URL}admin/upload-logo`, requestOptions)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.text(); // Changed to text to match your original implementation
+      })
+      .then((result) => {
+        const parsedResult = JSON.parse(result); // Parse the JSON response
+        console.log(parsedResult);
+        setUpdate(parsedResult?.data?.logoUrl); // Update state with file name
+        setDisc((prevDisc) => ({
+          ...prevDisc,
+          logoUrl: parsedResult?.data?.logoUrl
+        }));
+        setRegbus((prevDisc) => ({
+          ...prevDisc,
+          logoUrl: parsedResult?.data?.logoUrl
+        }));
+        toast.success("File uploaded");
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        toast.error("File upload failed"); // Simplified error message
+      });
+  };
+
+  const PickDater = () => {
+    // You can integrate with date picker if needed
+    console.log("Triggering date picker");
+    if (datePickerRef.current) {
+      datePickerRef.current.click(); // If needed
+    }
   };
 
   return (
@@ -466,8 +838,122 @@ const AppUserModal = ({ setStep, step, setReload, userIds, setUserIds }) => {
           value={regbus?.ussd}
           placeholder={`${`Enter Bank Ussd`}`}
         />
+        <ModalInputSelectTwo
+          name="commissionsDTO"
+          label="Commission DTO"
+          // onChange={(e) => ChangeDisc(e)}
+          options={["Fixed", "Percentage"]}
+          itemer={itemersinst}
+          big
+          setItemer={setItemersinst}
+        />
+        {regbus?.logoUrl !== "" ? (
+          <img
+            src={regbus?.logoUrl}
+            alt="takephoto"
+            style={{ width: "492px", height: "105px" }}
+          />
+        ) : (
+          <>
+            <input
+              type="file"
+              id="uploadFile"
+              name="avatar"
+              onChange={(e) => sendingsImage(e)}
+              accept="image/*"
+              style={{ display: "none" }}
+              className="i-none"
+              ref={datePickerRef}
+            />
+            <ModalInputText
+              onClick={() => PickDater()}
+              label="Take photo"
+              photo
+            />
+          </>
+        )}
+        {itemersinst === "Fixed" ? (
+          <>
+            <ModalInputText
+              label="Fixed Bank Fixed Commission"
+              onChange={(e) => ChangeSettingsTypeUserInst(e)}
+              name="bankFixedCommissionFee"
+              value={regbus?.bankCommission?.bankFixedCommissionFee}
+              placeholder={`${`Enter Percentage Commission`}`}
+            />
+            <ModalInputText
+              label="Bank Fee Tax"
+              onChange={(e) => ChangeSettingsTypeUserInst(e)}
+              name="bankFeeTax"
+              value={regbus?.bankCommission?.bankFeeTax}
+              placeholder={`${`Enter Bank Fee Tax`}`}
+            />
+            <ModalInputText
+              label="Fee"
+              onChange={(e) => ChangeSettingsTypeUserInst(e)}
+              name="fee"
+              value={regbus?.bankCommission?.fee}
+              placeholder={`${`Enter Bank Fee`}`}
+            />
+            <span style={{ color: "red", fontSize: "10px" }}>
+              Note:Percentage Must be less than or equal to Disco Percentage
+              with Paymeter
+            </span>
+          </>
+        ) : itemersinst === "Percentage" ? (
+          <>
+            <ModalInputText
+              label="Percentage Bank Fixed Commission"
+              onChange={(e) => ChangeSettingsTypeUserInst(e)}
+              name="bankFixedCommissionFee"
+              value={regbus?.bankCommission?.bankFixedCommissionFee}
+              placeholder={`${`Enter Percentage Commission`}`}
+            />
+            <ModalInputText
+              label="Bank Fee Tax"
+              onChange={(e) => ChangeSettingsTypeUserInst(e)}
+              name="bankFeeTax"
+              value={regbus?.bankCommission?.bankFeeTax}
+              placeholder={`${`Enter Bank Fee Tax`}`}
+            />
+            <ModalInputText
+              label="Fee"
+              onChange={(e) => ChangeSettingsTypeUserInst(e)}
+              name="fee"
+              value={regbus?.bankCommission?.fee}
+              placeholder={`${`Enter Bank Fee`}`}
+            />
+            <span style={{ color: "red", fontSize: "10px" }}>
+              Note:Percentage Must be less than or equal to Disco Percentage
+              with Paymeter
+            </span>
+          </>
+        ) : (
+          ""
+        )}
         <LargeSignInButton
-          onClick={() => setStep(2)}
+          onClick={() => {
+            const { code, name, ussd, logoUrl, bankCommission } = regbus;
+            console.log({ code, name, ussd, logoUrl, bankCommission });
+
+            // Check for missing values
+            const isFeeMissing =
+              bankCommission?.bankFixedCommissionFee === null;
+            const isCapFeeMissing = bankCommission?.fee === null;
+
+            if (
+              name &&
+              ussd &&
+              logoUrl &&
+              code &&
+              !isFeeMissing &&
+              !isCapFeeMissing
+            ) {
+              setStep(2);
+            } else {
+              toast.error("Fill all details");
+            }
+          }}
           bigger
           title={"Submit"}
           background
@@ -612,14 +1098,116 @@ const AppUserModal = ({ setStep, step, setReload, userIds, setUserIds }) => {
           placeholder={`${`Enter Disco Name`}`}
         />
         <ModalInputText
+          label="Email"
+          onChange={(e) => ChangeDisc(e)}
+          name="email"
+          value={disc?.email}
+          placeholder={`${`Enter Disco Email`}`}
+        />
+        <ModalInputText
+          label="Phone"
+          onChange={(e) => ChangeDiscNumber(e)}
+          name="phone"
+          value={disc?.phone}
+          placeholder={`${`Enter Disco Phone Number`}`}
+        />
+        <ModalInputText
           label="Short Name"
           onChange={(e) => ChangeDisc(e)}
           name="shortName"
           value={disc?.shortName}
           placeholder={`${`Enter Disco Short Name`}`}
         />
+        {disc?.logoUrl !== "" ? (
+          <img
+            src={disc?.logoUrl}
+            alt="takephoto"
+            style={{ width: "492px", height: "105px" }}
+          />
+        ) : (
+          <>
+            <input
+              type="file"
+              id="uploadFile"
+              name="avatar"
+              onChange={(e) => sendingsImage(e)}
+              accept="image/*"
+              style={{ display: "none" }}
+              className="i-none"
+              ref={datePickerRef}
+            />
+            <ModalInputText
+              onClick={() => PickDater()}
+              label="Take photo"
+              photo
+            />
+          </>
+        )}
+        <ModalInputSelectTwo
+          name="commissionsDTO"
+          label="Commission DTO"
+          onChange={(e) => ChangeDisc(e)}
+          options={["Fixed", "Percentage"]}
+          itemer={itemersdisco}
+          big
+          setItemer={setItemerdisco}
+        />
+        {itemersdisco === "Fixed" ? (
+          <ModalInputText
+            label="Fixed"
+            onChange={(e) => ChangeSettingsTypeUserDisco(e)}
+            name="fee"
+            value={disc?.commissionsDTO?.fee}
+            placeholder={`${`Enter Fixed Commission`}`}
+          />
+        ) : itemersdisco === "Percentage" ? (
+          <>
+            <ModalInputText
+              label="Percentage"
+              onChange={(e) => ChangeSettingsTypeUserDisco(e)}
+              name="fee"
+              value={disc?.commissionsDTO?.fee}
+              placeholder={`${`Enter Percentage Commission`}`}
+            />
+            <span style={{ color: "red", fontSize: "10px" }}>
+              Note:Percentage Must be less than or equal to Disco Percentage
+              with Paymeter
+            </span>
+            <ModalInputText
+              label="Cap Fee"
+              onChange={(e) => ChangeSettingsTypeUserDisco(e)}
+              name="capFee"
+              value={disc?.commissionsDTO?.capFee}
+              placeholder={`${`Enter Cap Fee`}`}
+            />
+          </>
+        ) : (
+          ""
+        )}
+
         <LargeSignInButton
-          onClick={() => setStep(5)}
+          onClick={() => {
+            const { shortName, name, commissionsDTO, phone, email } = disc;
+            console.log({ name, shortName, commissionsDTO });
+
+            // Check for missing values
+            const isFeeMissing = commissionsDTO?.fee === null;
+            const isCapFeeMissing = commissionsDTO?.capFee === null;
+
+            if (
+              name &&
+              shortName &&
+              phone &&
+              email &&
+              (itemers === "Fixed"
+                ? !isFeeMissing
+                : !isFeeMissing && !isCapFeeMissing)
+            ) {
+              setStep(5);
+            } else {
+              toast.error("Fill all details");
+            }
+          }}
           bigger
           title={"Submit"}
           background
@@ -854,7 +1442,7 @@ const AppUserModal = ({ setStep, step, setReload, userIds, setUserIds }) => {
         />
         <ModalInputText
           label="Phone Number"
-          onChange={(e) => ChangePartner(e)}
+          onChange={(e) => ChangePartnerNumber(e)}
           name="phone"
           value={partner?.phone}
           placeholder={`${`Enter Phone Number`}`}
@@ -971,6 +1559,7 @@ const AppUserModal = ({ setStep, step, setReload, userIds, setUserIds }) => {
           onChange={(e) => ChangeSettingsUser(e)}
           options={["Disco List", "EKEDC", "IKJEDC"]}
         />
+
         {/* <ModalInputSelect
           label="User Type"
           name="userType"
@@ -981,7 +1570,7 @@ const AppUserModal = ({ setStep, step, setReload, userIds, setUserIds }) => {
         <ModalInputSelectTwo
           name="commissionType"
           label="Commission Type"
-          onChange={(e) => ChangeSettingsUser(e)}
+          // onChange={(e) => ChangeSettingsUser(e)}
           options={["Fixed", "Percentage"]}
           itemer={itemers}
           big
@@ -1114,7 +1703,7 @@ const AppUserModal = ({ setStep, step, setReload, userIds, setUserIds }) => {
         <ModalInputSelectTwo
           name="commissionType"
           label="Commission Type"
-          onChange={(e) => ChangeSettings(e)}
+          // onChange={(e) => ChangeSettings(e)}
           options={["Fixed", "Percentage"]}
           itemer={itemers}
           big
@@ -1467,6 +2056,386 @@ const AppUserModal = ({ setStep, step, setReload, userIds, setUserIds }) => {
             }}
           >
             <span>You have successfully Added Commission</span>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "10px"
+            }}
+          >
+            <LargeSignInButton
+              title="Close"
+              onClick={() => handleCloseModal4()}
+              big
+              background
+              color
+            />
+          </div>
+        </div>
+      </AppModal>
+      <AppModal
+        step={18}
+        currentStep={step}
+        closeModal={handleCloseModal4}
+        // updateUserListData(update);
+        // window.location.reload()
+
+        heading="Add Earning"
+      >
+        <ModalInputText
+          label="Name"
+          onChange={(e) => ChangeEarning(e)}
+          name="name"
+          value={earnings?.name}
+          placeholder={`${`Enter Email`}`}
+        />
+        <ModalInputText
+          label="Email"
+          onChange={(e) => ChangeEarning(e)}
+          name="email"
+          value={earnings?.email}
+          placeholder={`${`Enter Email`}`}
+        />
+        <ModalInputText
+          label="Phone"
+          onChange={(e) => ChangeEarningNumber(e)}
+          name="phone"
+          value={earnings?.phone}
+          placeholder={`${`Enter Phone Number`}`}
+        />
+        <ModalInputText
+          label="NIN"
+          onChange={(e) => ChangeEarningNumber(e)}
+          name="nin"
+          value={earnings?.nin}
+          placeholder={`${`Enter Nin`}`}
+        />
+        <ModalInputText
+          label="Address"
+          onChange={(e) => ChangeEarning(e)}
+          name="address"
+          value={earnings?.address}
+          placeholder={`${`Enter Address`}`}
+        />
+        <LargeSignInButton
+          onClick={() => {
+            const { email, name, address, phone, nin } = earnings;
+            console.log({ email, name, address, phone, nin });
+
+            if (name && phone && email && nin && address) {
+              // setStep(19);
+              SendEarningPartner();
+            } else {
+              toast.error("Fill all details");
+            }
+          }}
+          bigger
+          title={"Submit"}
+          background
+          color
+        />
+      </AppModal>
+      <AppModal
+        step={19}
+        currentStep={step}
+        closeModal={handleCloseModal4}
+        // updateUserListData(update);
+        // window.location.reload()
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "15px",
+            justifyContent: "center",
+            alignItems: "center"
+          }}
+        >
+          {/* <Success /> */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center"
+            }}
+          >
+            Earning Partner Created
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "5px",
+              fontSize: "12px",
+              color: "#667085"
+            }}
+          >
+            <span>You have successfully Added Partner</span>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "10px"
+            }}
+          >
+            <LargeSignInButton
+              title="Close"
+              onClick={() => handleCloseModal4()}
+              big
+              background
+              color
+            />
+          </div>
+        </div>
+      </AppModal>
+      <AppModal
+        step={20}
+        currentStep={step}
+        closeModal={handleCloseModal4}
+        // updateUserListData(update);
+        // window.location.reload()
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "15px",
+            justifyContent: "center",
+            alignItems: "center"
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center"
+            }}
+          >
+            Confirm Changes
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "5px",
+              fontSize: "12px",
+              color: "#667085"
+            }}
+          >
+            <span>
+              You are about to Change Payment Method, Are you sure the
+            </span>
+            <span>details are accurate?</span>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "10px"
+            }}
+          >
+            <LargeSignInButton
+              title="Cancel"
+              large
+              onClick={() => setStep(0)}
+            />
+            <LargeSignInButton
+              title="Confirm"
+              onClick={() => {
+                console.log(paymentMethodIds, actions);
+                dispatch(TogglePay({ paymentMethodIds, actions }));
+                setBusstate8(true);
+              }}
+              large
+              background
+              color
+            />
+          </div>
+        </div>
+      </AppModal>
+      <AppModal
+        step={21}
+        currentStep={step}
+        closeModal={handleCloseModal4}
+        // updateUserListData(update);
+        // window.location.reload()
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "15px",
+            justifyContent: "center",
+            alignItems: "center"
+          }}
+        >
+          {/* <Success /> */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center"
+            }}
+          >
+            Payment Method Changed
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "5px",
+              fontSize: "12px",
+              color: "#667085"
+            }}
+          >
+            <span>You have successfully Change Payment Method</span>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "10px"
+            }}
+          >
+            <LargeSignInButton
+              title="Close"
+              onClick={() => handleCloseModal4()}
+              big
+              background
+              color
+            />
+          </div>
+        </div>
+      </AppModal>
+      <AppModal
+        step={22}
+        currentStep={step}
+        closeModal={handleCloseModal4}
+        // updateUserListData(update);
+        // window.location.reload()
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "15px",
+            justifyContent: "center",
+            alignItems: "center"
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center"
+            }}
+          >
+            Confirm Changes
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "5px",
+              fontSize: "12px",
+              color: "#667085"
+            }}
+          >
+            <span>
+              You are about to accept Funding Request, Are you sure the
+            </span>
+            <span>details are accurate?</span>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "10px"
+            }}
+          >
+            <LargeSignInButton
+              title="Cancel"
+              large
+              onClick={() => setStep(0)}
+            />
+            <LargeSignInButton
+              title="Confirm"
+              onClick={() => {
+                console.log(paymentMethodIds, actions, real);
+                dispatch(
+                  FundingApproval({
+                    transactionId: paymentMethodIds,
+                    userPhoneNumber: actions,
+                    amount: real
+                  })
+                );
+                setBusstate9(true);
+              }}
+              large
+              background
+              color
+            />
+          </div>
+        </div>
+      </AppModal>
+      <AppModal
+        step={23}
+        currentStep={step}
+        closeModal={handleCloseModal4}
+        // updateUserListData(update);
+        // window.location.reload()
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "15px",
+            justifyContent: "center",
+            alignItems: "center"
+          }}
+        >
+          {/* <Success /> */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center"
+            }}
+          >
+            Funding Request
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "5px",
+              fontSize: "12px",
+              color: "#667085"
+            }}
+          >
+            <span>You have successfully Fund Request</span>
           </div>
           <div
             style={{

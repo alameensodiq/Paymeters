@@ -36,7 +36,7 @@ const Flex = styled.div`
     justify-content: center;
     align-content: center;
     background-color: ${(props) =>
-      props.background ? "#9932CC" : props.noborder ? "#FAFAFA" : "#ffffff"};
+      props.background ? "#999999" : props.noborder ? "#FAFAFA" : "#ffffff"};
     color: ${(props) =>
       props.color ? "#FFFFFF" : props.noborder ? "#8B909A" : "#1E1B39"};
     border-radius: 5px;
@@ -52,9 +52,16 @@ const Flex = styled.div`
     letter-spacing: 0em;
     text-align: left;
     min-height: ${(props) => (props.large ? `40px` : `50px`)};
-    border: ${(props) => (props.large ? `1px solid #E2E8F0` : `1px solid #E2E8F0`)};
+    border: ${(props) =>
+      props.large ? `1px solid #E2E8F0` : `1px solid #E2E8F0`};
     width: ${(props) =>
-      props.large ? "180px" : props?.big ? "430px" :  props?.bigger ? "490px" : "280px"};
+      props.large
+        ? "180px"
+        : props?.big
+        ? "430px"
+        : props?.bigger
+        ? "490px"
+        : "280px"};
     /* border: ${(props) =>
       props.noborder
         ? "0px"

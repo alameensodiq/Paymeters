@@ -16,6 +16,7 @@ import AppUserModal from "../../Modal/AppUserModal";
 import Pagination from "../Reusables/Pagination";
 import { Forgot } from "../Store/Apis/ForgotPassword";
 import { GetSettings } from "../Store/Apis/GetSettings";
+import { Loader } from "./Loader";
 
 const Setting = ({ title }) => {
   const [endDate, setEndDate] = useState(
@@ -29,6 +30,7 @@ const Setting = ({ title }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [searcher, setSearcher] = useState("");
   const [startDate, setStartDate] = useState(new Date("2022-01-01"));
+  const [loading, setloading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -66,6 +68,12 @@ const Setting = ({ title }) => {
     setCurrentPage(number - 1);
     setActivater(number);
   };
+
+  useEffect(() => {
+    // setTimeout(() => {
+    setloading(true);
+    // }, [2000]);
+  }, [getsettings?.data]);
 
   const dateChanger = (date) => {
     console.log(date);
@@ -111,17 +119,23 @@ const Setting = ({ title }) => {
             Create Commission
           </button>
         </div>
-        <Tables setting data={getsettings?.data?.data} setStep={setStep} />
-        {getsettings?.data?.meta?.totalCount >= 1 && (
-          <Pagination
-            set={activater}
-            currentPage={currentPage}
-            postsPerPage={postsPerPage}
-            totalPosts={totalPosts}
-            paginate={paginate}
-            previous={previous}
-            next={next}
-          />
+        {loading ? (
+          <>
+            <Tables setting data={getsettings?.data?.data} setStep={setStep} />
+            {getsettings?.data?.meta?.totalCount >= 1 && (
+              <Pagination
+                set={activater}
+                currentPage={currentPage}
+                postsPerPage={postsPerPage}
+                totalPosts={totalPosts}
+                paginate={paginate}
+                previous={previous}
+                next={next}
+              />
+            )}
+          </>
+        ) : (
+          <Loader />
         )}
       </div>
     </div>

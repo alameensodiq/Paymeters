@@ -18,7 +18,7 @@ import { ApiAgentRole } from "../Store/Apis/ApiAgentRoles";
 import empty from "../../assets/empty.png";
 import { Loader } from "./Loader";
 
-const ApiPartner = ({ title }) => {
+const EarningPartner = ({ title }) => {
   const [endDate, setEndDate] = useState(
     new Date(Date.now() + 3600 * 1000 * 24)
   );
@@ -30,7 +30,7 @@ const ApiPartner = ({ title }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [searcher, setSearcher] = useState("");
   const [loading, setloading] = useState(false);
-  const [role, setRole] = useState("APIPARTNER");
+  const [role, setRole] = useState("EARNINGPARTNER");
   const [userIds, setUserIds] = useState("");
   const [startDate, setStartDate] = useState(new Date("2022-01-01"));
   const navigate = useNavigate();
@@ -38,15 +38,14 @@ const ApiPartner = ({ title }) => {
 
   useEffect(() => {
     if (sessionStorage.getItem("token")) {
-      dispatch(ApiAgentRole({ role: "APIPARTNER" }));
+      dispatch(ApiAgentRole({ role: "EARNINGPARTNER" }));
       return;
     } else {
       navigate("/");
       toast.error("You aren't logged in");
     }
     if (reload) {
-      //   dispatch(Banks({ startDate, searcher, currentPage }));
-      dispatch(ApiAgentRole({ role: "APIPARTNER" }));
+      dispatch(ApiAgentRole({ role: "EARNINGPARTNER" }));
       setReload(false);
     }
 
@@ -108,16 +107,16 @@ const ApiPartner = ({ title }) => {
           <Navbar title={title} />
         </div>
         <AppUserModal
-          setStep={setStep}
           userIds={userIds}
           setUserIds={setUserIds}
+          setStep={setStep}
           step={step}
           setReload={setReload}
         />
         <div className="w-[100%] py-9 px-5 flex flex-col gap-10">
           <div className="flex flex-row justify-between">
             <span className="text-route-name text-[28px] font-semibold">
-              Api-Partner
+              EARNING PARTNER
             </span>
             <div className="relative flex flex-row w-[50%]">
               <div className="absolute top-3 left-4">
@@ -161,14 +160,14 @@ const ApiPartner = ({ title }) => {
                 <Calendar className="text-[10px]" onClick={() => PickDate()} />
               </div> */}
               <button
-                onClick={() => setStep(9)}
-                className="px-2 h-[35px] flex flex-row gap-1 items-center bg-route-color w-[10%] rounded-custom text-white font-semibold text-[11px]"
+                onClick={() => setStep(18)}
+                className="px-2 h-[35px] flex flex-row gap-1 items-center bg-route-color w-[13%] rounded-custom text-white font-semibold text-[11px]"
               >
-                Add ApiPartner
+                Add EarningPartner
               </button>
               <button
                 onClick={() => Downloading()}
-                className="px-2 flex flex-row gap-1 items-center bg-route-color w-[12%] rounded-custom text-white font-semibold text-[11px]"
+                className="px-2 h-[35px] flex flex-row gap-1 items-center bg-route-color w-[12%] rounded-custom text-white font-semibold text-[11px]"
               >
                 Download Report <Download />
               </button>
@@ -182,7 +181,7 @@ const ApiPartner = ({ title }) => {
               <>
                 {apiagentrole?.data?.meta?.totalCount >= 1 ? (
                   <Tables
-                    apipartners
+                    agents
                     data={apiagentrole?.data?.data}
                     setUserIds={setUserIds}
                     setStep={setStep}
@@ -233,4 +232,4 @@ const ApiPartner = ({ title }) => {
   );
 };
 
-export default ApiPartner;
+export default EarningPartner;

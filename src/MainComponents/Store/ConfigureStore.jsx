@@ -23,6 +23,9 @@ import { FundingApprovalSlice } from "./Reducers/FundingApproval";
 import { GetSettingsSlice } from "./Reducers/GetSettings";
 import { CreateSettingsSlice } from "./Reducers/CreateSettings";
 import { UserComSlice } from "./Reducers/UserCom";
+import { CreateEarningsSlice } from "./Reducers/CreateEarnings";
+import { ComplainSlice } from "./Reducers/Complain";
+import { ComplainApproveSlice } from "./Reducers/ComplainApprove";
 
 export default configureStore({
   reducer: {
@@ -49,6 +52,9 @@ export default configureStore({
     fundingapproval: FundingApprovalSlice?.reducer,
     getsettings: GetSettingsSlice?.reducer,
     createsettings: CreateSettingsSlice?.reducer,
-    usercom: UserComSlice?.reducer
+    usercom: UserComSlice?.reducer,
+    earningpartner: CreateEarningsSlice?.reducer,
+    complain: ComplainSlice?.reducer,
+    complainapprove: ComplainApproveSlice?.reducer
   }
 });

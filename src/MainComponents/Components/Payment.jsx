@@ -30,6 +30,8 @@ const Payment = ({ title }) => {
   const [activater, setActivater] = useState(1);
   const [currentPage, setCurrentPage] = useState(0);
   const [searcher, setSearcher] = useState("");
+  const [paymentMethodIds, setpaymentMethodIds] = useState("");
+  const [actions, setActions] = useState("");
   const [loading, setloading] = useState(false);
   //   const [action, setAction] = useState("disable");
   //   const [paymentMethodId, setPaymentMethodId] = useState(null);
@@ -69,10 +71,10 @@ const Payment = ({ title }) => {
   console.log(paymentmethod);
 
   useEffect(() => {
-    setTimeout(() => {
-      setloading(true);
-    }, [2000]);
-  }, [paymentmethod]);
+    // setTimeout(() => {
+    setloading(true);
+    // }, [2000]);
+  }, [paymentmethod?.data]);
 
   const next = paymentmethod?.data?.meta?.next;
   const previous = paymentmethod?.data?.meta?.prev;
@@ -94,7 +96,9 @@ const Payment = ({ title }) => {
   };
 
   const Pays = (paymentMethodId, action) => {
-    dispatch(TogglePay({ paymentMethodId, action }));
+    setStep(20);
+    setpaymentMethodIds(paymentMethodId);
+    setActions(action);
   };
 
   const Downloading = () => {
@@ -121,7 +125,15 @@ const Payment = ({ title }) => {
         <div className="w-[100%] h-[20%]">
           <Navbar title={title} />
         </div>
-        <AppUserModal setStep={setStep} step={step} setReload={setReload} />
+        <AppUserModal
+          paymentMethodIds={paymentMethodIds}
+          actions={actions}
+          setpaymentMethodIds={setpaymentMethodIds}
+          setActions={setActions}
+          setStep={setStep}
+          step={step}
+          setReload={setReload}
+        />
         <div className="w-[100%] py-9 px-5 flex flex-col gap-10">
           <div className="flex flex-row justify-between">
             <span className="text-route-name text-[28px] font-semibold">

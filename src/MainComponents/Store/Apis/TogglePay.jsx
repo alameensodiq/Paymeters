@@ -3,14 +3,14 @@ import toast from "react-hot-toast";
 
 export const TogglePay = createAsyncThunk(
   "togglepay",
-  async ({ paymentMethodId, action }, thunkAPI) => {
+  async ({ paymentMethodIds, actions }, thunkAPI) => {
     console.log(process.env.REACT_APP_BASE_URL);
 
     const accessToken = sessionStorage.getItem("token");
 
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BASE_URL}admin/toggle?paymentMethodId=${paymentMethodId}&action=${action}`,
+        `${process.env.REACT_APP_BASE_URL}admin/toggle?paymentMethodId=${paymentMethodIds}&action=${actions}`,
         {
           method: "POST",
           headers: {

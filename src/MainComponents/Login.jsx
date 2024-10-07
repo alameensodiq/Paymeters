@@ -63,7 +63,7 @@ const Login = () => {
   };
 
   const { login, authenticating } = useSelector((state) => state.login);
-  console.log(login);
+  console.log(!authenticating);
   if (login?.status && !authenticating && log) {
     // navigate(`${'/dashboard'}`);
     window.location.pathname = "/dashboard";

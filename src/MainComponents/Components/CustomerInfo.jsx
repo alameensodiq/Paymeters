@@ -75,10 +75,10 @@ const CustomerInfo = ({ title }) => {
   console.log(discometer);
 
   useEffect(() => {
-    setTimeout(() => {
-      setloading(true);
-    }, [2000]);
-  }, [discometer]);
+    // setTimeout(() => {
+    setloading(true);
+    // }, [2000]);
+  }, [discometer?.data]);
 
   const Downloading = () => {
     const data = discometer?.data?.data || [];

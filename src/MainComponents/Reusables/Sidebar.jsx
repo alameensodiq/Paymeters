@@ -37,6 +37,7 @@ const Sidebar = () => {
   const [isHovered11, setIsHovered11] = useState(false);
   const [isHovered12, setIsHovered12] = useState(false);
   const [isHovered14, setIsHovered14] = useState(false);
+  const [isHovered15, setIsHovered15] = useState(false);
   const [show, setShow] = useState(false);
   const router = useLocation();
   return (
@@ -46,51 +47,98 @@ const Sidebar = () => {
           Paymeter
         </span>
       </div>
-      <div className="flex flex-col py-16 gap-4 px-4">
-        <Link
-          to="/dashboard"
-          className={`flex flex-row h-[33px] ${
-            router.pathname === "/dashboard"
-              ? "bg-route-bg gap-2 rounded-custom-router"
-              : "bg-white hover:bg-route-bg gap-2 rounded-custom-router"
-          }`}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-        >
-          {router.pathname === "/dashboard" || isHovered ? (
-            <div className={`w-[3px] ${"bg-route-color rounded-t-l"}`}></div>
-          ) : (
-            <div className={`w-[3px] ${" bg-white rounded-t-l"}`}></div>
-          )}
-          {router.pathname === "/dashboard" || isHovered ? (
-            <DashboardColor
-              className={`${
-                router.pathname === "/dashboard"
-                  ? "fill-current text-route-color my-[9px]"
-                  : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
-              }`}
-            />
-          ) : (
-            <Dashboard
-              className={`${
-                router.pathname === "/dashboard"
-                  ? "fill-current text-route-color my-[9px]"
-                  : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
-              }`}
-            />
-          )}
-
-          <p
-            className={`${
-              router.pathname === "/dashboard"
-                ? "text-route-color my-[9px] text-[12px] font-medium hidden sm:block md:block"
-                : "hover:text-route-color text-route-noncolor my-[9px] text-[12px] font-medium hidden sm:block md:block"
+      {sessionStorage.getItem("roleName") !== "ADMIN" ? (
+        <div className="flex flex-col py-10 gap-4 px-4">
+          <Link
+            to="/complaint"
+            className={`flex flex-row h-[33px] ${
+              router.pathname === "/complaint"
+                ? "bg-route-bg gap-2 rounded-custom-router"
+                : "bg-white hover:bg-route-bg gap-2 rounded-custom-router"
             }`}
+            onMouseEnter={() => setIsHovered15(true)}
+            onMouseLeave={() => setIsHovered15(false)}
           >
-            Overview
-          </p>
-        </Link>
-        {/* <Link
+            {router.pathname === "/complaint" || isHovered15 ? (
+              <div className={`w-[3px] ${"bg-route-color rounded-t-l"}`}></div>
+            ) : (
+              <div className={`w-[3px] ${" bg-white rounded-t-l"}`}></div>
+            )}
+            {router.pathname === "/complaint" || isHovered15 ? (
+              <Bill
+                className={`${
+                  router.pathname === "/complaint"
+                    ? "fill-current text-route-color my-[9px]"
+                    : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+                }`}
+              />
+            ) : (
+              <Bill
+                className={`${
+                  router.pathname === "/complaint"
+                    ? "fill-current text-route-color my-[9px]"
+                    : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+                }`}
+              />
+            )}
+
+            <p
+              className={`${
+                router.pathname === "/complaint"
+                  ? "text-route-color my-[9px] text-[12px] font-medium hidden sm:block md:block"
+                  : "hover:text-route-color text-route-noncolor my-[9px] text-[12px] font-medium hidden sm:block md:block"
+              }`}
+            >
+              Complaints
+            </p>
+          </Link>
+        </div>
+      ) : (
+        <div className="flex flex-col py-10 gap-4 px-4">
+          <Link
+            to="/dashboard"
+            className={`flex flex-row h-[33px] ${
+              router.pathname === "/dashboard"
+                ? "bg-route-bg gap-2 rounded-custom-router"
+                : "bg-white hover:bg-route-bg gap-2 rounded-custom-router"
+            }`}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+          >
+            {router.pathname === "/dashboard" || isHovered ? (
+              <div className={`w-[3px] ${"bg-route-color rounded-t-l"}`}></div>
+            ) : (
+              <div className={`w-[3px] ${" bg-white rounded-t-l"}`}></div>
+            )}
+            {router.pathname === "/dashboard" || isHovered ? (
+              <DashboardColor
+                className={`${
+                  router.pathname === "/dashboard"
+                    ? "fill-current text-route-color my-[9px]"
+                    : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+                }`}
+              />
+            ) : (
+              <Dashboard
+                className={`${
+                  router.pathname === "/dashboard"
+                    ? "fill-current text-route-color my-[9px]"
+                    : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+                }`}
+              />
+            )}
+
+            <p
+              className={`${
+                router.pathname === "/dashboard"
+                  ? "text-route-color my-[9px] text-[12px] font-medium hidden sm:block md:block"
+                  : "hover:text-route-color text-route-noncolor my-[9px] text-[12px] font-medium hidden sm:block md:block"
+              }`}
+            >
+              Overview
+            </p>
+          </Link>
+          {/* <Link
           to="/customers"
           className={`flex flex-row h-[33px] ${
             router.pathname === "/customers"
@@ -134,478 +182,531 @@ const Sidebar = () => {
           </p>
         </Link> */}
 
-        <Link
-          to="/institutions"
-          className={`flex flex-row h-[33px] ${
-            router.pathname === "/institutions"
-              ? "bg-route-bg gap-2 rounded-custom-router"
-              : "bg-white hover:bg-route-bg gap-2 rounded-custom-router"
-          }`}
-          onMouseEnter={() => setIsHovered3(true)}
-          onMouseLeave={() => setIsHovered3(false)}
-        >
-          {router.pathname === "/institutions" || isHovered3 ? (
-            <div className={`w-[3px] ${"bg-route-color rounded-t-l"}`}></div>
-          ) : (
-            <div className={`w-[3px] ${" bg-white rounded-t-l"}`}></div>
-          )}
-          {router.pathname === "/institutions" || isHovered3 ? (
-            <InvestmentsColor
-              className={`${
-                router.pathname === "/institutions"
-                  ? "fill-current text-route-color my-[9px]"
-                  : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
-              }`}
-            />
-          ) : (
-            <Investments
-              className={`${
-                router.pathname === "/institutions"
-                  ? "fill-current text-route-color my-[9px]"
-                  : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
-              }`}
-            />
-          )}
-
-          <p
-            className={`${
+          <Link
+            to="/institutions"
+            className={`flex flex-row h-[33px] ${
               router.pathname === "/institutions"
-                ? "text-route-color my-[9px] text-[12px] font-medium hidden sm:block md:block"
-                : "hover:text-route-color text-route-noncolor my-[9px] text-[12px] font-medium hidden sm:block md:block"
+                ? "bg-route-bg gap-2 rounded-custom-router"
+                : "bg-white hover:bg-route-bg gap-2 rounded-custom-router"
             }`}
+            onMouseEnter={() => setIsHovered3(true)}
+            onMouseLeave={() => setIsHovered3(false)}
           >
-            Institution
-          </p>
-        </Link>
-        <Link
-          to="/discos"
-          className={`flex flex-row h-[33px] ${
-            router.pathname === "/discos" ||
-            router.pathname.startsWith("/discos/")
-              ? "bg-route-bg gap-2 rounded-custom-router"
-              : "bg-white hover:bg-route-bg gap-2 rounded-custom-router"
-          }`}
-          onMouseEnter={() => setIsHovered4(true)}
-          onMouseLeave={() => setIsHovered4(false)}
-        >
-          {router.pathname === "/discos" ||
-          isHovered4 ||
-          router.pathname.startsWith("/discos/") ? (
-            <div className={`w-[3px] ${"bg-route-color rounded-t-l"}`}></div>
-          ) : (
-            <div className={`w-[3px] ${" bg-white rounded-t-l"}`}></div>
-          )}
-          {router.pathname === "/discos" ||
-          isHovered4 ||
-          router.pathname.startsWith("/discos/") ? (
-            <LoanColor
-              className={`${
-                router.pathname === "/discos" ||
-                router.pathname.startsWith("/discos/")
-                  ? "fill-current text-route-color my-[9px]"
-                  : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
-              }`}
-            />
-          ) : (
-            <Loan
-              className={`${
-                router.pathname === "/discos" ||
-                router.pathname.startsWith("/discos/")
-                  ? "fill-current text-route-color my-[9px]"
-                  : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
-              }`}
-            />
-          )}
+            {router.pathname === "/institutions" || isHovered3 ? (
+              <div className={`w-[3px] ${"bg-route-color rounded-t-l"}`}></div>
+            ) : (
+              <div className={`w-[3px] ${" bg-white rounded-t-l"}`}></div>
+            )}
+            {router.pathname === "/institutions" || isHovered3 ? (
+              <InvestmentsColor
+                className={`${
+                  router.pathname === "/institutions"
+                    ? "fill-current text-route-color my-[9px]"
+                    : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+                }`}
+              />
+            ) : (
+              <Investments
+                className={`${
+                  router.pathname === "/institutions"
+                    ? "fill-current text-route-color my-[9px]"
+                    : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+                }`}
+              />
+            )}
 
-          <p
-            className={`${
+            <p
+              className={`${
+                router.pathname === "/institutions"
+                  ? "text-route-color my-[9px] text-[12px] font-medium hidden sm:block md:block"
+                  : "hover:text-route-color text-route-noncolor my-[9px] text-[12px] font-medium hidden sm:block md:block"
+              }`}
+            >
+              Institution
+            </p>
+          </Link>
+          <Link
+            to="/discos"
+            className={`flex flex-row h-[33px] ${
               router.pathname === "/discos" ||
               router.pathname.startsWith("/discos/")
-                ? "text-route-color my-[9px] text-[12px] font-medium hidden sm:block md:block"
-                : "hover:text-route-color text-route-noncolor my-[9px] text-[12px] font-medium hidden sm:block md:block"
+                ? "bg-route-bg gap-2 rounded-custom-router"
+                : "bg-white hover:bg-route-bg gap-2 rounded-custom-router"
             }`}
+            onMouseEnter={() => setIsHovered4(true)}
+            onMouseLeave={() => setIsHovered4(false)}
           >
-            Discos
-          </p>
-        </Link>
-        <Link
-          to="/agents"
-          className={`flex flex-row h-[33px] ${
-            router.pathname === "/agents" ||
-            router.pathname.startsWith("/agents/")
-              ? "bg-route-bg gap-2 rounded-custom-router"
-              : "bg-white hover:bg-route-bg gap-2 rounded-custom-router"
-          }`}
-          onMouseEnter={() => setIsHovered6(true)}
-          onMouseLeave={() => setIsHovered6(false)}
-        >
-          {router.pathname === "/agents" ||
-          isHovered6 ||
-          router.pathname.startsWith("/agents/") ? (
-            <div className={`w-[3px] ${"bg-route-color rounded-t-l"}`}></div>
-          ) : (
-            <div className={`w-[3px] ${" bg-white rounded-t-l"}`}></div>
-          )}
-          {router.pathname === "/agents" ||
-          isHovered6 ||
-          router.pathname.startsWith("/agents/") ? (
-            <CableColor
-              className={`${
-                router.pathname === "/agents" ||
-                router.pathname.startsWith("/agents/")
-                  ? "fill-current text-route-color my-[9px]"
-                  : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
-              }`}
-            />
-          ) : (
-            <Cable
-              className={`${
-                router.pathname === "/agents" ||
-                router.pathname.startsWith("/agents/")
-                  ? "fill-current text-route-color my-[9px]"
-                  : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
-              }`}
-            />
-          )}
+            {router.pathname === "/discos" ||
+            isHovered4 ||
+            router.pathname.startsWith("/discos/") ? (
+              <div className={`w-[3px] ${"bg-route-color rounded-t-l"}`}></div>
+            ) : (
+              <div className={`w-[3px] ${" bg-white rounded-t-l"}`}></div>
+            )}
+            {router.pathname === "/discos" ||
+            isHovered4 ||
+            router.pathname.startsWith("/discos/") ? (
+              <LoanColor
+                className={`${
+                  router.pathname === "/discos" ||
+                  router.pathname.startsWith("/discos/")
+                    ? "fill-current text-route-color my-[9px]"
+                    : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+                }`}
+              />
+            ) : (
+              <Loan
+                className={`${
+                  router.pathname === "/discos" ||
+                  router.pathname.startsWith("/discos/")
+                    ? "fill-current text-route-color my-[9px]"
+                    : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+                }`}
+              />
+            )}
 
-          <p
-            className={`${
+            <p
+              className={`${
+                router.pathname === "/discos" ||
+                router.pathname.startsWith("/discos/")
+                  ? "text-route-color my-[9px] text-[12px] font-medium hidden sm:block md:block"
+                  : "hover:text-route-color text-route-noncolor my-[9px] text-[12px] font-medium hidden sm:block md:block"
+              }`}
+            >
+              Discos
+            </p>
+          </Link>
+          <Link
+            to="/agents"
+            className={`flex flex-row h-[33px] ${
               router.pathname === "/agents" ||
               router.pathname.startsWith("/agents/")
-                ? "text-route-color my-[9px] text-[12px] font-medium hidden sm:block md:block"
-                : "hover:text-route-color text-route-noncolor my-[9px] text-[12px] font-medium hidden sm:block md:block"
+                ? "bg-route-bg gap-2 rounded-custom-router"
+                : "bg-white hover:bg-route-bg gap-2 rounded-custom-router"
             }`}
+            onMouseEnter={() => setIsHovered6(true)}
+            onMouseLeave={() => setIsHovered6(false)}
           >
-            Agents
-          </p>
-        </Link>
-        <Link
-          to="/api"
-          className={`flex flex-row h-[33px] ${
-            router.pathname === "/api" || router.pathname.startsWith("/api/")
-              ? "bg-route-bg gap-2 rounded-custom-router"
-              : "bg-white hover:bg-route-bg gap-2 rounded-custom-router"
-          }`}
-          onMouseEnter={() => setIsHovered7(true)}
-          onMouseLeave={() => setIsHovered7(false)}
-        >
-          {router.pathname === "/api" ||
-          isHovered7 ||
-          router.pathname.startsWith("/api/") ? (
-            <div className={`w-[3px] ${"bg-route-color rounded-t-l"}`}></div>
-          ) : (
-            <div className={`w-[3px] ${" bg-white rounded-t-l"}`}></div>
-          )}
-          {router.pathname === "/api" ||
-          isHovered7 ||
-          router.pathname.startsWith("/api/") ? (
-            <DataColor
-              className={`${
-                router.pathname === "/api" ||
-                router.pathname.startsWith("/api/")
-                  ? "fill-current text-route-color my-[9px]"
-                  : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
-              }`}
-            />
-          ) : (
-            <Data
-              className={`${
-                router.pathname === "/api" ||
-                router.pathname.startsWith("/api/")
-                  ? "fill-current text-route-color my-[9px]"
-                  : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
-              }`}
-            />
-          )}
+            {router.pathname === "/agents" ||
+            isHovered6 ||
+            router.pathname.startsWith("/agents/") ? (
+              <div className={`w-[3px] ${"bg-route-color rounded-t-l"}`}></div>
+            ) : (
+              <div className={`w-[3px] ${" bg-white rounded-t-l"}`}></div>
+            )}
+            {router.pathname === "/agents" ||
+            isHovered6 ||
+            router.pathname.startsWith("/agents/") ? (
+              <CableColor
+                className={`${
+                  router.pathname === "/agents" ||
+                  router.pathname.startsWith("/agents/")
+                    ? "fill-current text-route-color my-[9px]"
+                    : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+                }`}
+              />
+            ) : (
+              <Cable
+                className={`${
+                  router.pathname === "/agents" ||
+                  router.pathname.startsWith("/agents/")
+                    ? "fill-current text-route-color my-[9px]"
+                    : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+                }`}
+              />
+            )}
 
-          <p
-            className={`${
+            <p
+              className={`${
+                router.pathname === "/agents" ||
+                router.pathname.startsWith("/agents/")
+                  ? "text-route-color my-[9px] text-[12px] font-medium hidden sm:block md:block"
+                  : "hover:text-route-color text-route-noncolor my-[9px] text-[12px] font-medium hidden sm:block md:block"
+              }`}
+            >
+              Agents
+            </p>
+          </Link>
+          <Link
+            to="/earning"
+            className={`flex flex-row h-[33px] ${
+              router.pathname === "/earning" ||
+              router.pathname.startsWith("/earning/")
+                ? "bg-route-bg gap-2 rounded-custom-router"
+                : "bg-white hover:bg-route-bg gap-2 rounded-custom-router"
+            }`}
+            onMouseEnter={() => setIsHovered11(true)}
+            onMouseLeave={() => setIsHovered11(false)}
+          >
+            {router.pathname === "/earning" ||
+            isHovered11 ||
+            router.pathname.startsWith("/earning/") ? (
+              <div className={`w-[3px] ${"bg-route-color rounded-t-l"}`}></div>
+            ) : (
+              <div className={`w-[3px] ${" bg-white rounded-t-l"}`}></div>
+            )}
+            {router.pathname === "/earning" ||
+            isHovered11 ||
+            router.pathname.startsWith("/earning/") ? (
+              <CableColor
+                className={`${
+                  router.pathname === "/agents" ||
+                  router.pathname.startsWith("/agents/")
+                    ? "fill-current text-route-color my-[9px]"
+                    : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+                }`}
+              />
+            ) : (
+              <Cable
+                className={`${
+                  router.pathname === "/earning" ||
+                  router.pathname.startsWith("/earning/")
+                    ? "fill-current text-route-color my-[9px]"
+                    : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+                }`}
+              />
+            )}
+
+            <p
+              className={`${
+                router.pathname === "/earning" ||
+                router.pathname.startsWith("/earning/")
+                  ? "text-route-color my-[9px] text-[12px] font-medium hidden sm:block md:block"
+                  : "hover:text-route-color text-route-noncolor my-[9px] text-[12px] font-medium hidden sm:block md:block"
+              }`}
+            >
+              EarningPartner
+            </p>
+          </Link>
+          <Link
+            to="/api"
+            className={`flex flex-row h-[33px] ${
               router.pathname === "/api" || router.pathname.startsWith("/api/")
-                ? "text-route-color my-[9px] text-[12px] font-medium hidden sm:block md:block"
-                : "hover:text-route-color text-route-noncolor my-[9px] text-[12px] font-medium hidden sm:block md:block"
+                ? "bg-route-bg gap-2 rounded-custom-router"
+                : "bg-white hover:bg-route-bg gap-2 rounded-custom-router"
             }`}
+            onMouseEnter={() => setIsHovered7(true)}
+            onMouseLeave={() => setIsHovered7(false)}
           >
-            Api-Partner
-          </p>
-        </Link>
-        <Link
-          to="/payment-shift"
-          className={`flex flex-row h-[33px] ${
-            router.pathname === "/payment-shift" ||
-            router.pathname.startsWith("/payment-shift")
-              ? "bg-route-bg gap-2 rounded-custom-router"
-              : "bg-white hover:bg-route-bg gap-2 rounded-custom-router"
-          }`}
-          onMouseEnter={() => setIsHovered9(true)}
-          onMouseLeave={() => setIsHovered9(false)}
-        >
-          {router.pathname === "/payment-shift" ||
-          isHovered9 ||
-          router.pathname.startsWith("/payment-shift") ? (
-            <div className={`w-[3px] ${"bg-route-color rounded-t-l"}`}></div>
-          ) : (
-            <div className={`w-[3px] ${" bg-white rounded-t-l"}`}></div>
-          )}
-          {router.pathname === "/payment-shift" ||
-          isHovered9 ||
-          router.pathname.startsWith("/payment-shift") ? (
-            <PaymentColor
-              className={`${
-                router.pathname === "/payment-shift" ||
-                router.pathname.startsWith("/payment-shift")
-                  ? "fill-current text-route-color my-[9px]"
-                  : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
-              }`}
-            />
-          ) : (
-            <Payment
-              className={`${
-                router.pathname === "/payment-shift" ||
-                router.pathname.startsWith("/payment-shift")
-                  ? "fill-current text-route-color my-[9px]"
-                  : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
-              }`}
-            />
-          )}
+            {router.pathname === "/api" ||
+            isHovered7 ||
+            router.pathname.startsWith("/api/") ? (
+              <div className={`w-[3px] ${"bg-route-color rounded-t-l"}`}></div>
+            ) : (
+              <div className={`w-[3px] ${" bg-white rounded-t-l"}`}></div>
+            )}
+            {router.pathname === "/api" ||
+            isHovered7 ||
+            router.pathname.startsWith("/api/") ? (
+              <DataColor
+                className={`${
+                  router.pathname === "/api" ||
+                  router.pathname.startsWith("/api/")
+                    ? "fill-current text-route-color my-[9px]"
+                    : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+                }`}
+              />
+            ) : (
+              <Data
+                className={`${
+                  router.pathname === "/api" ||
+                  router.pathname.startsWith("/api/")
+                    ? "fill-current text-route-color my-[9px]"
+                    : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+                }`}
+              />
+            )}
 
-          <p
-            className={`${
+            <p
+              className={`${
+                router.pathname === "/api" ||
+                router.pathname.startsWith("/api/")
+                  ? "text-route-color my-[9px] text-[12px] font-medium hidden sm:block md:block"
+                  : "hover:text-route-color text-route-noncolor my-[9px] text-[12px] font-medium hidden sm:block md:block"
+              }`}
+            >
+              Api-Partner
+            </p>
+          </Link>
+          <Link
+            to="/payment-shift"
+            className={`flex flex-row h-[33px] ${
               router.pathname === "/payment-shift" ||
               router.pathname.startsWith("/payment-shift")
-                ? "text-route-color my-[9px] text-[12px] font-medium hidden sm:block md:block"
-                : "hover:text-route-color text-route-noncolor my-[9px] text-[12px] font-medium hidden sm:block md:block"
+                ? "bg-route-bg gap-2 rounded-custom-router"
+                : "bg-white hover:bg-route-bg gap-2 rounded-custom-router"
             }`}
+            onMouseEnter={() => setIsHovered9(true)}
+            onMouseLeave={() => setIsHovered9(false)}
           >
-            Payment-Shift
-          </p>
-        </Link>
-        <Link
-          to="/funding"
-          className={`flex flex-row h-[33px] ${
-            router.pathname === "/funding"
-              ? "bg-route-bg gap-2 rounded-custom-router"
-              : "bg-white hover:bg-route-bg gap-2 rounded-custom-router"
-          }`}
-          onMouseEnter={() => setIsHovered10(true)}
-          onMouseLeave={() => setIsHovered10(false)}
-        >
-          {router.pathname === "/funding" || isHovered10 ? (
-            <div className={`w-[3px] ${"bg-route-color rounded-t-l"}`}></div>
-          ) : (
-            <div className={`w-[3px] ${" bg-white rounded-t-l"}`}></div>
-          )}
-          {router.pathname === "/funding" || isHovered10 ? (
-            <SettingsColor
+            {router.pathname === "/payment-shift" ||
+            isHovered9 ||
+            router.pathname.startsWith("/payment-shift") ? (
+              <div className={`w-[3px] ${"bg-route-color rounded-t-l"}`}></div>
+            ) : (
+              <div className={`w-[3px] ${" bg-white rounded-t-l"}`}></div>
+            )}
+            {router.pathname === "/payment-shift" ||
+            isHovered9 ||
+            router.pathname.startsWith("/payment-shift") ? (
+              <PaymentColor
+                className={`${
+                  router.pathname === "/payment-shift" ||
+                  router.pathname.startsWith("/payment-shift")
+                    ? "fill-current text-route-color my-[9px]"
+                    : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+                }`}
+              />
+            ) : (
+              <Payment
+                className={`${
+                  router.pathname === "/payment-shift" ||
+                  router.pathname.startsWith("/payment-shift")
+                    ? "fill-current text-route-color my-[9px]"
+                    : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+                }`}
+              />
+            )}
+
+            <p
               className={`${
-                router.pathname === "/setting"
-                  ? "fill-current text-route-color my-[9px]"
-                  : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+                router.pathname === "/payment-shift" ||
+                router.pathname.startsWith("/payment-shift")
+                  ? "text-route-color my-[9px] text-[12px] font-medium hidden sm:block md:block"
+                  : "hover:text-route-color text-route-noncolor my-[9px] text-[12px] font-medium hidden sm:block md:block"
               }`}
-            />
-          ) : (
-            <Settings
+            >
+              Payment-Shift
+            </p>
+          </Link>
+          <Link
+            to="/funding"
+            className={`flex flex-row h-[33px] ${
+              router.pathname === "/funding"
+                ? "bg-route-bg gap-2 rounded-custom-router"
+                : "bg-white hover:bg-route-bg gap-2 rounded-custom-router"
+            }`}
+            onMouseEnter={() => setIsHovered10(true)}
+            onMouseLeave={() => setIsHovered10(false)}
+          >
+            {router.pathname === "/funding" || isHovered10 ? (
+              <div className={`w-[3px] ${"bg-route-color rounded-t-l"}`}></div>
+            ) : (
+              <div className={`w-[3px] ${" bg-white rounded-t-l"}`}></div>
+            )}
+            {router.pathname === "/funding" || isHovered10 ? (
+              <SettingsColor
+                className={`${
+                  router.pathname === "/setting"
+                    ? "fill-current text-route-color my-[9px]"
+                    : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+                }`}
+              />
+            ) : (
+              <Settings
+                className={`${
+                  router.pathname === "/funding"
+                    ? "fill-current text-route-color my-[9px]"
+                    : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+                }`}
+              />
+            )}
+
+            <p
               className={`${
                 router.pathname === "/funding"
-                  ? "fill-current text-route-color my-[9px]"
-                  : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+                  ? "text-route-color my-[9px] text-[12px] font-medium hidden sm:block md:block"
+                  : "hover:text-route-color text-route-noncolor my-[9px] text-[12px] font-medium hidden sm:block md:block"
               }`}
-            />
-          )}
-
-          <p
-            className={`${
-              router.pathname === "/funding"
-                ? "text-route-color my-[9px] text-[12px] font-medium hidden sm:block md:block"
-                : "hover:text-route-color text-route-noncolor my-[9px] text-[12px] font-medium hidden sm:block md:block"
+            >
+              Funding
+            </p>
+          </Link>
+          <Link
+            to="/payment"
+            className={`flex flex-row h-[33px] ${
+              router.pathname === "/discos" ||
+              router.pathname.startsWith("/discos/")
+                ? "bg-route-bg gap-2 rounded-custom-router"
+                : "bg-white hover:bg-route-bg gap-2 rounded-custom-router"
             }`}
+            onMouseEnter={() => setIsHovered12(true)}
+            onMouseLeave={() => setIsHovered12(false)}
           >
-            Funding
-          </p>
-        </Link>
-        <Link
-          to="/payment"
-          className={`flex flex-row h-[33px] ${
-            router.pathname === "/discos" ||
-            router.pathname.startsWith("/discos/")
-              ? "bg-route-bg gap-2 rounded-custom-router"
-              : "bg-white hover:bg-route-bg gap-2 rounded-custom-router"
-          }`}
-          onMouseEnter={() => setIsHovered12(true)}
-          onMouseLeave={() => setIsHovered12(false)}
-        >
-          {router.pathname === "/payment" ||
-          isHovered4 ||
-          router.pathname.startsWith("/payment") ? (
-            <div className={`w-[3px] ${"bg-route-color rounded-t-l"}`}></div>
-          ) : (
-            <div className={`w-[3px] ${" bg-white rounded-t-l"}`}></div>
-          )}
-          {router.pathname === "/payment" ||
-          isHovered4 ||
-          router.pathname.startsWith("/payment/") ? (
-            <LoanColor
+            {router.pathname === "/payment" ||
+            isHovered4 ||
+            router.pathname.startsWith("/payment") ? (
+              <div className={`w-[3px] ${"bg-route-color rounded-t-l"}`}></div>
+            ) : (
+              <div className={`w-[3px] ${" bg-white rounded-t-l"}`}></div>
+            )}
+            {router.pathname === "/payment" ||
+            isHovered4 ||
+            router.pathname.startsWith("/payment/") ? (
+              <LoanColor
+                className={`${
+                  router.pathname === "/payment" ||
+                  router.pathname.startsWith("/payment/")
+                    ? "fill-current text-route-color my-[9px]"
+                    : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+                }`}
+              />
+            ) : (
+              <Loan
+                className={`${
+                  router.pathname === "/payment" ||
+                  router.pathname.startsWith("/payment/")
+                    ? "fill-current text-route-color my-[9px]"
+                    : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+                }`}
+              />
+            )}
+
+            <p
               className={`${
                 router.pathname === "/payment" ||
                 router.pathname.startsWith("/payment/")
-                  ? "fill-current text-route-color my-[9px]"
-                  : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+                  ? "text-route-color my-[9px] text-[12px] font-medium hidden sm:block md:block"
+                  : "hover:text-route-color text-route-noncolor my-[9px] text-[12px] font-medium hidden sm:block md:block"
               }`}
-            />
-          ) : (
-            <Loan
-              className={`${
-                router.pathname === "/payment" ||
-                router.pathname.startsWith("/payment/")
-                  ? "fill-current text-route-color my-[9px]"
-                  : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
-              }`}
-            />
-          )}
-
-          <p
-            className={`${
-              router.pathname === "/payment" ||
-              router.pathname.startsWith("/payment/")
-                ? "text-route-color my-[9px] text-[12px] font-medium hidden sm:block md:block"
-                : "hover:text-route-color text-route-noncolor my-[9px] text-[12px] font-medium hidden sm:block md:block"
-            }`}
-          >
-            Payment Method
-          </p>
-        </Link>
-        <Link
-          to="/notification"
-          className={`flex flex-row h-[33px] ${
-            router.pathname === "/notification"
-              ? "bg-route-bg gap-2 rounded-custom-router"
-              : "bg-white hover:bg-route-bg gap-2 rounded-custom-router"
-          }`}
-          onMouseEnter={() => setIsHovered14(true)}
-          onMouseLeave={() => setIsHovered14(false)}
-        >
-          {router.pathname === "/notification" || isHovered14 ? (
-            <div className={`w-[3px] ${"bg-route-color rounded-t-l"}`}></div>
-          ) : (
-            <div className={`w-[3px] ${" bg-white rounded-t-l"}`}></div>
-          )}
-          {router.pathname === "/notification" || isHovered14 ? (
-            <Bill
-              className={`${
-                router.pathname === "/notification"
-                  ? "fill-current text-route-color my-[9px]"
-                  : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
-              }`}
-            />
-          ) : (
-            <Bill
-              className={`${
-                router.pathname === "/notification"
-                  ? "fill-current text-route-color my-[9px]"
-                  : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
-              }`}
-            />
-          )}
-
-          <p
-            className={`${
+            >
+              Payment Method
+            </p>
+          </Link>
+          <Link
+            to="/notification"
+            className={`flex flex-row h-[33px] ${
               router.pathname === "/notification"
-                ? "text-route-color my-[9px] text-[12px] font-medium hidden sm:block md:block"
-                : "hover:text-route-color text-route-noncolor my-[9px] text-[12px] font-medium hidden sm:block md:block"
+                ? "bg-route-bg gap-2 rounded-custom-router"
+                : "bg-white hover:bg-route-bg gap-2 rounded-custom-router"
             }`}
+            onMouseEnter={() => setIsHovered14(true)}
+            onMouseLeave={() => setIsHovered14(false)}
           >
-            Notification
-          </p>
-        </Link>
-        <Link
-          to="/transactions"
-          className={`flex flex-row h-[33px] ${
-            router.pathname === "/transactions"
-              ? "bg-route-bg gap-2 rounded-custom-router"
-              : "bg-white hover:bg-route-bg gap-2 rounded-custom-router"
-          }`}
-          onMouseEnter={() => setIsHovered2(true)}
-          onMouseLeave={() => setIsHovered2(false)}
-        >
-          {router.pathname === "/transactions" || isHovered2 ? (
-            <div className={`w-[3px] ${"bg-route-color rounded-t-l"}`}></div>
-          ) : (
-            <div className={`w-[3px] ${" bg-white rounded-t-l"}`}></div>
-          )}
-          {router.pathname === "/transactions" || isHovered2 ? (
-            <TransfersColor
-              className={`${
-                router.pathname === "/transactions"
-                  ? "fill-current text-route-color my-[9px]"
-                  : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
-              }`}
-            />
-          ) : (
-            <Transfers
-              className={`${
-                router.pathname === "/transactions"
-                  ? "fill-current text-route-color my-[9px]"
-                  : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
-              }`}
-            />
-          )}
+            {router.pathname === "/notification" || isHovered14 ? (
+              <div className={`w-[3px] ${"bg-route-color rounded-t-l"}`}></div>
+            ) : (
+              <div className={`w-[3px] ${" bg-white rounded-t-l"}`}></div>
+            )}
+            {router.pathname === "/notification" || isHovered14 ? (
+              <Bill
+                className={`${
+                  router.pathname === "/notification"
+                    ? "fill-current text-route-color my-[9px]"
+                    : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+                }`}
+              />
+            ) : (
+              <Bill
+                className={`${
+                  router.pathname === "/notification"
+                    ? "fill-current text-route-color my-[9px]"
+                    : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+                }`}
+              />
+            )}
 
-          <p
-            className={`${
+            <p
+              className={`${
+                router.pathname === "/notification"
+                  ? "text-route-color my-[9px] text-[12px] font-medium hidden sm:block md:block"
+                  : "hover:text-route-color text-route-noncolor my-[9px] text-[12px] font-medium hidden sm:block md:block"
+              }`}
+            >
+              Notification
+            </p>
+          </Link>
+          <Link
+            to="/transactions"
+            className={`flex flex-row h-[33px] ${
               router.pathname === "/transactions"
-                ? "text-route-color my-[9px] text-[12px] font-medium hidden sm:block md:block"
-                : "hover:text-route-color text-route-noncolor my-[9px] text-[12px] font-medium hidden sm:block md:block"
+                ? "bg-route-bg gap-2 rounded-custom-router"
+                : "bg-white hover:bg-route-bg gap-2 rounded-custom-router"
             }`}
+            onMouseEnter={() => setIsHovered2(true)}
+            onMouseLeave={() => setIsHovered2(false)}
           >
-            Transaction
-          </p>
-        </Link>
-        <Link
-          to="/setting"
-          className={`flex flex-row h-[33px] ${
-            router.pathname === "/setting"
-              ? "bg-route-bg gap-2 rounded-custom-router"
-              : "bg-white hover:bg-route-bg gap-2 rounded-custom-router"
-          }`}
-          onMouseEnter={() => setIsHovered8(true)}
-          onMouseLeave={() => setIsHovered8(false)}
-        >
-          {router.pathname === "/setting" || isHovered8 ? (
-            <div className={`w-[3px] ${"bg-route-color rounded-t-l"}`}></div>
-          ) : (
-            <div className={`w-[3px] ${" bg-white rounded-t-l"}`}></div>
-          )}
-          {router.pathname === "/setting" || isHovered8 ? (
-            <SettingsColor
-              className={`${
-                router.pathname === "/setting"
-                  ? "fill-current text-route-color my-[9px]"
-                  : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
-              }`}
-            />
-          ) : (
-            <Settings
-              className={`${
-                router.pathname === "/setting"
-                  ? "fill-current text-route-color my-[9px]"
-                  : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
-              }`}
-            />
-          )}
+            {router.pathname === "/transactions" || isHovered2 ? (
+              <div className={`w-[3px] ${"bg-route-color rounded-t-l"}`}></div>
+            ) : (
+              <div className={`w-[3px] ${" bg-white rounded-t-l"}`}></div>
+            )}
+            {router.pathname === "/transactions" || isHovered2 ? (
+              <TransfersColor
+                className={`${
+                  router.pathname === "/transactions"
+                    ? "fill-current text-route-color my-[9px]"
+                    : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+                }`}
+              />
+            ) : (
+              <Transfers
+                className={`${
+                  router.pathname === "/transactions"
+                    ? "fill-current text-route-color my-[9px]"
+                    : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+                }`}
+              />
+            )}
 
-          <p
-            className={`${
+            <p
+              className={`${
+                router.pathname === "/transactions"
+                  ? "text-route-color my-[9px] text-[12px] font-medium hidden sm:block md:block"
+                  : "hover:text-route-color text-route-noncolor my-[9px] text-[12px] font-medium hidden sm:block md:block"
+              }`}
+            >
+              Transaction
+            </p>
+          </Link>
+          <Link
+            to="/setting"
+            className={`flex flex-row h-[33px] ${
               router.pathname === "/setting"
-                ? "text-route-color my-[9px] text-[12px] font-medium hidden sm:block md:block"
-                : "hover:text-route-color text-route-noncolor my-[9px] text-[12px] font-medium hidden sm:block md:block"
+                ? "bg-route-bg gap-2 rounded-custom-router"
+                : "bg-white hover:bg-route-bg gap-2 rounded-custom-router"
             }`}
+            onMouseEnter={() => setIsHovered8(true)}
+            onMouseLeave={() => setIsHovered8(false)}
           >
-            Setting
-          </p>
-        </Link>
-      </div>
+            {router.pathname === "/setting" || isHovered8 ? (
+              <div className={`w-[3px] ${"bg-route-color rounded-t-l"}`}></div>
+            ) : (
+              <div className={`w-[3px] ${" bg-white rounded-t-l"}`}></div>
+            )}
+            {router.pathname === "/setting" || isHovered8 ? (
+              <SettingsColor
+                className={`${
+                  router.pathname === "/setting"
+                    ? "fill-current text-route-color my-[9px]"
+                    : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+                }`}
+              />
+            ) : (
+              <Settings
+                className={`${
+                  router.pathname === "/setting"
+                    ? "fill-current text-route-color my-[9px]"
+                    : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
+                }`}
+              />
+            )}
+
+            <p
+              className={`${
+                router.pathname === "/setting"
+                  ? "text-route-color my-[9px] text-[12px] font-medium hidden sm:block md:block"
+                  : "hover:text-route-color text-route-noncolor my-[9px] text-[12px] font-medium hidden sm:block md:block"
+              }`}
+            >
+              Setting
+            </p>
+          </Link>
+        </div>
+      )}
       <div
         onClick={() => LogOutAuthentication()}
-        className="px-[20px] flex flex-row justify-between text-[14px] border-t-2 py-[15px] cursor-pointer"
+        className="px-[20px] flex flex-row justify-between text-[14px] py-[15px] cursor-pointer"
       >
         <div className="real">
           <span className="logbut">Log Out</span>
