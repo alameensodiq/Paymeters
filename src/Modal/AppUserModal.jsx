@@ -875,7 +875,7 @@ const AppUserModal = ({
         {itemersinst === "Fixed" ? (
           <>
             <ModalInputText
-              label="Fixed Bank Fixed Commission"
+              label="Bank Fixed Commission"
               onChange={(e) => ChangeSettingsTypeUserInst(e)}
               name="bankFixedCommissionFee"
               value={regbus?.bankCommission?.bankFixedCommissionFee}
@@ -903,7 +903,7 @@ const AppUserModal = ({
         ) : itemersinst === "Percentage" ? (
           <>
             <ModalInputText
-              label="Percentage Bank Fixed Commission"
+              label="Bank Percentage Commission"
               onChange={(e) => ChangeSettingsTypeUserInst(e)}
               name="bankFixedCommissionFee"
               value={regbus?.bankCommission?.bankFixedCommissionFee}
@@ -1154,7 +1154,7 @@ const AppUserModal = ({
         />
         {itemersdisco === "Fixed" ? (
           <ModalInputText
-            label="Fixed"
+            label="Fixed Commission"
             onChange={(e) => ChangeSettingsTypeUserDisco(e)}
             name="fee"
             value={disc?.commissionsDTO?.fee}
@@ -1163,7 +1163,7 @@ const AppUserModal = ({
         ) : itemersdisco === "Percentage" ? (
           <>
             <ModalInputText
-              label="Percentage"
+              label="Percentage Commission"
               onChange={(e) => ChangeSettingsTypeUserDisco(e)}
               name="fee"
               value={disc?.commissionsDTO?.fee}
@@ -1578,7 +1578,7 @@ const AppUserModal = ({
         />
         {itemers === "Fixed" ? (
           <ModalInputText
-            label="Fixed"
+            label="Fixed Commission"
             onChange={(e) => ChangeSettingsTypeUser(e)}
             name="fee"
             value={userglobal?.commissionDetails?.fee}
@@ -1587,7 +1587,7 @@ const AppUserModal = ({
         ) : itemers === "Percentage" ? (
           <>
             <ModalInputText
-              label="Percentage"
+              label="Percentage Commission"
               onChange={(e) => ChangeSettingsTypeUser(e)}
               name="fee"
               value={userglobal?.commissionDetails?.fee}
@@ -1711,7 +1711,7 @@ const AppUserModal = ({
         />
         {itemers === "Fixed" ? (
           <ModalInputText
-            label="Fixed"
+            label="Fixed Commission"
             onChange={(e) => ChangeSettingsType(e)}
             name="fee"
             value={settingglobal?.commissions?.fee}
@@ -1720,7 +1720,7 @@ const AppUserModal = ({
         ) : itemers === "Percentage" ? (
           <>
             <ModalInputText
-              label="Percentage"
+              label="Percentage Commission"
               onChange={(e) => ChangeSettingsType(e)}
               name="fee"
               value={settingglobal?.commissions?.fee}
