@@ -33,7 +33,9 @@ const Tables = ({
   funding,
   setUserIds,
   complain,
-  earning
+  earning,
+  pending,
+  rejected
 }) => {
   const navigate = useNavigate();
   console.log(data);
@@ -661,33 +663,41 @@ const Tables = ({
               </TableRow>
             </TableHead>
             <TableBody>
-              <StyledTableRow>
-                <StyledTableCell style={{ width: "10%" }}>1</StyledTableCell>
-                <StyledTableCell style={{ width: "15%" }}>
-                  0124890900
-                </StyledTableCell>
-                <StyledTableCell style={{ width: "15%" }}>
-                  AL-AMEEN SODIQ
-                </StyledTableCell>
-                <StyledTableCell style={{ width: "15%" }}>
-                  alameensodiq@yahoo.com
-                </StyledTableCell>
-                <StyledTableCell style={{ width: "10%" }}>
-                  07057007046
-                </StyledTableCell>
-                <StyledTableCell style={{ width: "10%" }}>
-                  12/04/1975
-                </StyledTableCell>
-                <StyledTableCell style={{ width: "10%" }}>
-                  12/04/2003
-                </StyledTableCell>
-                <StyledTableCell style={{ width: "15%" }}>
-                  <button className="bg-successbg h-[30px] w-[70%] rounded-full text-successtext font-semibold text-[9px]">
-                    Successful
-                  </button>
-                </StyledTableCell>
-              </StyledTableRow>
-              <StyledTableRow>
+              {data?.map((item) => (
+                <StyledTableRow>
+                  <StyledTableCell style={{ width: "10%" }}>1</StyledTableCell>
+                  <StyledTableCell style={{ width: "15%" }}>
+                    0124890900
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "15%" }}>
+                    AL-AMEEN SODIQ
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "15%" }}>
+                    alameensodiq@yahoo.com
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "10%" }}>
+                    07057007046
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "10%" }}>
+                    12/04/1975
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "10%" }}>
+                    12/04/2003
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "15%" }}>
+                    {item?.status ? (
+                      <button className="bg-successbg h-[30px] w-[70%] rounded-full text-successtext font-semibold text-[9px]">
+                        Successful
+                      </button>
+                    ) : (
+                      <button className="bg-pendingbg h-[30px] w-[70%] rounded-full text-pendingtext font-semibold text-[9px]">
+                        Pending
+                      </button>
+                    )}
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
+              {/* <StyledTableRow>
                 <StyledTableCell style={{ width: "10%" }}>2</StyledTableCell>
                 <StyledTableCell style={{ width: "15%" }}>
                   0124890900
@@ -764,7 +774,7 @@ const Tables = ({
                     Pending
                   </button>
                 </StyledTableCell>
-              </StyledTableRow>
+              </StyledTableRow> */}
             </TableBody>
           </Table>
         </TableContainer>
@@ -904,7 +914,7 @@ const Tables = ({
                         justifyContent: "center",
                         color: "#000000"
                       }}
-                      onClick={() => navigate("/agents/:id")}
+                      onClick={() => navigate(`/agents/${item?.id}`)}
                     >
                       View
                     </span>
@@ -985,7 +995,7 @@ const Tables = ({
                         justifyContent: "center",
                         color: "#000000"
                       }}
-                      onClick={() => navigate("/api/:id")}
+                      onClick={() => navigate(`/api/${item?.id}`)}
                     >
                       View
                     </span>
@@ -1365,16 +1375,17 @@ const Tables = ({
                 <StyledTableCell style={{ width: "15%" }}>
                   EMAIL
                 </StyledTableCell>
-                <StyledTableCell style={{ width: "15%" }}>
+                <StyledTableCell style={{ width: "10%" }}>
                   PHONE
                 </StyledTableCell>
                 <StyledTableCell style={{ width: "20%" }}>
                   MESSAGE
                 </StyledTableCell>
-                <StyledTableCell style={{ width: "15%" }}>DATE</StyledTableCell>
+                <StyledTableCell style={{ width: "10%" }}>DATE</StyledTableCell>
                 <StyledTableCell style={{ width: "15%" }}>
                   STATUS
                 </StyledTableCell>
+                <StyledTableCell style={{ width: "10%" }}></StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -1400,13 +1411,13 @@ const Tables = ({
                   <StyledTableCell style={{ width: "15%" }}>
                     {item?.user?.email}
                   </StyledTableCell>
-                  <StyledTableCell style={{ width: "15%" }}>
+                  <StyledTableCell style={{ width: "10%" }}>
                     {item?.user?.phone}
                   </StyledTableCell>
                   <StyledTableCell style={{ width: "20%" }}>
                     {item?.message}
                   </StyledTableCell>
-                  <StyledTableCell style={{ width: "15%" }}>
+                  <StyledTableCell style={{ width: "10%" }}>
                     <Moment format="YYYY-MM-DD">{item?.createdDate}</Moment>
                   </StyledTableCell>
                   <StyledTableCell style={{ width: "15%" }}>
@@ -1432,6 +1443,19 @@ const Tables = ({
                         PENDING
                       </button>
                     )}
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "10%" }}>
+                    <span
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: "#000000"
+                      }}
+                      onClick={() => navigate(`/agents/${item?.id}`)}
+                    >
+                      View
+                    </span>
                   </StyledTableCell>
                 </StyledTableRow>
               ))}
@@ -1692,10 +1716,188 @@ const Tables = ({
                         justifyContent: "center",
                         color: "#000000"
                       }}
-                      onClick={() => navigate("/earning/:id")}
+                      onClick={() => navigate(`/earning/${item?.id}`)}
                     >
                       View
                     </span>
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      ) : pending ? (
+        <TableContainer
+          // component={Paper}
+          style={{ boxShadow: "none" }}
+        >
+          <Table
+            sx={{ minWidth: 700, tableLayout: "auto" }}
+            aria-label="customized table"
+          >
+            <TableHead>
+              <TableRow style={{ paddingRight: "0px" }}>
+                <StyledTableCell style={{ width: "10%" }}>S/N</StyledTableCell>
+                <StyledTableCell style={{ width: "10%" }}>NAME</StyledTableCell>
+                <StyledTableCell style={{ width: "15%" }}>
+                  EMAIL
+                </StyledTableCell>
+                <StyledTableCell style={{ width: "15%" }}>
+                  PHONE
+                </StyledTableCell>
+                <StyledTableCell style={{ width: "20%" }}>
+                  MESSAGE
+                </StyledTableCell>
+                <StyledTableCell style={{ width: "15%" }}>DATE</StyledTableCell>
+                <StyledTableCell style={{ width: "15%" }}>
+                  STATUS
+                </StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {data?.map((item, index) => (
+                <StyledTableRow
+                  onClick={() => {
+                    setStep(11);
+                    setUserIds(item?.id);
+                  }}
+                >
+                  <StyledTableCell
+                    className="text-dob"
+                    style={{ width: "10%" }}
+                  >
+                    {index + 1}
+                  </StyledTableCell>
+                  <StyledTableCell
+                    className="text-dob"
+                    style={{ width: "10%" }}
+                  >
+                    {item?.user?.name}
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "15%" }}>
+                    {item?.user?.email}
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "15%" }}>
+                    {item?.user?.phone}
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "20%" }}>
+                    {item?.message}
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "15%" }}>
+                    <Moment format="YYYY-MM-DD">{item?.createdDate}</Moment>
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "15%" }}>
+                    {item?.status === "ACCEPTED" ? (
+                      <button
+                        onClick={() => Pay(item?.id, item?.user?.id, "decline")}
+                        className="bg-successbg h-[30px] w-[50%] rounded-full text-successtext font-semibold text-[9px]"
+                      >
+                        ACCEPETD
+                      </button>
+                    ) : item?.status === "REJECTED" ? (
+                      <button
+                        onClick={() => Pay(item?.id, item?.user?.id, "approve")}
+                        className="bg-failedbg h-[30px] w-[50%] rounded-full text-failedtext font-semibold text-[9px]"
+                      >
+                        DECLINED
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => Pay(item?.id, item?.user?.id, "approve")}
+                        className="bg-elect-bg h-[30px] w-[50%] rounded-full text-details-loancolor font-semibold text-[9px]"
+                      >
+                        PENDING
+                      </button>
+                    )}
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      ) : rejected ? (
+        <TableContainer
+          // component={Paper}
+          style={{ boxShadow: "none" }}
+        >
+          <Table
+            sx={{ minWidth: 700, tableLayout: "auto" }}
+            aria-label="customized table"
+          >
+            <TableHead>
+              <TableRow style={{ paddingRight: "0px" }}>
+                <StyledTableCell style={{ width: "10%" }}>S/N</StyledTableCell>
+                <StyledTableCell style={{ width: "10%" }}>NAME</StyledTableCell>
+                <StyledTableCell style={{ width: "15%" }}>
+                  EMAIL
+                </StyledTableCell>
+                <StyledTableCell style={{ width: "15%" }}>
+                  PHONE
+                </StyledTableCell>
+                <StyledTableCell style={{ width: "20%" }}>
+                  MESSAGE
+                </StyledTableCell>
+                <StyledTableCell style={{ width: "15%" }}>DATE</StyledTableCell>
+                <StyledTableCell style={{ width: "15%" }}>
+                  STATUS
+                </StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {data?.map((item, index) => (
+                <StyledTableRow
+                  onClick={() => {
+                    setStep(11);
+                    setUserIds(item?.id);
+                  }}
+                >
+                  <StyledTableCell
+                    className="text-dob"
+                    style={{ width: "10%" }}
+                  >
+                    {index + 1}
+                  </StyledTableCell>
+                  <StyledTableCell
+                    className="text-dob"
+                    style={{ width: "10%" }}
+                  >
+                    {item?.user?.name}
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "15%" }}>
+                    {item?.user?.email}
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "15%" }}>
+                    {item?.user?.phone}
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "20%" }}>
+                    {item?.message}
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "15%" }}>
+                    <Moment format="YYYY-MM-DD">{item?.createdDate}</Moment>
+                  </StyledTableCell>
+                  <StyledTableCell style={{ width: "15%" }}>
+                    {item?.status === "ACCEPTED" ? (
+                      <button
+                        onClick={() => Pay(item?.id, item?.user?.id, "decline")}
+                        className="bg-successbg h-[30px] w-[50%] rounded-full text-successtext font-semibold text-[9px]"
+                      >
+                        ACCEPETD
+                      </button>
+                    ) : item?.status === "REJECTED" ? (
+                      <button
+                        onClick={() => Pay(item?.id, item?.user?.id, "approve")}
+                        className="bg-failedbg h-[30px] w-[50%] rounded-full text-failedtext font-semibold text-[9px]"
+                      >
+                        DECLINED
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => Pay(item?.id, item?.user?.id, "approve")}
+                        className="bg-elect-bg h-[30px] w-[50%] rounded-full text-details-loancolor font-semibold text-[9px]"
+                      >
+                        PENDING
+                      </button>
+                    )}
                   </StyledTableCell>
                 </StyledTableRow>
               ))}

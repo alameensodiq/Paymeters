@@ -270,15 +270,69 @@ const Notification = ({ title }) => {
             </div>
             {loading ? (
               <>
-                {notifications?.data?.meta?.totalCount >= 1 ? (
-                  <Tables
-                    notification
-                    Pay={Pays}
-                    setUserIds={setUserIds}
-                    set
-                    setStep={setStep}
-                    data={notifications?.data?.data}
-                  />
+                {notifications?.data?.meta?.totalCount >= 1 &&
+                  status === "accepted" && (
+                    <Tables
+                      notification
+                      Pay={Pays}
+                      setUserIds={setUserIds}
+                      set
+                      setStep={setStep}
+                      data={notifications?.data?.data}
+                    />
+                  )}
+                {notifications?.data?.meta?.totalCount >= 1 &&
+                  status === "pending" && (
+                    <Tables
+                      pending
+                      Pay={Pays}
+                      setUserIds={setUserIds}
+                      set
+                      setStep={setStep}
+                      data={notifications?.data?.data}
+                    />
+                  )}
+                {notifications?.data?.meta?.totalCount >= 1 &&
+                  status === "rejected" && (
+                    <Tables
+                      rejected
+                      Pay={Pays}
+                      setUserIds={setUserIds}
+                      set
+                      setStep={setStep}
+                      data={notifications?.data?.data}
+                    />
+                  )}
+
+                {/* {notifications?.data?.meta?.totalCount >= 1   ? (
+                  status === "accepted" ? (
+                    <Tables
+                      notification
+                      Pay={Pays}
+                      setUserIds={setUserIds}
+                      set
+                      setStep={setStep}
+                      data={notifications?.data?.data}
+                    />
+                  ) : status === "pending" ? (
+                    <Tables
+                      pending
+                      Pay={Pays}
+                      setUserIds={setUserIds}
+                      set
+                      setStep={setStep}
+                      data={notifications?.data?.data}
+                    />
+                  ) : (
+                    <Tables
+                      rejected
+                      Pay={Pays}
+                      setUserIds={setUserIds}
+                      set
+                      setStep={setStep}
+                      data={notifications?.data?.data}
+                    />
+                  )
                 ) : notifications?.data?.length === 0 ||
                   notifications?.error ? (
                   <div
@@ -293,7 +347,7 @@ const Notification = ({ title }) => {
                   </div>
                 ) : (
                   ""
-                )}
+                )} */}
                 {notifications?.data?.meta?.totalCount >= 1 && (
                   <Pagination
                     set={activater}

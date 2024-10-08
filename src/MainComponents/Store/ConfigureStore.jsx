@@ -26,6 +26,7 @@ import { UserComSlice } from "./Reducers/UserCom";
 import { CreateEarningsSlice } from "./Reducers/CreateEarnings";
 import { ComplainSlice } from "./Reducers/Complain";
 import { ComplainApproveSlice } from "./Reducers/ComplainApprove";
+import { UserDataSlice } from "./Reducers/UserData";
 
 export default configureStore({
   reducer: {
@@ -55,6 +56,7 @@ export default configureStore({
     usercom: UserComSlice?.reducer,
     earningpartner: CreateEarningsSlice?.reducer,
     complain: ComplainSlice?.reducer,
-    complainapprove: ComplainApproveSlice?.reducer
+    complainapprove: ComplainApproveSlice?.reducer,
+    userdata: UserDataSlice?.reducer
   }
 });

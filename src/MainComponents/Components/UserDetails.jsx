@@ -22,6 +22,7 @@ import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { Dashboards } from "../Store/Apis/Dashboard";
 import { ReactComponent as Goback } from "./../../assets/goback.svg";
+import { UserData } from "../Store/Apis/UserData";
 
 const UserDetails = ({ title }) => {
   const [endDate, setEndDate] = useState(
@@ -30,10 +31,12 @@ const UserDetails = ({ title }) => {
   const datePickerRef = useRef(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  let id = window?.location?.pathname.split("/")[2];
+  console.log(id);
 
   useEffect(() => {
-    if (sessionStorage.getItem("token")) {
-      dispatch(Dashboards());
+    if (sessionStorage.getItem("token") && id) {
+      dispatch(UserData({ id }));
       return;
     } else {
       navigate("/");
@@ -42,6 +45,11 @@ const UserDetails = ({ title }) => {
 
     //eslint-disable-next-line
   }, []);
+
+  const { userdata, authenticatinguserdata } = useSelector(
+    (state) => state?.userdata
+  );
+  console.log(userdata);
 
   const dateChanger = (date) => {
     console.log(date);
@@ -52,10 +60,6 @@ const UserDetails = ({ title }) => {
     datePickerRef.current.setOpen(true);
   };
 
-  const { dashboard, authenticatingdashboard } = useSelector(
-    (state) => state?.dashboard
-  );
-  console.log(dashboard);
   return (
     <div className="flex flex-row">
       <div className="w-[15%] h-[100%]">
@@ -81,7 +85,7 @@ const UserDetails = ({ title }) => {
           </div>
           <div className="flex lg:flex-row flex-col md:flex-col gap-3">
             <div
-              className="flex flex-row lg:w-[20%] md:w-[100%] sm:w-[100%] h-[150px]  bg-white border rounded-custom"
+              className="flex flex-row lg:w-[25%] md:w-[100%] sm:w-[100%] h-[150px]  bg-white border rounded-custom"
               style={{ boxShadow: "7.5px 7.5px 67.5px 0px #0000000D" }}
             >
               <div className="w-[77%] flex flex-col gap-2 mt-10 pl-5">
@@ -89,7 +93,7 @@ const UserDetails = ({ title }) => {
                   Total Customers
                 </span>
                 <span className="text-color-user text-[20px] font-bold">
-                  {dashboard?.data?.totalCustomers}
+                  ---
                 </span>
                 <div className="flex flex-row gap-1 text-[10px]">
                   <span>
@@ -104,7 +108,7 @@ const UserDetails = ({ title }) => {
               </div>
             </div>
             <div
-              className="flex flex-row lg:w-[20%] md:w-[100%] sm:w-[100%] h-[150px]  bg-white border rounded rounded-custom"
+              className="flex flex-row lg:w-[25%] md:w-[100%] sm:w-[100%] h-[150px]  bg-white border rounded rounded-custom"
               style={{ boxShadow: "7.5px 7.5px 67.5px 0px #0000000D" }}
             >
               <div className="w-[77%] flex flex-col gap-2 mt-10 pl-5">
@@ -112,7 +116,7 @@ const UserDetails = ({ title }) => {
                   Total Transfers
                 </span>
                 <span className="text-color-user text-[20px] font-bold">
-                  {dashboard?.data?.totalTransfers}
+                  ---
                 </span>
                 {/* <div className="flex flex-row gap-1 text-[10px]">
                   <span>
@@ -128,16 +132,17 @@ const UserDetails = ({ title }) => {
               </div>
             </div>
             <div
-              className="flex flex-row lg:w-[20%] md:w-[100%] sm:w-[100%] h-[150px]  bg-white border rounded-custom"
+              className="flex flex-row lg:w-[25%] md:w-[100%] sm:w-[100%] h-[150px]  bg-white border rounded-custom"
               style={{ boxShadow: "7.5px 7.5px 67.5px 0px #0000000D" }}
             >
               <div className="w-[77%] flex flex-col gap-2 mt-10 pl-5">
                 <span className="text-card-title text-[14px]">
-                  Total Agents
+                  Total Wallet Balance
                 </span>
                 <span className="text-color-user text-[20px] font-bold flex flex-wrap">
                   {/* ₦1 */}
-                  ---
+                  {userdata?.data?.data?.wallet?.currency}{" "}
+                  {userdata?.data?.data?.wallet?.balance}
                   {/* {dashboard?.data?.totalRevenue?.daily?.NGN} */}
                 </span>
                 <div className="flex flex-row gap-1 text-[10px]">
@@ -153,31 +158,7 @@ const UserDetails = ({ title }) => {
               </div>
             </div>
             <div
-              className="flex flex-row lg:w-[20%] md:w-[100%] sm:w-[100%] h-[150px]  bg-white border rounded rounded-custom"
-              style={{ boxShadow: "7.5px 7.5px 67.5px 0px #0000000D" }}
-            >
-              <div className="w-[77%] flex flex-col gap-2 mt-10 pl-5">
-                <span className="text-card-title text-[14px]">
-                  Total Api-Partner
-                </span>
-                <span className="text-color-user text-[20px] font-bold flex flex-wrap">
-                  ----
-                  {/* {dashboard?.data?.totalRevenue?.monthly?.NGN} */}
-                </span>
-                <div className="flex flex-row gap-1 text-[10px]">
-                  <span>
-                    <Increase />
-                  </span>
-                  <span className="text-card-user">6.5%</span>
-                  <span className="text-[9px]">average monthly revenue</span>
-                </div>
-              </div>
-              <div>
-                <TotalInvestment />
-              </div>
-            </div>
-            <div
-              className="flex flex-row lg:w-[20%] md:w-[100%] sm:w-[100%] h-[150px]  bg-white border rounded rounded-custom"
+              className="flex flex-row lg:w-[25%] md:w-[100%] sm:w-[100%] h-[150px]  bg-white border rounded rounded-custom"
               style={{ boxShadow: "7.5px 7.5px 67.5px 0px #0000000D" }}
             >
               <div className="w-[77%] flex flex-col gap-2 mt-10 pl-5">
@@ -185,7 +166,7 @@ const UserDetails = ({ title }) => {
                   Total Revenue
                 </span>
                 <span className="text-color-user text-[20px] font-bold flex flex-wrap">
-                  {dashboard?.data?.totalRevenue?.yearly?.NGN}
+                  ---
                 </span>
                 <div className="flex flex-row gap-1 text-[10px]">
                   <span>
@@ -211,7 +192,10 @@ const UserDetails = ({ title }) => {
                 <Filtering />
                 <span className="text-[14px]">Filters</span>
               </div>
-              <Tables overview />
+              <Tables
+                overview
+                data={userdata?.data?.data?.systemTransactions}
+              />
             </div>
           </div>
         </div>
