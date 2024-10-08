@@ -23,6 +23,7 @@ import Notification from "./MainComponents/Components/Notification";
 import Funding from "./MainComponents/Components/Funding";
 import EarningPartner from "./MainComponents/Components/EraningPartner";
 import Complaints from "./MainComponents/Components/Complaints";
+import UserDetails from "./MainComponents/Components/UserDetails";
 
 function App() {
   const token = sessionStorage.getItem("token");
@@ -53,6 +54,18 @@ function App() {
             element={<PaymentShift title={"Payment and Shift"} />}
           />
           <Route path="/agents" element={<Agents title={"Agents"} />} />
+          <Route
+            path="/agents/:id"
+            element={<UserDetails title={"Agent Details"} />}
+          />
+          <Route
+            path="/earning/:id"
+            element={<UserDetails title={"Earning Partner Details"} />}
+          />
+          <Route
+            path="/api/:id"
+            element={<UserDetails title={"API Partner Details"} />}
+          />
           <Route
             path="/earning"
             element={<EarningPartner title={"Earning Partner"} />}

@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import toast from "react-hot-toast";
 
 export const ComplainApprove = createAsyncThunk(
-  "approve",
+  "complainapprove",
   async ({ userId }, thunkAPI) => {
     console.log(process.env.REACT_APP_BASE_URL);
 

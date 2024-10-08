@@ -181,7 +181,7 @@ const EarningPartner = ({ title }) => {
               <>
                 {apiagentrole?.data?.meta?.totalCount >= 1 ? (
                   <Tables
-                    agents
+                    earning
                     data={apiagentrole?.data?.data}
                     setUserIds={setUserIds}
                     setStep={setStep}

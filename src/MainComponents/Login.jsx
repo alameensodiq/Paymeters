@@ -64,10 +64,10 @@ const Login = () => {
 
   const { login, authenticating } = useSelector((state) => state.login);
   console.log(!authenticating);
-  if (login?.status && !authenticating && log) {
-    // navigate(`${'/dashboard'}`);
-    window.location.pathname = "/dashboard";
-  }
+  // if (login?.status && !authenticating && log) {
+  //   // navigate(`${'/dashboard'}`);
+  //   window.location.pathname = "/dashboard";
+  // }
   return (
     <div className="w-full flex flex-row h-[100vh]">
       <div className="hidden lg:flex lg:w-[45%] h-[100vh] bg-cover bg-center bg-route-color">

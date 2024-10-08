@@ -164,7 +164,7 @@ const ApiPartner = ({ title }) => {
                 onClick={() => setStep(9)}
                 className="px-2 h-[35px] flex flex-row gap-1 items-center bg-route-color w-[10%] rounded-custom text-white font-semibold text-[11px]"
               >
-                Add ApiPartner
+                Add API-Partner
               </button>
               <button
                 onClick={() => Downloading()}

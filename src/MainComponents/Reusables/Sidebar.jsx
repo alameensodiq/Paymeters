@@ -279,14 +279,17 @@ const Sidebar = () => {
           <Link
             to="/notification"
             className={`flex flex-row h-[33px] ${
-              router.pathname === "/notification"
+              router.pathname === "/notification" ||
+              router.pathname.startsWith("/agents/")
                 ? "bg-route-bg gap-2 rounded-custom-router"
                 : "bg-white hover:bg-route-bg gap-2 rounded-custom-router"
             }`}
             onMouseEnter={() => setIsHovered14(true)}
             onMouseLeave={() => setIsHovered14(false)}
           >
-            {router.pathname === "/notification" || isHovered14 ? (
+            {router.pathname === "/notification" ||
+            router.pathname.startsWith("/agents/") ||
+            isHovered14 ? (
               <div className={`w-[3px] ${"bg-route-color rounded-t-l"}`}></div>
             ) : (
               <div className={`w-[3px] ${" bg-white rounded-t-l"}`}></div>
@@ -294,7 +297,8 @@ const Sidebar = () => {
             {router.pathname === "/notification" || isHovered14 ? (
               <Bill
                 className={`${
-                  router.pathname === "/notification"
+                  router.pathname === "/notification" ||
+                  router.pathname.startsWith("/agents/")
                     ? "fill-current text-route-color my-[9px]"
                     : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
                 }`}
@@ -302,7 +306,8 @@ const Sidebar = () => {
             ) : (
               <Bill
                 className={`${
-                  router.pathname === "/notification"
+                  router.pathname === "/notification" ||
+                  router.pathname.startsWith("/agents/")
                     ? "fill-current text-route-color my-[9px]"
                     : "hover:fill-current hover:text-route-color fill-current text-white my-[9px]"
                 }`}
@@ -311,7 +316,8 @@ const Sidebar = () => {
 
             <p
               className={`${
-                router.pathname === "/notification"
+                router.pathname === "/notification" ||
+                router.pathname.startsWith("/agents/")
                   ? "text-route-color my-[9px] text-[12px] font-medium hidden sm:block md:block"
                   : "hover:text-route-color text-route-noncolor my-[9px] text-[12px] font-medium hidden sm:block md:block"
               }`}
@@ -471,7 +477,7 @@ const Sidebar = () => {
               API-Partner
             </p>
           </Link>
-          <Link
+          {/* <Link
             to="/payment-shift"
             className={`flex flex-row h-[33px] ${
               router.pathname === "/payment-shift" ||
@@ -521,7 +527,7 @@ const Sidebar = () => {
             >
               Payment-Shift
             </p>
-          </Link>
+          </Link> */}
           <Link
             to="/funding"
             className={`flex flex-row h-[33px] ${
